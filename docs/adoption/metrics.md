@@ -34,7 +34,7 @@ The absence from Binance and Coinbase spot is a direct consequence of the [fair 
 |--------|-------|
 | Blocks per second | 10 BPS (since [Crescendo hard fork](./roadmap.md), May 2025) |
 | Block time | 100ms |
-| Throughput (baseline) | ~60 TPS |
+| Throughput (baseline) | ~3,000 TPS |
 | Throughput (stress test peaks) | 3,000-5,500 TPS |
 | Mining algorithm | kHeavyHash (ASIC-dominated) |
 | Hashrate | ~411-445 PH/s |

@@ -96,7 +96,7 @@ See [partition tolerance](../architecture/partition-tolerance.md) for the full a
 | Metric | Kaspa | Ethereum L1 | Ethereum L1+L2 |
 |--------|-------|-------------|----------------|
 | Block time | 100ms | 12s | Varies by L2 |
-| Actual TPS | ~60 | 15-30 | 32,950+ |
+| Actual TPS | ~3,000 | 15-30 | 32,950+ |
 | Max recorded | 5,584 | ~63 | -- |
 | Avg fee | <$0.001 | ~$0.10 | $0.001-$0.01 |
 | Finality | ~10s (probabilistic) | ~13 min (economic) | Varies |

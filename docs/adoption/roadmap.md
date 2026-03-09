@@ -27,7 +27,7 @@ Development is led by a core group of researchers and engineers, including Yonat
 The Crescendo upgrade increased Kaspa's block rate from 1 BPS to **10 BPS**, reducing block time to 100ms. This was a coordinated hard fork that required consensus across the mining network.
 
 **Impact:**
-- Baseline throughput increased to ~60 TPS (with stress test peaks of 3,000-5,500 TPS).
+- Baseline throughput increased to ~3,000 TPS (with stress test peaks of 5,500 TPS).
 - Reduced reward variance for miners, structurally reducing pool centralization incentives.
 - Demonstrated the community's ability to execute a major consensus change.
 

@@ -79,7 +79,7 @@ When parallel blocks contain conflicting transactions (e.g., spending the same U
 | Orphan rate | ~0.1% at 10-min blocks | 0% (by design) |
 | Block time | 10 minutes | 100ms |
 | Blocks per second | ~0.0017 | 10 |
-| Throughput | ~7 TPS | ~60 TPS (roadmap: 30,000+) |
+| Throughput | ~7 TPS | ~3,000 TPS (roadmap: 30,000+) |
 | Mining centralization pressure | Increases with block rate | Eliminated |
 
 ## Why Not Just Increase Bitcoin's Block Size or Rate?

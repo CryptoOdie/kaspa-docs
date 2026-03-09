@@ -53,7 +53,7 @@ Bitcoin produces blocks sequentially: one block references one parent. Simultane
 |--------|---------|-------|
 | Block rate | ~1 per 10 min | 10 per second |
 | Orphan rate | ~0.1% | 0% (by design) |
-| Throughput | ~7 TPS | ~60 TPS (current), 3,000-5,500 TPS (stress test) |
+| Throughput | ~7 TPS | ~3,000 TPS (current), 5,500 TPS (stress test peak) |
 | Confirmation | ~60 min (6 conf) | ~10 seconds |
 
 ### Adaptive Consensus (DAG-KNIGHT)

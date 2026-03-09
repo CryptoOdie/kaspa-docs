@@ -9,14 +9,14 @@ Comprehensive technical documentation for [Kaspa](https://kaspa.org) — the onl
 
 ## What Is Kaspa?
 
-Kaspa is a proof-of-work cryptocurrency using a **blockDAG** (Directed Acyclic Graph) instead of a blockchain. It achieves 10 blocks per second with 100ms block times and ~60 TPS — without sacrificing the security properties that make PoW unique.
+Kaspa is a proof-of-work cryptocurrency using a **blockDAG** (Directed Acyclic Graph) instead of a blockchain. It achieves 10 blocks per second with 100ms block times and ~3,000 TPS — without sacrificing the security properties that make PoW unique.
 
 | Property | Value |
 |----------|-------|
 | Consensus | GHOSTDAG (PoW BlockDAG) |
 | Block time | 100ms (10 BPS) |
 | Confirmation | ~10 seconds |
-| TPS | ~60 (current); 30,000+ (roadmap) |
+| TPS | ~3,000 (current); 30,000+ (roadmap) |
 | Launch | November 7, 2021 — fair, no premine |
 | Max supply | 28.7 billion KAS |
 | Mining | kHeavyHash (ASIC) |
@@ -44,7 +44,7 @@ Kaspa is a proof-of-work cryptocurrency using a **blockDAG** (Directed Acyclic G
 - **[Kaspa vs Bitcoin](docs/comparisons/kaspa-vs-bitcoin.md)** — Same security model, 6000x block rate
 - **[Kaspa vs Ethereum](docs/comparisons/kaspa-vs-ethereum.md)** — PoW vs PoS, weak subjectivity, MEV
 - **[Kaspa vs Solana](docs/comparisons/kaspa-vs-solana.md)** — Partition tolerance vs throughput
-- **[Full Protocol Matrix](docs/comparisons/protocol-matrix.md)** — 10-protocol comparison
+
 
 ### Ecosystem
 

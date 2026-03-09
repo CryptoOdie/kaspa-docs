@@ -96,12 +96,12 @@ Solana's superminority of approximately 20 validators controlling 33% of stake i
 | Metric | Kaspa | Solana |
 |--------|-------|--------|
 | Block time | 100ms | 400ms |
-| Actual TPS | ~60 | 1,000-4,000 |
+| Actual TPS | ~3,000 | 1,000-4,000 |
 | Max recorded | 5,584 | 55,000+ |
 | Theoretical target | 30,000+ (roadmap) | 65,000 |
 | Avg fee | <$0.001 | ~$0.0005 |
 
-Solana's throughput advantage is substantial and real. At 1,000-4,000 TPS in normal operation, Solana processes significantly more transactions than Kaspa's current ~60 TPS. This gap may narrow as Kaspa scales toward its roadmap targets, but the current difference is large.
+Kaspa's throughput is now competitive with Solana's normal operation range. At ~3,000 TPS, Kaspa matches or exceeds Solana's typical 1,000-4,000 TPS range, with the roadmap targeting 30,000+ TPS at 100 BPS.
 
 ---
 
@@ -142,7 +142,7 @@ These advantages are significant. Solana has real-world payment adoption that Ka
 | Validator concentration | Distributed mining | ~20 entity superminority |
 | Leader predictability | Unknown (work-then-select) | Known in advance |
 | Launch fairness | Fair, no premine | VC-funded, insider allocation |
-| Current throughput | ~60 TPS | 1,000-4,000 TPS |
+| Current throughput | ~3,000 TPS | 1,000-4,000 TPS |
 | Smart contracts | Maturing | Mature |
 | Payment adoption | Early | Established |
 

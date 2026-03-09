@@ -85,7 +85,7 @@ The equation makes the path clear. If transaction volume increases by 100x while
 | Metric | Bitcoin | Kaspa (Current) | Kaspa (Roadmap) |
 |--------|---------|-----------------|-----------------|
 | Blocks per second | ~0.0017 | 10 | 100 |
-| Effective TPS | ~7 | ~60 | 30,000+ |
+| Effective TPS | ~7 | ~3,000 | 30,000+ |
 | Block time | 10 minutes | 100 ms | 10 ms |
 | Fee per tx for $10B annual security | ~$45 | ~$5 | ~$0.01 |
 
