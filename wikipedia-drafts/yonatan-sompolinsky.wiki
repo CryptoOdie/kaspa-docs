@@ -40,10 +40,10 @@ With Michael Sutton, Sompolinsky proposed DAG-KNIGHT, described as the first per
 
 == Selected publications ==
 
-* {{cite journal |last1=Sompolinsky |first1=Y. |last2=Zohar |first2=A. |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}
-* {{cite web |last1=Sompolinsky |first1=Y. |last2=Lewenberg |first2=Y. |last3=Zohar |first3=A. |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |url=https://eprint.iacr.org/2016/1159 |year=2016 |publisher=IACR ePrint}}
-* {{cite conference |last1=Sompolinsky |first1=Y. |last2=Wyborski |first2=S. |last3=Zohar |first3=A. |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM AFT 2021 |year=2021 |doi=10.1145/3479722.3480990}}
-* {{cite web |last1=Sompolinsky |first1=Y. |last2=Sutton |first2=M. |title=The DAG KNIGHT Protocol |url=https://eprint.iacr.org/2022/1494 |year=2022 |publisher=IACR ePrint}}
+* Sompolinsky, Y.; Zohar, A. (2015). "Secure High-Rate Transaction Processing in Bitcoin". ''Financial Cryptography and Data Security''. [https://doi.org/10.1007/978-3-662-47854-7_32 DOI].
+* Sompolinsky, Y.; Lewenberg, Y.; Zohar, A. (2016). "SPECTRE: A Fast and Scalable Cryptocurrency Protocol". IACR ePrint. [https://eprint.iacr.org/2016/1159 ePrint 2016/1159].
+* Sompolinsky, Y.; Wyborski, S.; Zohar, A. (2021). "PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus". ''ACM Conference on Advances in Financial Technologies (AFT 2021)'', pp. 57–70. [https://dl.acm.org/doi/10.1145/3479722.3480990 DOI].
+* Sompolinsky, Y.; Sutton, M. (2022). "The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus". IACR ePrint. [https://eprint.iacr.org/2022/1494 ePrint 2022/1494].
 
 == See also ==
 * [[Kaspa (cryptocurrency)]]
