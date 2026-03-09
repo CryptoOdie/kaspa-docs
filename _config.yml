@@ -1,0 +1,27 @@
+title: Kaspa Technical Documentation
+description: Comprehensive technical documentation for the Kaspa BlockDAG protocol — the only high-throughput proof-of-work cryptocurrency with Bitcoin's security model.
+url: ""
+baseurl: ""
+
+theme: jekyll-theme-cayman
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor

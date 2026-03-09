@@ -1,0 +1,108 @@
+{{Short description|Proof-of-work cryptocurrency using blockDAG consensus}}
+{{Infobox cryptocurrency
+| name = Kaspa
+| symbol = KAS
+| logo =
+| logo_size =
+| release_date = {{Start date|2021|11|07}}
+| founder = [[Yonatan Sompolinsky]]
+| white_paper = [https://eprint.iacr.org/2018/104 PHANTOM and GHOSTDAG]
+| consensus_mechanism = [[Proof of work]] ([[#GHOSTDAG|GHOSTDAG]])
+| hash_algorithm = kHeavyHash
+| block_time = 100 milliseconds
+| supply_limit = 28.7 billion KAS
+| website = {{URL|kaspa.org}}
+| source_code = {{URL|github.com/kaspanet/rusty-kaspa}}
+| programming_language = [[Rust (programming language)|Rust]]
+}}
+
+'''Kaspa''' is a [[proof-of-work]] [[cryptocurrency]] that uses a [[Directed acyclic graph|blockDAG]] (block Directed Acyclic Graph) structure instead of a traditional [[blockchain]]. Unlike single-chain cryptocurrencies such as [[Bitcoin]], Kaspa's blockDAG allows multiple blocks to be created in parallel and incorporated into the ledger simultaneously, enabling higher transaction throughput while maintaining proof-of-work security properties.<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref>
+
+Kaspa was launched on November 7, 2021, with a [[fair launch]] — no [[premine]], no [[initial coin offering]] (ICO), and no team allocation of tokens.<ref name="fairlaunch">{{cite web |url=https://kaspa.org/kaspas-fair-launch/ |title=Kaspa's Fair Launch |publisher=Kaspa.org |access-date=2026-03-09}}</ref> All KAS tokens have been distributed exclusively through mining.
+
+== History ==
+
+=== Development ===
+
+Kaspa's theoretical foundation was laid by [[Yonatan Sompolinsky]], who published the GHOST protocol in 2013 (later referenced in [[Ethereum]]'s fork-choice rule design)<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref> and the SPECTRE protocol in 2016.<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref> The PHANTOM protocol, which forms the theoretical basis for Kaspa's consensus, was published in 2018 and formally presented at the ACM Conference on Advances in Financial Technologies in 2021.<ref name="phantom" />
+
+Development was initially conducted by DAGLabs, a research and development company founded by Sompolinsky.<ref name="messari">{{cite web |url=https://messari.io/project/kaspa/profile |title=Kaspa Project Profile |publisher=Messari |access-date=2026-03-09}}</ref> DAGLabs was dissolved around the time of Kaspa's launch, and the project transitioned to community-led development.<ref name="fairlaunch" />
+
+The reference implementation was rewritten from [[Go (programming language)|Go]] to [[Rust (programming language)|Rust]] (named "Rusty Kaspa") by Michael Sutton, who also co-authored the DAG-KNIGHT protocol paper with Sompolinsky.<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref>
+
+=== Launch ===
+
+Kaspa launched on November 7, 2021, as a [[fair launch]] cryptocurrency. Mining began with CPU-only accessibility for approximately one month, before GPU and later ASIC miners entered the network.<ref name="fairlaunch" /> The project had no premine, no initial coin offering, no venture capital funding for token distribution, and no team allocation.<ref name="fairlaunch" />
+
+=== Crescendo Hard Fork ===
+
+On May 5, 2025, the Crescendo hard fork increased Kaspa's block production rate from 1 block per second to 10 blocks per second, reducing block time to 100 milliseconds.<ref name="crescendo">{{cite web |url=https://kaspa.org/kaspa-updates-to-crescendo-and-10bps/ |title=Kaspa Updates to Crescendo and 10BPS |publisher=Kaspa.org |access-date=2026-03-09}}</ref> This upgrade was enabled by performance improvements in the Rust implementation.
+
+== Technology ==
+
+=== BlockDAG architecture ===
+
+{{Main|BlockDAG}}
+
+In a traditional blockchain, each block references a single parent block, creating a linear chain. When two miners produce blocks simultaneously, only one is included — the other becomes an orphan block. This limits throughput because increasing the block rate also increases the orphan rate.<ref name="phantom" />
+
+In Kaspa's blockDAG, each block references '''multiple parent blocks''' (all known tips of the DAG at the time of creation). Parallel blocks are all incorporated into the ledger rather than discarded. The GHOSTDAG consensus algorithm then produces a total ordering over all blocks.<ref name="phantom" />
+
+This structure eliminates orphan blocks and the associated centralization pressure that limits throughput in single-chain proof-of-work systems.<ref name="phantom" />
+
+=== GHOSTDAG consensus ===
+
+GHOSTDAG (Greedy Heaviest Observed Sub-Tree DAG) is the consensus protocol running on Kaspa's mainnet. It is a greedy polynomial-time approximation of the PHANTOM protocol's NP-hard optimization problem.<ref name="phantom" />
+
+The protocol uses the concept of ''k-clusters'' to distinguish between honestly-produced parallel blocks and potentially adversarial blocks. Honest miners reference all known blocks as parents, creating blocks with small "anticones" (sets of blocks with no ordering relationship). Adversarial blocks, which are typically withheld and released later, have large anticones.<ref name="phantom" />
+
+GHOSTDAG greedily identifies the largest k-cluster as the "blue set" (honest blocks) and produces a total ordering via the '''selected parent chain''' (the path of blocks with the highest cumulative blue scores). Conflicting transactions are resolved by first-seen ordering within this total order.<ref name="phantom" />
+
+Shai Wyborski provided the formal security proof that GHOSTDAG's ordering is irreversible with exponentially decreasing reversal probability as confirmation depth increases.<ref name="phantom" />
+
+=== DAG-KNIGHT protocol ===
+
+DAG-KNIGHT, co-authored by Sompolinsky and Sutton in 2022, is described as the first permissionless proof-of-work consensus protocol with no a priori bound on network latency.<ref name="dagknight" /> Unlike GHOSTDAG, which requires a static parameter ''k'' set before deployment, DAG-KNIGHT infers network conditions directly from the DAG topology and adapts confirmation times accordingly.<ref name="dagknight" />
+
+The protocol was published through Harvard's Center for Research on Computation and Society (CRCS).<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+{{As of|2026|03}}, DAG-KNIGHT has not been deployed on Kaspa's mainnet.<ref name="developments">{{cite web |url=https://kaspa.org/developments/ |title=Kaspa Developments |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+=== UTXO model ===
+
+Kaspa uses the [[Unspent transaction output|UTXO]] (Unspent Transaction Output) model, the same transaction model used by Bitcoin. Each Kaspa block includes a UTXO set commitment using MuHash, a [[homomorphic hash function]] that enables incremental updates.<ref name="kip9">{{cite web |url=https://github.com/kaspanet/kips/blob/master/kip-0009.md |title=KIP-9: An Incentive-Compatible Storage Mass Formula |publisher=Kaspa KIPs |access-date=2026-03-09}}</ref>
+
+KIP-9 introduces a "storage mass" formula that increases transaction fees for transactions creating many small outputs (potential [[UTXO]] set bloat), using a harmonic mean-based calculation.<ref name="kip9" />
+
+=== Emission schedule ===
+
+Kaspa uses a "chromatic halving" emission schedule, where block rewards decrease monthly by a factor of (1/2){{sup|1/12}} — the frequency ratio of consecutive semitones in a [[equal temperament|tempered chromatic scale]]. This creates a smooth deflationary curve rather than the abrupt halving events used by Bitcoin.<ref name="tokenomics">{{cite web |url=https://kaspa.org/tokenomics-emission-and-mining/ |title=Tokenomics, Emission, and Mining |publisher=Kaspa.org |access-date=2026-03-09}}</ref> The maximum supply is 28.7 billion KAS.<ref name="tokenomics" />
+
+== Mining ==
+
+Kaspa uses the kHeavyHash algorithm for proof-of-work mining. The network transitioned from CPU and GPU mining to [[application-specific integrated circuit|ASIC]] mining, with miners manufactured by companies including Bitmain, IceRiver, and Goldshell.<ref name="mining">{{cite web |url=https://www.cryptominerbros.com/blog/top-kaspa-miners/ |title=Top Kaspa Miners |publisher=CryptoMinerBros |access-date=2026-03-09}}</ref>
+
+== See also ==
+* [[Directed acyclic graph]]
+* [[Proof of work]]
+* [[Bitcoin]]
+* [[Cryptocurrency]]
+* [[Blockchain]]
+* [[Consensus (computer science)]]
+
+== References ==
+{{Reflist}}
+
+== External links ==
+* {{Official website|kaspa.org}}
+* [https://github.com/kaspanet/rusty-kaspa Kaspa source code] on [[GitHub]]
+* [https://eprint.iacr.org/2018/104 PHANTOM and GHOSTDAG paper] on IACR ePrint
+* [https://eprint.iacr.org/2022/1494 DAG-KNIGHT paper] on IACR ePrint
+* [https://explorer.kaspa.org/ Kaspa block explorer]
+
+{{Cryptocurrencies}}
+
+[[Category:Cryptocurrencies]]
+[[Category:Proof-of-work cryptocurrencies]]
+[[Category:Computer-related introductions in 2021]]
+[[Category:Directed acyclic graphs]]

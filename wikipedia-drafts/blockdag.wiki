@@ -1,0 +1,93 @@
+{{Short description|Graph-based distributed ledger data structure}}
+
+A '''blockDAG''' ('''block Directed Acyclic Graph''') is a [[data structure]] used in [[distributed ledger technology]] where blocks can reference multiple predecessor blocks, forming a [[directed acyclic graph]] rather than a linear [[blockchain]].<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref> This structure allows multiple blocks to be created in parallel and incorporated into the ledger simultaneously, potentially increasing transaction throughput compared to single-chain architectures.
+
+== Overview ==
+
+In a traditional [[blockchain]], blocks form a linear chain where each block references exactly one parent. When multiple blocks are produced simultaneously (a common occurrence at high block rates due to network [[propagation delay]]), only one block is accepted into the canonical chain; the others become '''orphan blocks''' — wasted computational work in [[proof-of-work]] systems.<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref>
+
+In a blockDAG, each block references '''all known unreferenced blocks''' (tips of the DAG) as parents, forming a directed acyclic graph. Parallel blocks are all included in the data structure. A '''consensus protocol''' then determines a total ordering over all blocks to resolve transaction conflicts.<ref name="phantom" />
+
+The orphan rate in a blockchain is approximately:
+
+:<math>\text{orphan\_rate} \approx 1 - e^{-\lambda \cdot D}</math>
+
+where <math>\lambda</math> is the block production rate and <math>D</math> is the network propagation delay. In a blockDAG, this formula does not apply because parallel blocks are incorporated rather than discarded.<ref name="phantom" />
+
+== History ==
+
+The concept of using DAG structures for cryptocurrency consensus was explored through several protocols:
+
+* '''SPECTRE''' (2016) — proposed by Sompolinsky, Lewenberg, and Zohar. A blockDAG protocol providing fast confirmation but only a partial ordering (pairwise ordering of transactions rather than a total order over all blocks).<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref>
+
+* '''PHANTOM''' (2018) — proposed by Sompolinsky, Wyborski, and Zohar. Provides a total ordering over all blocks by finding the maximum ''k''-cluster in the DAG, but the optimization problem is [[NP-hard]].<ref name="phantom" />
+
+* '''GHOSTDAG''' (2018/2021) — a greedy polynomial-time approximation of PHANTOM. Deployed in the [[Kaspa (cryptocurrency)|Kaspa]] cryptocurrency.<ref name="phantom" />
+
+* '''DAG-KNIGHT''' (2022) — proposed by Sompolinsky and Sutton. A parameterless generalization that infers network conditions from the DAG topology.<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref>
+
+Other DAG-based distributed ledger systems include [[IOTA (cryptocurrency)|IOTA]]'s Tangle, which uses a different DAG structure without discrete blocks.<ref>{{cite web |url=https://www.iota.org/ |title=IOTA |publisher=IOTA Foundation |access-date=2026-03-09}}</ref>
+
+== Consensus protocols ==
+
+=== PHANTOM ===
+
+PHANTOM introduces the concept of ''k-clusters'' to separate honest blocks from adversarial blocks in a DAG. A subset ''S'' of the DAG is a ''k''-cluster if for every block ''B'' in ''S'', the number of blocks in ''B'''s anticone (blocks with no ordering relationship to ''B'') that are also in ''S'' is at most ''k''.<ref name="phantom" />
+
+The parameter ''k'' represents the expected number of parallel blocks during one network propagation delay: ''k'' ≈ 2''Dλ'', where ''D'' is propagation delay and ''λ'' is block rate. Honest miners reference all known blocks as parents, so honest parallel blocks have small anticones (≤ ''k''). Adversarial blocks, typically withheld and released later, have large anticones.<ref name="phantom" />
+
+Finding the maximum ''k''-cluster is [[NP-hard]], making PHANTOM impractical for direct implementation.<ref name="phantom" />
+
+=== GHOSTDAG ===
+
+GHOSTDAG (Greedy Heaviest Observed Sub-Tree DAG) is a polynomial-time greedy approximation of PHANTOM. The algorithm:<ref name="phantom" />
+
+# Each block selects the parent with the highest '''blue score''' (accumulated count of "blue" blocks in its past)
+# The algorithm greedily builds a "blue set" following the '''selected parent chain'''
+# All blocks are ordered: chain blocks by the selected parent chain, non-chain blocks interleaved at merge points
+# Transaction conflicts are resolved by ordering (first in order wins)
+
+GHOSTDAG is deployed in the [[Kaspa (cryptocurrency)|Kaspa]] cryptocurrency, running at 10 blocks per second.<ref name="crescendo">{{cite web |url=https://kaspa.org/kaspa-updates-to-crescendo-and-10bps/ |title=Kaspa Updates to Crescendo and 10BPS |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+=== DAG-KNIGHT ===
+
+DAG-KNIGHT eliminates the static ''k'' parameter by analyzing the DAG structure to infer current network conditions. It is described as the first permissionless proof-of-work protocol with no a priori bound on network latency.<ref name="dagknight" /> The protocol was published through Harvard's Center for Research on Computation and Society.<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+== Comparison with blockchain ==
+
+{| class="wikitable"
+! Property !! Blockchain !! BlockDAG
+|-
+| Block references || Single parent || Multiple parents (all tips)
+|-
+| Parallel blocks || Orphaned (discarded) || Incorporated (ordered)
+|-
+| Orphan rate || Increases with block rate || Zero (by design)
+|-
+| Throughput scaling || Limited by orphan rate || Limited by node/network capacity
+|-
+| Ordering || Inherent (linear chain) || Requires consensus protocol
+|}
+
+== Implementations ==
+
+* [[Kaspa (cryptocurrency)|Kaspa]] — uses GHOSTDAG; 10 blocks per second<ref name="crescendo" />
+* [[IOTA (cryptocurrency)|IOTA]] — uses a different DAG model (Tangle) without discrete blocks
+* Conflux — uses a tree-graph structure combining DAG and tree
+* Nano — uses a block-lattice DAG where each account has its own chain
+
+== See also ==
+* [[Blockchain]]
+* [[Directed acyclic graph]]
+* [[Consensus (computer science)]]
+* [[Proof of work]]
+* [[Nakamoto consensus]]
+
+== References ==
+{{Reflist}}
+
+[[Category:Distributed computing]]
+[[Category:Directed acyclic graphs]]
+[[Category:Cryptocurrency]]
+[[Category:Data structures]]
+[[Category:Blockchain]]
