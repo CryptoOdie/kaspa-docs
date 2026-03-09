@@ -33,19 +33,12 @@ The Crescendo upgrade increased Kaspa's block rate from 1 BPS to **10 BPS**, red
 
 See [current network metrics](./metrics.md) for live performance data.
 
-### L1 vProgs and zkopcodes (December 2025)
+### L1 Smart Contracts (In Development)
 
-The release of **virtual programs (vProgs)** and **zero-knowledge opcodes (zkopcodes)** on L1 introduced base-layer programmability to Kaspa for the first time. This enables ZK proof verification directly on the main chain, which is a prerequisite for trustless L2 bridges and advanced covenant logic.
+Kaspa's smart contract layer requires two components, both currently in development:
 
-### KIP-17 Covenants (Testnet 12)
-
-KIP-17 introduces **covenants** -- constraints on how UTXOs can be spent -- to the Kaspa base layer. Covenants enable:
-
-- Vaults with time-locked spending conditions
-- On-chain escrow without trusted third parties
-- Building blocks for more advanced smart contract patterns
-
-Currently live on Testnet 12 and expected to be included in the Covenants++ hard fork.
+- **KIP-17 Covenants** — constraints on how UTXOs can be spent (vaults, escrow, spending conditions). Currently on Testnet 12, expected in the Covenants++ hard fork.
+- **vProgs and zkopcodes** — virtual programs and zero-knowledge opcodes for base-layer programmability. Depends on covenants being implemented first. Will enable ZK proof verification on L1, which is a prerequisite for trustless L2 bridges.
 
 ## Live L2 Networks
 

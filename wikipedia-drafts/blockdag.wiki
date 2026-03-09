@@ -16,9 +16,11 @@ where <math>\lambda</math> is the block production rate and <math>D</math> is th
 
 == History ==
 
-The concept of using DAG structures for cryptocurrency consensus was explored through several protocols:
+The concept of using DAG-aware structures for cryptocurrency consensus was explored through several protocols by Yonatan Sompolinsky and collaborators:
 
-* '''SPECTRE''' (2016) — proposed by Sompolinsky, Lewenberg, and Zohar. A blockDAG protocol providing fast confirmation but only a partial ordering (pairwise ordering of transactions rather than a total order over all blocks).<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref>
+* '''GHOST''' (2013/2015) — proposed by Sompolinsky and Zohar. The Greedy Heaviest-Observed Sub-Tree protocol modified [[Bitcoin]]'s longest-chain rule by weighing the entire sub-tree of blocks rather than just the longest path, improving security under high block rates. While still a blockchain (not a DAG), GHOST laid the theoretical groundwork for DAG-based consensus. It influenced [[Ethereum]]'s fork-choice rule (LMD-GHOST).<ref name="ghost" />
+
+* '''SPECTRE''' (2016) — proposed by Sompolinsky, Lewenberg, and Zohar. The first full blockDAG protocol, providing fast confirmation but only a partial ordering (pairwise ordering of transactions rather than a total order over all blocks).<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref>
 
 * '''PHANTOM''' (2018) — proposed by Sompolinsky, Wyborski, and Zohar. Provides a total ordering over all blocks by finding the maximum ''k''-cluster in the DAG, but the optimization problem is [[NP-hard]].<ref name="phantom" />
 
@@ -71,10 +73,10 @@ DAG-KNIGHT eliminates the static ''k'' parameter by analyzing the DAG structure 
 
 == Implementations ==
 
-* [[Kaspa (cryptocurrency)|Kaspa]] — uses GHOSTDAG; 10 blocks per second<ref name="crescendo" />
-* [[IOTA (cryptocurrency)|IOTA]] — uses a different DAG model (Tangle) without discrete blocks
-* Conflux — uses a tree-graph structure combining DAG and tree
-* Nano — uses a block-lattice DAG where each account has its own chain
+* [[Kaspa (cryptocurrency)|Kaspa]] — [[proof-of-work]] blockDAG using GHOSTDAG consensus; 10 blocks per second<ref name="crescendo" />
+* [[IOTA (cryptocurrency)|IOTA]] — uses a different DAG model (Tangle) without discrete blocks; currently transitioning from a coordinator-based model to [[proof-of-stake]]
+* Conflux — [[proof-of-work]] tree-graph structure combining DAG and tree; also supports [[proof-of-stake]] finality
+* Nano — uses a block-lattice DAG where each account has its own chain; secured by [[delegated proof-of-stake]] (Open Representative Voting)
 
 == See also ==
 * [[Blockchain]]
