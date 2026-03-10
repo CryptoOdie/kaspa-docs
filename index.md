@@ -44,13 +44,18 @@ Kaspa is a proof-of-work cryptocurrency using a **blockDAG** (Directed Acyclic G
 - **[Kaspa vs Bitcoin](docs/comparisons/kaspa-vs-bitcoin.md)** — Same security model, 6000x block rate
 - **[Kaspa vs Ethereum](docs/comparisons/kaspa-vs-ethereum.md)** — PoW vs PoS, weak subjectivity, MEV
 - **[Kaspa vs Solana](docs/comparisons/kaspa-vs-solana.md)** — Partition tolerance vs throughput
-
+- **[Full Protocol Matrix](docs/comparisons/protocol-mastery.md)** — Honest comparison across 9 protocols (Bitcoin, Ethereum, Solana, Avalanche, Cardano, Algorand, NEAR, Aptos, Sui)
 
 ### Ecosystem
 
-- **[Current Metrics](docs/adoption/metrics.md)** — On-chain data, hashrate, exchange presence
+- **[Adoption Landscape](docs/adoption/metrics.md)** — On-chain data, hashrate, exchange presence, AI agent angle
 - **[Regulatory Position](docs/adoption/regulatory.md)** — Fair launch and commodity classification
 - **[Development Roadmap](docs/adoption/roadmap.md)** — Smart contracts, L2s, DAG-KNIGHT
+
+### AI Knowledge
+
+- **[System Prompt](kaspa-system-prompt.md)** — Token-efficient context document for AI platforms (Claude Projects, Custom GPTs)
+- **[MCP Knowledge Base](mcp-updates/knowledge-base-patch.py)** — Structured data for MCP server integration
 
 ## Key Papers
 
