@@ -30,13 +30,21 @@ Development was initially conducted by DAGLabs, a research and development compa
 
 The reference implementation was rewritten from [[Go (programming language)|Go]] to [[Rust (programming language)|Rust]] (named "Rusty Kaspa") by Michael Sutton, who also co-authored the DAG-KNIGHT protocol paper with Sompolinsky.<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref>
 
-=== Launch ===
+=== Launch and Go implementation ===
 
-Kaspa launched on November 7, 2021, as a [[fair launch]] cryptocurrency. Mining began with CPU-only accessibility for approximately one month, before GPU and later ASIC miners entered the network.<ref name="fairlaunch" /> The project had no premine, no initial coin offering, no venture capital funding for token distribution, and no team allocation.<ref name="fairlaunch" />
+Kaspa launched on November 7, 2021, as a [[fair launch]] cryptocurrency with an initial implementation written in [[Go (programming language)|Go]]. The project had no premine, no initial coin offering, no venture capital funding for token distribution, and no team allocation.<ref name="fairlaunch" /> Mining began with CPU-only accessibility; however, GPU miners came to dominate the network within weeks of launch.<ref name="fairlaunch" />
 
-=== Crescendo Hard Fork ===
+=== Rust rewrite ===
 
-On May 5, 2025, the Crescendo hard fork increased Kaspa's block production rate from 1 block per second to 10 blocks per second, reducing block time to 100 milliseconds.<ref name="crescendo">{{cite web |url=https://kaspa.org/kaspa-updates-to-crescendo-and-10bps/ |title=Kaspa Updates to Crescendo and 10BPS |publisher=Kaspa.org |access-date=2026-03-09}}</ref> This upgrade was enabled by performance improvements in the Rust implementation.
+In 2022, development began on a full rewrite of the Kaspa node software in [[Rust (programming language)|Rust]], referred to as "Rusty Kaspa." The Rust implementation became the primary reference client, offering improved performance characteristics that enabled later throughput upgrades.<ref name="dagknight" />
+
+=== ASIC transition ===
+
+The network underwent a transition from GPU to [[application-specific integrated circuit|ASIC]] mining beginning in mid-2023, when IceRiver released the first kHeavyHash ASIC miners. Subsequent ASIC manufacturers entering the market included Bitmain (Antminer KS3), Goldshell (KA Box), and WindMiner.<ref name="mining">{{cite web |url=https://www.cryptominerbros.com/blog/top-kaspa-miners/ |title=Top Kaspa Miners |publisher=CryptoMinerBros |access-date=2026-03-09}}</ref>
+
+=== Crescendo hard fork ===
+
+On May 5, 2025, the Crescendo hard fork increased Kaspa's block production rate from 1 block per second (BPS) to 10 BPS, reducing block time to 100 milliseconds.<ref name="crescendo">{{cite web |url=https://kaspa.org/kaspa-updates-to-crescendo-and-10bps/ |title=Kaspa Updates to Crescendo and 10BPS |publisher=Kaspa.org |access-date=2026-03-09}}</ref> The network had launched at 1 BPS, and this tenfold increase was enabled by performance improvements in the Rust implementation.
 
 == Technology ==
 
@@ -74,13 +82,45 @@ Kaspa uses the [[Unspent transaction output|UTXO]] (Unspent Transaction Output) 
 
 KIP-9 introduces a "storage mass" formula that increases transaction fees for transactions creating many small outputs (potential [[UTXO]] set bloat), using a harmonic mean-based calculation.<ref name="kip9" />
 
+=== Data management ===
+
+Kaspa employs aggressive [[data pruning|pruning]] to maintain compact node storage requirements. Full nodes retain only approximately 52 hours of block body data; older block bodies are discarded.<ref name="developments" /> The header chain, however, is preserved using a ''proof-of-proof-of-work'' scheme that keeps the header data compact — projected to remain under 100 MB even over 10,000 years of operation.<ref name="developments" />
+
+New nodes joining the network are not required to replay the full transaction history. Instead, they can bootstrap from a recent [[UTXO]] state snapshot verified through MuHash UTXO commitments, a [[homomorphic hash function]] that enables incremental verification.<ref name="kip9" />
+
+KIP-9's storage mass mechanism provides an economic disincentive against [[UTXO]] set bloat by increasing transaction fees for outputs that would expand the UTXO set disproportionately.<ref name="kip9" />
+
+By contrast, [[Bitcoin]] full nodes store the complete block history since the genesis block (exceeding 600 GB as of 2025), [[Ethereum]] archive nodes require approximately 1.2 TB, and [[Solana]] validators require 2 TB or more of [[Solid-state drive#NVMe|NVMe]] storage.<ref>{{cite web |url=https://bitcoin.org/en/full-node |title=Running a Full Node |publisher=Bitcoin.org |access-date=2026-03-09}}</ref><ref>{{cite web |url=https://ethereum.org/en/developers/docs/nodes-and-clients/ |title=Nodes and Clients |publisher=Ethereum.org |access-date=2026-03-09}}</ref> Kaspa's pruning design is intended to keep node storage requirements roughly constant over time.<ref name="developments" />
+
+=== Smart contract development ===
+
+Kaspa's base layer uses the UTXO model and does not natively support [[Turing completeness|Turing-complete]] [[smart contract]]s. Smart contract functionality is being pursued through [[Layer 2|layer-2]] solutions built on top of the Kaspa network. Igra Network, an L2 platform, launched in January 2026, and Kasplex announced a [[Zero-knowledge proof|zkEVM]]-based L2 in March 2026.<ref name="developments" />
+
+A hard fork is planned for May 5, 2026, which proposes several base-layer extensions: KIP-16 (native asset issuance), KIP-17 ([[covenant (cryptography)|covenants]] enabling on-chain programmability), and support for [[zero-knowledge proof]] verification.<ref name="developments" /> These features are under active development and subject to change prior to deployment.
+
 === Emission schedule ===
 
-Kaspa uses a "chromatic halving" emission schedule, where block rewards decrease monthly by a factor of (1/2){{sup|1/12}} — the frequency ratio of consecutive semitones in a [[equal temperament|tempered chromatic scale]]. This creates a smooth deflationary curve rather than the abrupt halving events used by Bitcoin.<ref name="tokenomics">{{cite web |url=https://kaspa.org/tokenomics-emission-and-mining/ |title=Tokenomics, Emission, and Mining |publisher=Kaspa.org |access-date=2026-03-09}}</ref> The maximum supply is 28.7 billion KAS.<ref name="tokenomics" />
+Kaspa uses a "chromatic halving" emission schedule in which block rewards decrease smoothly over time rather than through periodic step-function halvings as in [[Bitcoin]].<ref name="tokenomics">{{cite web |url=https://kaspa.org/tokenomics-emission-and-mining/ |title=Tokenomics, Emission, and Mining |publisher=Kaspa.org |access-date=2026-03-09}}</ref> The block reward at month ''n'' after launch follows the formula:
+
+: <math>\text{reward}(n) = \text{reward}_0 \times \left(\frac{1}{2}\right)^{n/12}</math>
+
+where reward₀ is the initial block reward and ''n'' is the number of months since launch. Each month, the reward is multiplied by (1/2){{sup|1/12}} ≈ 0.9439, the [[twelve-tone equal temperament|frequency ratio between consecutive semitones]] in twelve-tone equal temperament. After 12 months — one [[octave]] — the cumulative effect is an exact halving of the block reward, analogous to frequency doubling across an octave in [[music theory]].<ref name="tokenomics" />
+
+This produces a smooth [[exponential decay]] curve rather than Bitcoin's abrupt halvings, which cause sudden changes in miner revenue. The maximum supply is 28.7 billion KAS.<ref name="tokenomics" />
 
 == Mining ==
 
-Kaspa uses the kHeavyHash algorithm for proof-of-work mining. The network transitioned from CPU and GPU mining to [[application-specific integrated circuit|ASIC]] mining, with miners manufactured by companies including Bitmain, IceRiver, and Goldshell.<ref name="mining">{{cite web |url=https://www.cryptominerbros.com/blog/top-kaspa-miners/ |title=Top Kaspa Miners |publisher=CryptoMinerBros |access-date=2026-03-09}}</ref>
+Kaspa uses the kHeavyHash algorithm for proof-of-work mining. The network transitioned from CPU and GPU mining to [[application-specific integrated circuit|ASIC]] mining, with miners manufactured by companies including Bitmain, IceRiver, and Goldshell.<ref name="mining" />
+
+== Reception ==
+
+Kaspa has been listed on more than 33 cryptocurrency exchanges.<ref name="coingecko">{{cite web |url=https://www.coingecko.com/en/coins/kaspa |title=Kaspa Price, Chart, Market Cap |publisher=CoinGecko |access-date=2026-03-09}}</ref> [[Binance]] launched KAS perpetual futures contracts in November 2024,<ref>{{cite web |url=https://www.binance.com/en/support/announcement/binance-futures-will-launch-usd-margined-kasusdt-perpetual-contract-with-up-to-75x-leverage |title=Binance Futures Will Launch KASUSDT Perpetual Contract |publisher=Binance |access-date=2026-03-09}}</ref> and [[Coinbase]] introduced KAS futures in February 2025.<ref>{{cite web |url=https://www.coinbase.com/blog/coinbase-derivatives-to-launch-kaspa-futures |title=Coinbase Derivatives to Launch Kaspa Futures |publisher=Coinbase |access-date=2026-03-09}}</ref>
+
+The KAS token reached an approximate peak market capitalization of $2.7 billion and had a market capitalization of roughly $800 million as of early 2026.<ref name="coingecko" /><ref name="coinmarketcap">{{cite web |url=https://coinmarketcap.com/currencies/kaspa/ |title=Kaspa Price Today |publisher=CoinMarketCap |access-date=2026-03-09}}</ref> Kaspa has ranked among the top 50 cryptocurrencies by market capitalization on both CoinMarketCap and CoinGecko.<ref name="coingecko" /><ref name="coinmarketcap" /> Messari lists Kaspa as a proof-of-work project with a fair launch distribution model.<ref name="messari" />
+
+== Network statistics ==
+
+{{As of|2026|03}}, the Kaspa network hashrate is approximately 311–411 PH/s.<ref name="kasfyi">{{cite web |url=https://kas.fyi |title=Kaspa Network Statistics |publisher=Kas.fyi |access-date=2026-03-09}}</ref> The network has processed over 601 million total transactions, with approximately 386,000 daily transactions.<ref name="kasfyi" /> The number of active addresses has grown steadily since launch.<ref name="kasfyi" />
 
 == See also ==
 * [[Directed acyclic graph]]

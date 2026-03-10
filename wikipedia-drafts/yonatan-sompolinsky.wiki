@@ -12,7 +12,11 @@
 
 == Career ==
 
-Sompolinsky conducted research at the [[Hebrew University of Jerusalem]] and subsequently at [[Harvard University]]'s Center for Research on Computation and Society (CRCS).<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+=== Education ===
+
+Sompolinsky earned his PhD in [[computer science]] from the [[Hebrew University of Jerusalem]], where he was supervised by [[Aviv Zohar]].<ref name="ghost" /> He subsequently conducted postdoctoral research at [[Harvard University]]'s Center for Research on Computation and Society (CRCS).<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+=== Professional career ===
 
 He founded DAGLabs, a [[cryptocurrency]] research and development company, which was dissolved around the time of Kaspa's launch in November 2021, transitioning the project to community-led development.<ref name="fairlaunch">{{cite web |url=https://kaspa.org/kaspas-fair-launch/ |title=Kaspa's Fair Launch |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
 
@@ -20,23 +24,37 @@ He founded DAGLabs, a [[cryptocurrency]] research and development company, which
 
 === GHOST protocol (2013/2015) ===
 
-Sompolinsky, together with Aviv Zohar, proposed the GHOST (Greedy Heaviest Observed Sub-Tree) protocol for secure high-rate transaction processing in [[Bitcoin]]-like systems. The protocol modifies Bitcoin's longest-chain rule by weighing the entire sub-tree of blocks rather than just the longest path, improving security under high block rates.<ref name="ghost" />
+Sompolinsky, together with [[Aviv Zohar]], proposed the GHOST (Greedy Heaviest Observed Sub-Tree) protocol for secure high-rate transaction processing in [[Bitcoin]]-like systems. The protocol modifies Bitcoin's longest-chain rule by weighing the entire sub-tree of blocks rather than just the longest path, improving security under high block rates. Notably, GHOST introduced the idea of ''inclusive'' consensus: rather than discarding orphaned blocks, the protocol accounts for them in its fork-choice calculation, incorporating parallel work that traditional longest-chain rules would ignore.<ref name="ghost" /> The GHOST paper has been widely cited in the cryptocurrency and distributed systems literature.
 
-The GHOST protocol was referenced in [[Ethereum]]'s design; Ethereum's fork-choice rule (LMD-GHOST, or Latest Message Driven GHOST) is a modified version adapted for [[proof-of-stake]].<ref name="ethgasper">{{cite web |url=https://ethereum.org/developers/docs/consensus-mechanisms/pos/gasper/ |title=Gasper |publisher=Ethereum.org |access-date=2026-03-09}}</ref>
+==== Influence on Ethereum ====
+
+[[Vitalik Buterin]] credited the GHOST protocol in the [[Ethereum]] whitepaper (2013–2014) as a key influence on Ethereum's approach to fast block times, noting that GHOST addressed the security challenges that arise when block intervals are short and stale rates are high.<ref name="ethwhitepaper">{{cite web |url=https://ethereum.org/en/whitepaper/ |title=Ethereum Whitepaper |last=Buterin |first=Vitalik |year=2013 |access-date=2026-03-09}}</ref> Ethereum's current [[proof-of-stake]] consensus mechanism uses LMD-GHOST (Latest Message Driven GHOST), a proof-of-stake adaptation of Sompolinsky's original proof-of-work protocol, as part of its Gasper finality layer.<ref name="ethgasper">{{cite web |url=https://ethereum.org/developers/docs/consensus-mechanisms/pos/gasper/ |title=Gasper |publisher=Ethereum.org |access-date=2026-03-09}}</ref> Ethereum is one of the largest [[cryptocurrency|cryptocurrencies]] by market capitalization, making the GHOST protocol one of the most consequential contributions to consensus protocol design.
 
 === SPECTRE (2016) ===
 
-With Yoad Lewenberg and Aviv Zohar, Sompolinsky proposed SPECTRE (Serialization of Proof-of-work Events: Confirming Transactions via Recursive Elections), a [[Directed acyclic graph|blockDAG]] protocol that provides fast transaction confirmation through pairwise ordering rather than a total block ordering.<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref>
+With [[Yoad Lewenberg]] and [[Aviv Zohar]], Sompolinsky proposed SPECTRE (Serialization of Proof-of-work Events: Confirming Transactions via Recursive Elections), a [[Directed acyclic graph|blockDAG]] protocol that provides fast transaction confirmation through pairwise ordering rather than a total block ordering.<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref>
 
 === PHANTOM and GHOSTDAG (2018/2021) ===
 
-With Shai Wyborski and Aviv Zohar, Sompolinsky proposed PHANTOM and its practical greedy approximation GHOSTDAG. The protocols generalize [[Nakamoto consensus]] from a blockchain to a blockDAG, enabling high block rates without the orphan-rate problem that limits single-chain systems. The work was published at the ACM Conference on Advances in Financial Technologies (AFT) in 2021.<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref>
+With [[Shai Wyborski]] and [[Aviv Zohar]], Sompolinsky proposed PHANTOM and its practical greedy approximation GHOSTDAG. The protocols generalize [[Nakamoto consensus]] from a blockchain to a blockDAG, enabling high block rates without the orphan-rate problem that limits single-chain systems. Wyborski provided a formal security proof for the PHANTOM protocol. The work was peer-reviewed and published in the proceedings of the [[Association for Computing Machinery|ACM]] Conference on Advances in Financial Technologies (AFT) in 2021, where Sompolinsky presented the paper.<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref>
 
 GHOSTDAG is the consensus protocol deployed in the [[Kaspa (cryptocurrency)|Kaspa]] cryptocurrency.<ref name="kaspa" />
 
 === DAG-KNIGHT (2022) ===
 
-With Michael Sutton, Sompolinsky proposed DAG-KNIGHT, described as the first permissionless [[proof-of-work]] protocol with no a priori in-protocol bound on network latency. The protocol infers network conditions from the DAG topology rather than requiring pre-configured parameters.<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref> The paper was published through Harvard's Center for Research on Computation and Society.<ref name="harvard" />
+With [[Michael Sutton (developer)|Michael Sutton]], Sompolinsky proposed DAG-KNIGHT, described as the first permissionless [[proof-of-work]] protocol with no a priori in-protocol bound on network latency. The protocol infers network conditions from the DAG topology rather than requiring pre-configured parameters.<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref> The paper was published through Harvard's Center for Research on Computation and Society.<ref name="harvard" />
+
+=== Research themes ===
+
+Sompolinsky's body of research follows a consistent theme of making blockchain consensus protocols more ''inclusive'' of parallel work. The GHOST protocol incorporates uncle blocks into fork-choice weight calculations; SPECTRE and PHANTOM extend this principle by including all parallel blocks in a [[Directed acyclic graph|blockDAG]] and deriving a coherent ordering from them; and DAG-KNIGHT further generalizes this approach without requiring pre-set network parameters. This progression represents a sustained effort to move beyond the single-chain paradigm of [[Nakamoto consensus]], in which only one block can be accepted at each height and all competing blocks are discarded.
+
+=== Academic presentations ===
+
+Sompolinsky has presented his research at notable academic venues, including the ACM Conference on Advances in Financial Technologies (AFT) in 2021, where he presented the PHANTOM/GHOSTDAG paper,<ref name="phantom" /> and the Crypto Economics Security Conference (CESC) at [[University of California, Berkeley|UC Berkeley]] in 2022.<ref name="cesc">{{cite web |url=https://cesc.io |title=Crypto Economics Security Conference (CESC) |publisher=UC Berkeley |access-date=2026-03-09}}</ref>
+
+=== Collaborators ===
+
+Sompolinsky's principal collaborators include [[Aviv Zohar]], his doctoral supervisor and co-author on GHOST, SPECTRE, and PHANTOM; [[Yoad Lewenberg]], co-author on SPECTRE; [[Shai Wyborski]], co-author on PHANTOM who contributed the formal security proof; and [[Michael Sutton (developer)|Michael Sutton]], co-author on DAG-KNIGHT and lead developer of the Kaspa Rust implementation.<ref name="ghost" /><ref name="spectre" /><ref name="phantom" /><ref name="dagknight" />
 
 == Selected publications ==
 

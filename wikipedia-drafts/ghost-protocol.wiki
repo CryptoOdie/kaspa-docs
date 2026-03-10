@@ -1,0 +1,64 @@
+{{Short description|Blockchain consensus protocol}}
+
+'''GHOST''' ('''Greedy Heaviest-Observed Sub-Tree''') is a [[blockchain]] [[Consensus (computer science)|consensus protocol]] proposed by [[Yonatan Sompolinsky]] and [[Aviv Zohar]] in 2013 and published at [[Financial Cryptography and Data Security]] in 2015.<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref> It modifies [[Bitcoin]]'s [[longest-chain rule]] by weighing the entire sub-tree of blocks rather than just the longest path when selecting the canonical chain. GHOST improves security under high [[block (blockchain)|block]] production rates and influenced the design of [[Ethereum]]'s fork-choice rule.<ref name="ethwp">{{cite web |last=Buterin |first=Vitalik |url=https://ethereum.org/en/whitepaper/ |title=Ethereum Whitepaper |publisher=Ethereum.org |access-date=2026-03-09}}</ref>
+
+== Overview ==
+
+In Bitcoin's [[Nakamoto consensus]], the valid chain is the one with the most cumulative [[proof of work]]; in practice this is the longest chain. When block production rates are low relative to network propagation delay, this rule works well. However, under high block rates, a significant fraction of blocks become '''orphans''' — valid blocks that are not included in the longest chain because they were mined concurrently with another block at the same height. An attacker needs less than 50% of the network [[hash rate]] to outpace the honest chain when orphan rates are high, because honest miners' work is wasted on orphaned blocks while the attacker mines on a single private chain without experiencing forks.<ref name="ghost" />
+
+GHOST changes the '''fork-choice rule''': instead of following the longest chain, miners follow the "heaviest" sub-tree — the sub-tree rooted at a given block that contains the most total proof-of-work, including orphan blocks (also called [[uncle block]]s). This means that honest miners' parallel work contributes to the security of the chain even when that work creates temporary forks. By accounting for all blocks in the sub-tree rather than only those on a single path, GHOST restores the 50% security threshold even at high block production rates.<ref name="ghost" />
+
+== Protocol description ==
+
+The GHOST protocol operates as a recursive fork-choice rule applied from the [[genesis block]] to the chain tip:<ref name="ghost" />
+
+# Beginning at the genesis block, examine all child blocks at the next level.
+# At each fork, select the child block whose '''sub-tree''' has the greatest total weight. Weight is measured by the number of descendant blocks or, equivalently, the cumulative proof-of-work in the sub-tree.
+# Repeat the selection at each subsequent fork until reaching a leaf block (the chain tip).
+
+'''Uncle blocks''' — blocks that are valid but not on the selected main chain — contribute to the sub-tree weight of their ancestors. When a later block references an uncle, that uncle's weight (and the weight of its own descendants) is counted toward the sub-tree of the common ancestor. This ensures that work performed by honest miners on parallel branches is not discarded for security accounting purposes.
+
+== Security properties ==
+
+GHOST maintains the assumption that the network is secure as long as a [[honest majority]] (more than 50%) of the total hash rate is controlled by honest participants. This 50% threshold holds even at high block production rates.<ref name="ghost" />
+
+Under standard [[Nakamoto consensus]], the security threshold degrades below 50% as the block rate increases relative to network propagation delay. When the orphan rate is high, an attacker with substantially less than 50% of the hash rate can build a longer private chain than the honest network, because the honest network wastes work on forks while the attacker does not. GHOST eliminates this degradation by crediting all honest work — including orphaned blocks — toward the weight of the honest sub-tree.
+
+These security properties were formally proven by Sompolinsky and Zohar in their Financial Cryptography 2015 paper.<ref name="ghost" />
+
+== Influence on Ethereum ==
+
+[[Vitalik Buterin]] cited GHOST in the [[Ethereum]] whitepaper (2013) as a key solution enabling fast block times of 12–15 seconds, compared to Bitcoin's approximately 10-minute block interval.<ref name="ethwp" /> At such short intervals, orphan rates under Nakamoto consensus would be unacceptably high, severely degrading security. GHOST's sub-tree weighting made fast block times viable without sacrificing the 50% security guarantee.
+
+Ethereum initially adopted a modified GHOST protocol for its [[proof of work]] consensus. Ethereum's '''uncle block reward mechanism''' was directly inspired by GHOST: uncle blocks that were referenced by main-chain blocks received a partial [[block reward]], incentivizing miners to propagate and reference orphaned blocks rather than discard them.<ref name="ethwp" />
+
+After Ethereum's transition to [[proof of stake]] (known as [[The Merge]], September 2022), the consensus mechanism switched to '''[[Gasper (protocol)|Gasper]]''', which incorporates '''LMD-GHOST''' (Latest Message Driven GHOST) — a proof-of-stake adaptation of the GHOST fork-choice rule.<ref name="gasper">{{cite web |url=https://ethereum.org/developers/docs/consensus-mechanisms/pos/gasper/ |title=Gasper |publisher=Ethereum.org |access-date=2026-03-09}}</ref> In LMD-GHOST, [[Validator (blockchain)|validator]] [[attestation]]s replace proof-of-work blocks as the units of weight, but the core principle remains the same: at each fork, the protocol follows the branch with the greatest accumulated weight.
+
+== Extensions and related protocols ==
+
+GHOST operates on traditional blockchain (linear chain) structures. Sompolinsky and collaborators later extended the underlying ideas to '''[[blockDAG]]''' (directed acyclic graph) structures, yielding a family of related protocols:
+
+* '''[[SPECTRE (protocol)|SPECTRE]]''' (2016) — the first blockDAG consensus protocol, providing a ''partial ordering'' of blocks. Co-authored by Sompolinsky, [[Yoad Lewenberg]], and Zohar.<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |access-date=2026-03-09}}</ref>
+* '''[[PHANTOM (protocol)|PHANTOM]] / GHOSTDAG''' (2018/2021) — a blockDAG protocol that achieves a ''total ordering'' of blocks, enabling full smart-contract support. Published at [[ACM AFT]] 2021. Co-authored by Sompolinsky, Shai Wyborski, and Zohar.<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG |conference=ACM AFT 2021 |doi=10.1145/3479722.3480990}}</ref>
+* '''[[DAG-KNIGHT]]''' (2022) — a parameterless generalization of the GHOSTDAG protocol that does not require assumptions about network delay. Co-authored by Sompolinsky and [[Michael Sutton (computer scientist)|Michael Sutton]].<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=DAG-KNIGHT: An Asynchronous Byzantine Fault Tolerant Consensus Protocol |access-date=2026-03-09}}</ref>
+
+These protocols form a research lineage: GHOST → SPECTRE → PHANTOM → GHOSTDAG → DAG-KNIGHT.
+
+== See also ==
+
+* [[Blockchain]]
+* [[Nakamoto consensus]]
+* [[BlockDAG]]
+* [[Kaspa (cryptocurrency)]]
+* [[Ethereum]]
+* [[Proof of work]]
+* [[Consensus (computer science)]]
+
+== References ==
+
+{{reflist}}
+
+[[Category:Blockchain]]
+[[Category:Consensus algorithms]]
+[[Category:Cryptography]]
+[[Category:Distributed computing]]

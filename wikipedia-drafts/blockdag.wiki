@@ -14,6 +14,15 @@ The orphan rate in a blockchain is approximately:
 
 where <math>\lambda</math> is the block production rate and <math>D</math> is the network propagation delay. In a blockDAG, this formula does not apply because parallel blocks are incorporated rather than discarded.<ref name="phantom" />
 
+== Properties ==
+
+BlockDAGs exhibit several formal properties that distinguish them from linear blockchain architectures:
+
+* '''Zero orphan rate''' — In a blockchain, blocks produced in parallel compete for inclusion, and only one is retained. In a blockDAG, all blocks referencing known tips are incorporated into the structure, eliminating orphan blocks entirely.<ref name="phantom" />
+* '''Parallel block inclusion''' — All honestly-mined blocks are incorporated into the DAG regardless of concurrent production. This ensures that computational work (in proof-of-work systems) is never wasted on blocks that are later discarded.<ref name="phantom" />
+* '''Total ordering via consensus protocol''' — Despite the parallel structure, blockDAG consensus protocols (such as PHANTOM and GHOSTDAG) impose a deterministic total order on all blocks, enabling resolution of conflicting transactions without sacrificing parallelism.<ref name="phantom" />
+* '''Scalability''' — Because the orphan rate does not increase with block production rate, throughput is limited primarily by node processing capacity and network [[Bandwidth (computing)|bandwidth]] rather than by the need to keep orphan rates low.<ref name="phantom" /><ref name="ghost" />
+
 == History ==
 
 The concept of using DAG-aware structures for cryptocurrency consensus was explored through several protocols by Yonatan Sompolinsky and collaborators:
@@ -55,6 +64,10 @@ GHOSTDAG is deployed in the [[Kaspa (cryptocurrency)|Kaspa]] cryptocurrency, run
 
 DAG-KNIGHT eliminates the static ''k'' parameter by analyzing the DAG structure to infer current network conditions. It is described as the first permissionless proof-of-work protocol with no a priori bound on network latency.<ref name="dagknight" /> The protocol was published through Harvard's Center for Research on Computation and Society.<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
 
+=== Security analysis ===
+
+Shai Wyborski provided a formal security proof for the PHANTOM/GHOSTDAG protocol family. In the course of this work, Wyborski identified and corrected a flaw in the original security argument. The corrected proof demonstrates that the probability of a transaction reversal decreases exponentially with the number of confirmations (confirmation depth), analogous to the result in Nakamoto's original [[Bitcoin]] analysis but generalized to the DAG setting. This result was peer-reviewed and published at the ACM Conference on Advances in Financial Technologies (AFT 2021).<ref name="phantom" /><ref name="wyborski-dblp">{{cite web |url=https://dblp.org/pid/280/1635.html |title=Shai Wyborski — DBLP bibliography |publisher=[[DBLP]] |access-date=2026-03-09}}</ref>
+
 == Comparison with blockchain ==
 
 {| class="wikitable"
@@ -75,8 +88,14 @@ DAG-KNIGHT eliminates the static ''k'' parameter by analyzing the DAG structure 
 
 * [[Kaspa (cryptocurrency)|Kaspa]] — [[proof-of-work]] blockDAG using GHOSTDAG consensus; 10 blocks per second<ref name="crescendo" />
 * [[IOTA (cryptocurrency)|IOTA]] — uses a different DAG model (Tangle) without discrete blocks; currently transitioning from a coordinator-based model to [[proof-of-stake]]
-* Conflux — [[proof-of-work]] tree-graph structure combining DAG and tree; also supports [[proof-of-stake]] finality
+* Conflux — [[proof-of-work]] tree-graph structure combining DAG and tree; also supports [[proof-of-stake]] finality<ref name="conflux">{{cite conference |last1=Li |first1=Chenxing |last2=Li |first2=Peilun |last3=Zhou |first3=Dong |last4=Xu |first4=Wei |last5=Long |first5=Fan |last6=Yao |first6=Andrew Chi-Chih |title=A Decentralized Blockchain with High Throughput and Fast Confirmation |conference=USENIX Annual Technical Conference (ATC 2020) |year=2020 |url=https://www.usenix.org/conference/atc20/presentation/li-chenxing}}</ref>
 * Nano — uses a block-lattice DAG where each account has its own chain; secured by [[delegated proof-of-stake]] (Open Representative Voting)
+
+== Applications beyond cryptocurrency ==
+
+While blockDAGs originated in the context of cryptocurrency and distributed ledger technology, the underlying data structure and consensus approach have potential applications in broader [[distributed systems]]. Any system that requires parallel, decentralized data inclusion without a single point of serialization may benefit from a DAG-based architecture. Examples include distributed databases that must reconcile concurrent writes across geographically dispersed nodes, [[supply chain]] tracking systems where multiple participants independently record events, and [[Internet of things|IoT]] networks where numerous devices generate data simultaneously and no single coordinator can process all inputs in real time.
+
+As a general [[computer science]] concept, a blockDAG decouples data inclusion from data ordering — all participants can contribute data in parallel, while a separate consensus layer resolves conflicts and establishes a canonical sequence. This separation makes blockDAGs a candidate architecture for systems where high write throughput and decentralization are both required.
 
 == See also ==
 * [[Blockchain]]

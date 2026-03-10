@@ -1,0 +1,116 @@
+{{Short description|Estructura de datos de libro mayor distribuido basada en grafos}}
+
+Un '''blockDAG''' ('''grafo acíclico dirigido de bloques''', del inglés ''block Directed Acyclic Graph'') es una [[estructura de datos]] utilizada en [[tecnología de libro mayor distribuido]] en la que los bloques pueden referenciar múltiples bloques predecesores, formando un [[grafo acíclico dirigido]] en lugar de una [[cadena de bloques]] lineal.<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref> Esta estructura permite crear múltiples bloques en paralelo e incorporarlos simultáneamente al libro mayor, lo que potencialmente incrementa el rendimiento de transacciones en comparación con las arquitecturas de cadena única.
+
+== Descripción general ==
+
+En una [[cadena de bloques]] tradicional, los bloques forman una cadena lineal donde cada bloque referencia exactamente un bloque padre. Cuando se producen múltiples bloques simultáneamente (un fenómeno común a altas tasas de producción de bloques debido al [[retardo de propagación]] de la red), solo un bloque es aceptado en la cadena canónica; los demás se convierten en '''bloques huérfanos''', es decir, trabajo computacional desperdiciado en sistemas de [[prueba de trabajo]].<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref>
+
+En un blockDAG, cada bloque referencia '''todos los bloques no referenciados conocidos''' (puntas del DAG) como padres, formando un grafo acíclico dirigido. Los bloques paralelos se incluyen todos en la estructura de datos. Un '''protocolo de consenso''' determina entonces un orden total sobre todos los bloques para resolver conflictos de transacciones.<ref name="phantom" />
+
+La tasa de bloques huérfanos en una cadena de bloques es aproximadamente:
+
+:<math>\text{orphan\_rate} \approx 1 - e^{-\lambda \cdot D}</math>
+
+donde <math>\lambda</math> es la tasa de producción de bloques y <math>D</math> es el retardo de propagación de la red. En un blockDAG, esta fórmula no se aplica porque los bloques paralelos se incorporan en lugar de descartarse.<ref name="phantom" />
+
+== Propiedades ==
+
+Los blockDAGs presentan varias propiedades formales que los distinguen de las arquitecturas lineales de cadena de bloques:
+
+* '''Tasa de huérfanos nula''' — En una cadena de bloques, los bloques producidos en paralelo compiten por su inclusión y solo uno es retenido. En un blockDAG, todos los bloques que referencian las puntas conocidas se incorporan a la estructura, eliminando por completo los bloques huérfanos.<ref name="phantom" />
+* '''Inclusión de bloques en paralelo''' — Todos los bloques minados honestamente se incorporan al DAG independientemente de la producción concurrente. Esto asegura que el trabajo computacional (en sistemas de prueba de trabajo) nunca se desperdicie en bloques que luego se descartan.<ref name="phantom" />
+* '''Orden total mediante protocolo de consenso''' — A pesar de la estructura paralela, los protocolos de consenso blockDAG (como PHANTOM y GHOSTDAG) imponen un orden total determinista sobre todos los bloques, permitiendo la resolución de transacciones conflictivas sin sacrificar el paralelismo.<ref name="phantom" />
+* '''Escalabilidad''' — Dado que la tasa de huérfanos no aumenta con la tasa de producción de bloques, el rendimiento está limitado principalmente por la capacidad de procesamiento de los nodos y el [[ancho de banda]] de la red, en lugar de por la necesidad de mantener bajas las tasas de huérfanos.<ref name="phantom" /><ref name="ghost" />
+
+== Historia ==
+
+El concepto de utilizar estructuras basadas en DAG para el consenso en criptomonedas fue explorado a través de varios protocolos por Yonatan Sompolinsky y colaboradores:
+
+* '''GHOST''' (2013/2015) — propuesto por Sompolinsky y Zohar. El protocolo Greedy Heaviest-Observed Sub-Tree modificó la regla de la cadena más larga de [[Bitcoin]] al ponderar todo el subárbol de bloques en lugar de solo la ruta más larga, mejorando la seguridad a altas tasas de producción de bloques. Aunque sigue siendo una cadena de bloques (no un DAG), GHOST sentó las bases teóricas para el consenso basado en DAG. Influyó en la regla de selección de bifurcación de [[Ethereum]] (LMD-GHOST).<ref name="ghost" />
+
+* '''SPECTRE''' (2016) — propuesto por Sompolinsky, Lewenberg y Zohar. El primer protocolo blockDAG completo, que proporciona confirmación rápida pero solo un orden parcial (orden por pares de transacciones en lugar de un orden total sobre todos los bloques).<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref>
+
+* '''PHANTOM''' (2018) — propuesto por Sompolinsky, Wyborski y Zohar. Proporciona un orden total sobre todos los bloques al encontrar el ''k''-cluster máximo en el DAG, pero el problema de optimización es [[NP-difícil]].<ref name="phantom" />
+
+* '''GHOSTDAG''' (2018/2021) — una aproximación voraz de tiempo polinomial de PHANTOM. Implementado en la criptomoneda [[Kaspa (cryptocurrency)|Kaspa]].<ref name="phantom" />
+
+* '''DAG-KNIGHT''' (2022) — propuesto por Sompolinsky y Sutton. Una generalización sin parámetros que infiere las condiciones de la red a partir de la topología del DAG.<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref>
+
+Otros sistemas de libro mayor distribuido basados en DAG incluyen el Tangle de [[IOTA (cryptocurrency)|IOTA]], que utiliza una estructura DAG diferente sin bloques discretos.<ref>{{cite web |url=https://www.iota.org/ |title=IOTA |publisher=IOTA Foundation |access-date=2026-03-09}}</ref>
+
+== Protocolos de consenso ==
+
+=== PHANTOM ===
+
+PHANTOM introduce el concepto de ''k-clusters'' para separar los bloques honestos de los bloques adversarios en un DAG. Un subconjunto ''S'' del DAG es un ''k''-cluster si para cada bloque ''B'' en ''S'', el número de bloques en el anticono de ''B'' (bloques sin relación de orden con ''B'') que también están en ''S'' es como máximo ''k''.<ref name="phantom" />
+
+El parámetro ''k'' representa el número esperado de bloques paralelos durante un retardo de propagación de red: ''k'' ≈ 2''Dλ'', donde ''D'' es el retardo de propagación y ''λ'' es la tasa de bloques. Los mineros honestos referencian todos los bloques conocidos como padres, por lo que los bloques paralelos honestos tienen anticonos pequeños (≤ ''k''). Los bloques adversarios, normalmente retenidos y liberados posteriormente, tienen anticonos grandes.<ref name="phantom" />
+
+Encontrar el ''k''-cluster máximo es [[NP-difícil]], lo que hace que PHANTOM sea impracticable para una implementación directa.<ref name="phantom" />
+
+=== GHOSTDAG ===
+
+GHOSTDAG (Greedy Heaviest Observed Sub-Tree DAG) es una aproximación voraz de tiempo polinomial de PHANTOM. El algoritmo:<ref name="phantom" />
+
+# Cada bloque selecciona el padre con la mayor '''puntuación azul''' (recuento acumulado de bloques "azules" en su pasado)
+# El algoritmo construye vorazmente un "conjunto azul" siguiendo la '''cadena de padres seleccionados'''
+# Todos los bloques se ordenan: los bloques de la cadena por la cadena de padres seleccionados, los bloques fuera de la cadena se intercalan en los puntos de fusión
+# Los conflictos de transacciones se resuelven por ordenación (el primero en el orden prevalece)
+
+GHOSTDAG está implementado en la criptomoneda [[Kaspa (cryptocurrency)|Kaspa]], operando a 10 bloques por segundo.<ref name="crescendo">{{cite web |url=https://kaspa.org/kaspa-updates-to-crescendo-and-10bps/ |title=Kaspa Updates to Crescendo and 10BPS |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+=== DAG-KNIGHT ===
+
+DAG-KNIGHT elimina el parámetro estático ''k'' al analizar la estructura del DAG para inferir las condiciones actuales de la red. Se describe como el primer protocolo de prueba de trabajo sin permisos sin un límite a priori en la latencia de la red.<ref name="dagknight" /> El protocolo fue publicado a través del Centro de Investigación en Computación y Sociedad de Harvard.<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+=== Análisis de seguridad ===
+
+Shai Wyborski proporcionó una demostración formal de seguridad para la familia de protocolos PHANTOM/GHOSTDAG. En el curso de este trabajo, Wyborski identificó y corrigió un defecto en el argumento de seguridad original. La demostración corregida demuestra que la probabilidad de reversión de una transacción disminuye exponencialmente con el número de confirmaciones (profundidad de confirmación), de forma análoga al resultado del análisis original de Nakamoto sobre [[Bitcoin]], pero generalizado al entorno DAG. Este resultado fue revisado por pares y publicado en la Conferencia ACM sobre Avances en Tecnologías Financieras (AFT 2021).<ref name="phantom" /><ref name="wyborski-dblp">{{cite web |url=https://dblp.org/pid/280/1635.html |title=Shai Wyborski — DBLP bibliography |publisher=[[DBLP]] |access-date=2026-03-09}}</ref>
+
+== Comparación con la cadena de bloques ==
+
+{| class="wikitable"
+! Propiedad !! Cadena de bloques !! BlockDAG
+|-
+| Referencias de bloque || Padre único || Múltiples padres (todas las puntas)
+|-
+| Bloques paralelos || Huérfanos (descartados) || Incorporados (ordenados)
+|-
+| Tasa de huérfanos || Aumenta con la tasa de bloques || Nula (por diseño)
+|-
+| Escalabilidad del rendimiento || Limitada por la tasa de huérfanos || Limitada por la capacidad de los nodos/red
+|-
+| Ordenación || Inherente (cadena lineal) || Requiere protocolo de consenso
+|}
+
+== Implementaciones ==
+
+* [[Kaspa (cryptocurrency)|Kaspa]] — blockDAG con [[prueba de trabajo]] que utiliza el consenso GHOSTDAG; 10 bloques por segundo<ref name="crescendo" />
+* [[IOTA (cryptocurrency)|IOTA]] — utiliza un modelo DAG diferente (Tangle) sin bloques discretos; actualmente en transición de un modelo basado en coordinador a [[prueba de participación]]
+* Conflux — estructura de grafo-árbol con [[prueba de trabajo]] que combina DAG y árbol; también soporta finalidad mediante [[prueba de participación]]<ref name="conflux">{{cite conference |last1=Li |first1=Chenxing |last2=Li |first2=Peilun |last3=Zhou |first3=Dong |last4=Xu |first4=Wei |last5=Long |first5=Fan |last6=Yao |first6=Andrew Chi-Chih |title=A Decentralized Blockchain with High Throughput and Fast Confirmation |conference=USENIX Annual Technical Conference (ATC 2020) |year=2020 |url=https://www.usenix.org/conference/atc20/presentation/li-chenxing}}</ref>
+* Nano — utiliza un DAG de red de bloques donde cada cuenta tiene su propia cadena; asegurado por [[prueba de participación delegada]] (Open Representative Voting)
+
+== Aplicaciones más allá de las criptomonedas ==
+
+Si bien los blockDAGs se originaron en el contexto de las criptomonedas y la tecnología de libro mayor distribuido, la estructura de datos subyacente y el enfoque de consenso tienen aplicaciones potenciales en [[sistemas distribuidos]] más amplios. Cualquier sistema que requiera inclusión de datos paralela y descentralizada sin un único punto de serialización puede beneficiarse de una arquitectura basada en DAG. Los ejemplos incluyen bases de datos distribuidas que deben reconciliar escrituras concurrentes a través de nodos dispersos geográficamente, sistemas de seguimiento de [[cadena de suministro]] donde múltiples participantes registran eventos de forma independiente, y redes del [[Internet de las cosas|Internet de las cosas]] donde numerosos dispositivos generan datos simultáneamente y ningún coordinador único puede procesar todas las entradas en tiempo real.
+
+Como concepto general de [[ciencias de la computación]], un blockDAG desacopla la inclusión de datos de la ordenación de datos: todos los participantes pueden contribuir datos en paralelo, mientras que una capa de consenso separada resuelve conflictos y establece una secuencia canónica. Esta separación convierte a los blockDAGs en una arquitectura candidata para sistemas donde se requiere simultáneamente un alto rendimiento de escritura y descentralización.
+
+== Véase también ==
+* [[Cadena de bloques]]
+* [[Grafo acíclico dirigido]]
+* [[Consenso (informática)]]
+* [[Prueba de trabajo]]
+* [[Consenso de Nakamoto]]
+
+== Referencias ==
+{{Reflist}}
+
+[[Categoría:Computación distribuida]]
+[[Categoría:Grafos acíclicos dirigidos]]
+[[Categoría:Criptomonedas]]
+[[Categoría:Estructuras de datos]]
+[[Categoría:Cadena de bloques]]
+
+[[en:BlockDAG]]

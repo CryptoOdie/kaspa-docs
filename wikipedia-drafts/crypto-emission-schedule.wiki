@@ -1,0 +1,124 @@
+{{Short description|Mechanism controlling cryptocurrency supply creation}}
+{{Use dmy dates|date=March 2026}}
+
+A '''cryptocurrency emission schedule''' (also called '''issuance schedule''' or '''monetary policy''') defines the rate at which new units of a [[cryptocurrency]] are created and distributed over time. The emission schedule is a fundamental economic parameter of [[proof-of-work]] and some [[proof-of-stake]] cryptocurrencies, determining the [[money supply|total supply]], [[inflation]] rate, and incentive structure for network participants. Different cryptocurrencies employ varying approaches, ranging from [[Bitcoin]]'s step-function halvings to continuous decay models such as [[Kaspa (cryptocurrency)|Kaspa]]'s chromatic halving, to perpetual tail emissions as used by [[Monero]].
+
+== Overview ==
+
+In proof-of-work systems, new coins are created as '''block rewards''' paid to [[cryptocurrency mining|miners]] who expend computational resources to validate transactions and secure the network.<ref name="nakamoto">{{Cite web |last=Nakamoto |first=Satoshi |title=Bitcoin: A Peer-to-Peer Electronic Cash System |url=https://bitcoin.org/bitcoin.pdf |year=2008 |access-date=9 March 2026}}</ref> The emission schedule governs how these rewards change over time, and is typically encoded in the protocol's consensus rules, making it resistant to alteration without broad agreement among network participants.
+
+Key parameters of an emission schedule include:
+
+* '''Initial reward''' — the block reward at the time of network launch
+* '''Decay function''' — the mathematical rule by which the reward decreases (e.g., step function, exponential decay)
+* '''Total or maximum supply''' — the upper bound on the number of coins that will ever exist, if one is defined
+* '''Time to full emission''' — how long until all (or nearly all) coins have been created
+
+The choice of emission schedule has wide-ranging consequences for a cryptocurrency's economics and security. It directly affects the [[inflation]] rate experienced by holders, the incentive for miners or validators to participate in consensus, the predictability of [[monetary policy]], and the long-term [[security budget]] available to sustain the network.<ref name="carlsten">{{Cite journal |last1=Carlsten |first1=Miles |last2=Kalodner |first2=Harry |last3=Weinberg |first3=S. Matthew |last4=Narayanan |first4=Arvind |title=On the Instability of Bitcoin Without the Block Reward |journal=Proceedings of the 2016 ACM SIGSAC Conference on Computer and Communications Security |year=2016 |doi=10.1145/2976749.2978408}}</ref>
+
+== Types of emission schedules ==
+
+=== Step-function halving ===
+{{Main|Bitcoin#Supply}}
+
+The step-function halving model, introduced by [[Bitcoin]], reduces the block reward by half at fixed intervals. In Bitcoin's design, the reward halves every 210,000 blocks, which occurs approximately every four years.<ref name="nakamoto" />
+
+The history of Bitcoin block rewards is as follows:
+
+* 2009–2012: 50 BTC per block
+* 2012–2016: 25 BTC per block
+* 2016–2020: 12.5 BTC per block
+* 2020–2024: 6.25 BTC per block
+* 2024–present: 3.125 BTC per block (following the April 2024 halving)
+
+This design produces a geometric series that converges to a maximum supply of 21 million BTC, estimated to be fully mined around the year 2140.<ref name="nakamoto" /> The discrete halving events create abrupt reductions in miner revenue and new supply, which have become significant events in cryptocurrency markets.
+
+Several other cryptocurrencies have adopted essentially the same model. [[Litecoin]] halves its reward every 840,000 blocks (also approximately four years), converging to a maximum supply of 84 million LTC. [[Bitcoin Cash]] inherited Bitcoin's halving schedule when it forked from Bitcoin in 2017.
+
+=== Smooth exponential decay (chromatic halving) ===
+
+The '''chromatic halving''' model, used by [[Kaspa (cryptocurrency)|Kaspa]], replaces discrete halving events with a smooth, continuous exponential decay. The block reward is reduced monthly by a factor of <math>(1/2)^{1/12} \approx 0.9439</math>, so that the reward after ''n'' months is given by:
+
+:<math>\text{reward}(n) = \text{reward}_0 \times \left(\frac{1}{2}\right)^{n/12}</math>
+
+After twelve months of such reductions, the cumulative effect is a halving of the reward — equivalent to one "octave" in music. The name ''chromatic'' derives from the [[chromatic scale|twelve-tone equal temperament chromatic scale]] in music theory, where each [[semitone]] has a frequency ratio of <math>(1/2)^{1/12}</math>.<ref name="kaspa-tokenomics">{{Cite web |title=Tokenomics |url=https://kaspa.org/tokenomics/ |website=kaspa.org |access-date=9 March 2026}}</ref>
+
+This approach produces a smooth, continuously declining inflation rate rather than the abrupt drops characteristic of step-function halvings. Kaspa's maximum supply converges to approximately 28.7 billion KAS.<ref name="kaspa-tokenomics" />
+
+=== Tail emission ===
+
+A '''tail emission''' provides a small, perpetual block reward that continues indefinitely after the main emission period has ended. [[Monero]] is the most prominent cryptocurrency to adopt this model. Monero's main emission ended in June 2022, after which a permanent tail emission of 0.6 XMR per block continues indefinitely.<ref name="monero-tail">{{Cite web |title=Tail Emission |url=https://www.getmonero.org/resources/moneropedia/tail-emission.html |website=getmonero.org |access-date=9 March 2026}}</ref>
+
+The tail emission creates permanent inflation in absolute terms, though the percentage rate of inflation decreases over time as the total supply grows. The rationale for this design is to ensure that miners always have a baseline incentive to secure the network, avoiding reliance on transaction fees alone.<ref name="monero-tail" />
+
+=== Proof-of-stake issuance ===
+
+[[Proof-of-stake]] systems issue new coins as staking rewards to [[Blockchain#Validator (blockchain)|validators]] rather than miners. [[Ethereum]] transitioned from proof-of-work to proof-of-stake in September 2022 during an event known as [[The Merge]].<ref name="ethereum-merge">{{Cite web |title=The Merge |url=https://ethereum.org/en/roadmap/merge/ |website=ethereum.org |access-date=9 March 2026}}</ref>
+
+Under Ethereum's proof-of-stake model, new ETH is issued to validators at a rate that depends on the total amount of ETH staked, generally estimated at approximately 0.5–1% annually. Additionally, [[EIP-1559]] introduced a mechanism by which a portion of transaction fees is permanently destroyed ("burned"), which can make ETH net deflationary during periods of high transaction volume.<ref name="eip1559">{{Cite web |title=EIP-1559: Fee market change for ETH 1.0 chain |url=https://eips.ethereum.org/EIPS/eip-1559 |website=eips.ethereum.org |access-date=9 March 2026}}</ref> Ethereum has no fixed maximum supply.
+
+=== Transition to fee-only security ===
+
+Cryptocurrencies with capped supplies and no tail emission, such as Bitcoin and Kaspa, will eventually transition to a state in which network security is funded entirely by [[transaction fee]]s. In Bitcoin's case, this transition will be effectively complete around the year 2140, when the last block reward is issued. Whether transaction fees alone can sustain adequate security is a subject of ongoing research and debate, sometimes referred to as the '''security budget problem'''.<ref name="carlsten" />
+
+=== No emission (fixed supply) ===
+
+Some cryptocurrency tokens are created in their entirety at launch, with no ongoing emission. This is common among [[ERC-20]] tokens and tokens distributed via [[initial coin offering]]s (ICOs) or similar mechanisms. In such systems, there are no mining or staking rewards; all tokens are allocated at genesis and may be subject to [[vesting]] schedules that control when they become transferable.
+
+== Comparison ==
+
+{| class="wikitable sortable"
+|+ Emission schedule comparison of selected cryptocurrencies
+|-
+! Cryptocurrency !! Model !! Maximum supply !! Halving period !! Approximate inflation rate !! Long-term security model
+|-
+| [[Bitcoin]] || Step-function halving || 21 million || ~4 years || ~1.7% (2024) || Transition to transaction fees
+|-
+| [[Kaspa (cryptocurrency)|Kaspa]] || Chromatic (smooth decay) || 28.7 billion || Continuous (monthly) || Decreasing || Transition to transaction fees
+|-
+| [[Monero]] || Tail emission || Unlimited || Main emission ended (2022) || ~0.86% per year (permanent) || Perpetual block rewards
+|-
+| [[Ethereum]] || PoS issuance + fee burn || Unlimited || N/A || ~0.5–1% (variable) || Staking rewards
+|-
+| [[Litecoin]] || Step-function halving || 84 million || ~4 years || ~1.4% (2024) || Transition to transaction fees
+|}
+
+== Economic implications ==
+
+The choice of emission schedule has several economic consequences that are subjects of academic and industry analysis.
+
+=== Inflation and holder incentives ===
+
+A declining emission rate means that the rate of new supply creation decreases over time, reducing dilution for existing holders. Cryptocurrencies with fixed maximum supplies are sometimes described as '''disinflationary''' — they experience positive but declining inflation until emission ceases entirely. By contrast, tail emission models such as Monero's accept permanent inflation as a trade-off for sustained miner incentives.<ref name="monero-tail" />
+
+=== Miner and validator incentive alignment ===
+
+Block rewards serve as a subsidy to incentivise miners or validators to act honestly and invest in securing the network. As rewards decline, the network must generate sufficient transaction fee revenue to compensate, or risk a decline in security expenditure. This incentive transition is a central concern in the long-term economics of proof-of-work cryptocurrencies.<ref name="carlsten" />
+
+=== Security budget concerns ===
+
+For fixed-supply cryptocurrencies, the eventual elimination of block rewards raises questions about whether transaction fees alone can provide an adequate security budget. Research has suggested that a fee-only security model may introduce instabilities, such as incentives for miners to engage in [[selfish mining]] or [[transaction fee sniping]].<ref name="carlsten" /> Tail emission models and proof-of-stake issuance are, in part, responses to these concerns.
+
+=== Market impact of halving events ===
+
+Bitcoin's halving events have historically been associated with subsequent increases in price, leading to the popular notion of "halving cycles" in cryptocurrency markets. However, the causal relationship between halvings and price movements is debated among economists and analysts, as multiple confounding factors affect cryptocurrency valuations.<ref>{{Cite journal |last1=Liu |first1=Yukun |last2=Tsyvinski |first2=Aleh |title=Risks and Returns of Cryptocurrency |journal=The Review of Financial Studies |year=2021 |volume=34 |issue=6 |pages=2689–2727 |doi=10.1093/rfs/hhaa113}}</ref>
+
+== See also ==
+
+* [[Bitcoin]]
+* [[Kaspa (cryptocurrency)]]
+* [[Monero]]
+* [[Ethereum]]
+* [[Proof of work]]
+* [[Proof of stake]]
+* [[Monetary policy]]
+* [[Inflation]]
+
+== References ==
+{{Reflist}}
+
+{{Cryptocurrency}}
+
+[[Category:Cryptocurrency]]
+[[Category:Monetary economics]]
+[[Category:Bitcoin]]

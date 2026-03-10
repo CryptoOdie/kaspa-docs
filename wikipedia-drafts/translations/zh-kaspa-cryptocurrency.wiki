@@ -1,0 +1,150 @@
+{{Short description|使用区块DAG共识的工作量证明加密货币}}
+{{Infobox cryptocurrency
+| name = Kaspa
+| symbol = KAS
+| logo =
+| logo_size =
+| release_date = {{Start date|2021|11|07}}
+| founder = [[Yonatan Sompolinsky]]
+| white_paper = [https://eprint.iacr.org/2018/104 PHANTOM and GHOSTDAG]
+| consensus_mechanism = [[工作量证明]] ([[#GHOSTDAG|GHOSTDAG]])
+| hash_algorithm = kHeavyHash
+| block_time = 100毫秒
+| supply_limit = 287亿 KAS
+| website = {{URL|kaspa.org}}
+| source_code = {{URL|github.com/kaspanet/rusty-kaspa}}
+| programming_language = [[Rust (编程语言)|Rust]]
+}}
+
+'''Kaspa'''是一种[[工作量证明]][[加密货币]]，使用[[有向无环图|区块DAG]]（block Directed Acyclic Graph，区块有向无环图）结构代替传统[[区块链]]。与[[比特币]]等单链加密货币不同，Kaspa的区块DAG允许多个区块并行创建并同时纳入账本，从而在保持工作量证明安全特性的同时实现更高的交易吞吐量。<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref>
+
+Kaspa于2021年11月7日以[[公平启动]]方式上线——无[[预挖]]、无[[首次代币发行]]（ICO）、无团队代币分配。<ref name="fairlaunch">{{cite web |url=https://kaspa.org/kaspas-fair-launch/ |title=Kaspa's Fair Launch |publisher=Kaspa.org |access-date=2026-03-09}}</ref> 所有KAS代币均完全通过挖矿分发。
+
+== 历史 ==
+
+=== 开发 ===
+
+Kaspa的理论基础由[[Yonatan Sompolinsky]]奠定，他于2013年发表了GHOST协议（后被[[以太坊]]的分叉选择规则设计所引用），<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref>并于2016年提出了SPECTRE协议。<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref> 构成Kaspa共识理论基础的PHANTOM协议于2018年发布，并于2021年在ACM金融技术进展会议上正式发表。<ref name="phantom" />
+
+开发最初由DAGLabs进行，这是一家由Sompolinsky创立的研究与开发公司。<ref name="messari">{{cite web |url=https://messari.io/project/kaspa/profile |title=Kaspa Project Profile |publisher=Messari |access-date=2026-03-09}}</ref> DAGLabs在Kaspa上线前后解散，项目转为社区主导开发。<ref name="fairlaunch" />
+
+参考实现由Michael Sutton从[[Go (编程语言)|Go]]重写为[[Rust (编程语言)|Rust]]（称为"Rusty Kaspa"），Sutton同时也与Sompolinsky共同撰写了DAG-KNIGHT协议论文。<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref>
+
+=== 上线与Go实现 ===
+
+Kaspa于2021年11月7日以[[公平启动]]加密货币的形式上线，初始实现使用[[Go (编程语言)|Go]]编写。项目无预挖、无首次代币发行、无风险投资代币分配、无团队分配。<ref name="fairlaunch" /> 挖矿最初仅支持CPU；但GPU矿工在上线数周内即主导了网络。<ref name="fairlaunch" />
+
+=== Rust重写 ===
+
+2022年，Kaspa节点软件的完全重写工作启动，使用[[Rust (编程语言)|Rust]]编写，称为"Rusty Kaspa"。Rust实现成为主要参考客户端，其性能改进为后续的吞吐量升级奠定了基础。<ref name="dagknight" />
+
+=== ASIC过渡 ===
+
+自2023年年中起，网络经历了从GPU到[[专用集成电路|ASIC]]挖矿的过渡，IceRiver发布了首批kHeavyHash ASIC矿机。随后进入市场的ASIC制造商包括比特大陆（Antminer KS3）、Goldshell（KA Box）和WindMiner。<ref name="mining">{{cite web |url=https://www.cryptominerbros.com/blog/top-kaspa-miners/ |title=Top Kaspa Miners |publisher=CryptoMinerBros |access-date=2026-03-09}}</ref>
+
+=== Crescendo硬分叉 ===
+
+2025年5月5日，Crescendo硬分叉将Kaspa的出块速率从每秒1个区块（1 BPS）提升至每秒10个区块（10 BPS），将出块时间缩短至100毫秒。<ref name="crescendo">{{cite web |url=https://kaspa.org/kaspa-updates-to-crescendo-and-10bps/ |title=Kaspa Updates to Crescendo and 10BPS |publisher=Kaspa.org |access-date=2026-03-09}}</ref> 网络上线时为1 BPS，此次十倍提升得益于Rust实现的性能改进。
+
+== 技术 ==
+
+=== 区块DAG架构 ===
+
+{{Main|区块DAG}}
+
+在传统区块链中，每个区块引用单一父区块，形成线性链。当两个矿工同时产出区块时，只有一个被纳入——另一个成为孤块。这限制了吞吐量，因为提高出块速率也会提高孤块率。<ref name="phantom" />
+
+在Kaspa的区块DAG中，每个区块引用'''多个父区块'''（创建时所有已知的DAG末端）。并行区块全部被纳入账本而非丢弃。GHOSTDAG共识算法随后对所有区块产生全序。<ref name="phantom" />
+
+这种结构消除了孤块及其在单链工作量证明系统中限制吞吐量的中心化压力。<ref name="phantom" />
+
+=== GHOSTDAG共识 ===
+
+GHOSTDAG（贪婪最重观测子树DAG）是运行在Kaspa主网上的共识协议。它是PHANTOM协议NP困难优化问题的贪婪多项式时间近似算法。<ref name="phantom" />
+
+该协议使用''k-团簇''的概念来区分诚实产生的并行区块和潜在的对抗性区块。诚实矿工引用所有已知区块作为父区块，产生的区块具有较小的"反锥体"（与之无序关系的区块集合）。对抗性区块通常被扣留后释放，因此具有较大的反锥体。<ref name="phantom" />
+
+GHOSTDAG贪婪地识别最大k-团簇作为"蓝色集合"（诚实区块），并通过'''选定父链'''（具有最高累计蓝色分数的区块路径）产生全序。冲突交易按此全序中的先见顺序解决。<ref name="phantom" />
+
+Shai Wyborski提供了形式化安全性证明，证明GHOSTDAG的排序具有不可逆性，逆转概率随确认深度呈指数衰减。<ref name="phantom" />
+
+=== DAG-KNIGHT协议 ===
+
+DAG-KNIGHT由Sompolinsky和Sutton于2022年共同提出，被描述为第一个无需网络延迟先验上界的无许可工作量证明共识协议。<ref name="dagknight" /> 与需要在部署前设定静态参数''k''的GHOSTDAG不同，DAG-KNIGHT直接从DAG拓扑推断网络状况并相应调整确认时间。<ref name="dagknight" />
+
+该协议通过哈佛大学计算与社会研究中心（CRCS）发布。<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+{{As of|2026|03}}，DAG-KNIGHT尚未部署于Kaspa主网。<ref name="developments">{{cite web |url=https://kaspa.org/developments/ |title=Kaspa Developments |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+=== UTXO模型 ===
+
+Kaspa使用[[未花费交易输出|UTXO]]（Unspent Transaction Output，未花费交易输出）模型，与比特币使用的交易模型相同。每个Kaspa区块包含使用MuHash的UTXO集合承诺，MuHash是一种[[同态哈希函数]]，支持增量更新。<ref name="kip9">{{cite web |url=https://github.com/kaspanet/kips/blob/master/kip-0009.md |title=KIP-9: An Incentive-Compatible Storage Mass Formula |publisher=Kaspa KIPs |access-date=2026-03-09}}</ref>
+
+KIP-9引入了"存储质量"公式，对创建大量小额输出（潜在的[[UTXO]]集合膨胀）的交易增加手续费，使用基于调和平均值的计算方式。<ref name="kip9" />
+
+=== 数据管理 ===
+
+Kaspa采用积极的[[数据修剪|修剪]]策略以维持紧凑的节点存储需求。全节点仅保留约52小时的区块主体数据；更早的区块主体将被丢弃。<ref name="developments" /> 然而，区块头链通过''工作量证明的证明''方案保留，使区块头数据保持紧凑——预计即使运行10,000年也将保持在100 MB以下。<ref name="developments" />
+
+新加入网络的节点无需重放完整交易历史。相反，它们可以从通过MuHash UTXO承诺验证的最近[[UTXO]]状态快照进行引导，MuHash是一种支持增量验证的[[同态哈希函数]]。<ref name="kip9" />
+
+KIP-9的存储质量机制通过对会不成比例地扩大UTXO集合的输出增加交易费用，为[[UTXO]]集合膨胀提供经济抑制。<ref name="kip9" />
+
+相比之下，[[比特币]]全节点存储自创世区块以来的完整区块历史（截至2025年超过600 GB），[[以太坊]]归档节点需要约1.2 TB，[[Solana]]验证器需要2 TB或更多的[[固态硬盘#NVMe|NVMe]]存储。<ref>{{cite web |url=https://bitcoin.org/en/full-node |title=Running a Full Node |publisher=Bitcoin.org |access-date=2026-03-09}}</ref><ref>{{cite web |url=https://ethereum.org/en/developers/docs/nodes-and-clients/ |title=Nodes and Clients |publisher=Ethereum.org |access-date=2026-03-09}}</ref> Kaspa的修剪设计旨在使节点存储需求随时间保持大致恒定。<ref name="developments" />
+
+=== 智能合约开发 ===
+
+Kaspa的基础层使用UTXO模型，原生不支持[[图灵完备]]的[[智能合约]]。智能合约功能正通过构建在Kaspa网络之上的[[第二层|二层]]解决方案来实现。Igra Network（一个二层平台）于2026年1月上线，Kasplex于2026年3月宣布了基于[[零知识证明|zkEVM]]的二层方案。<ref name="developments" />
+
+计划于2026年5月5日进行的硬分叉提出了若干基础层扩展：KIP-16（原生资产发行）、KIP-17（[[密码学约束|约束]]，实现链上可编程性）以及[[零知识证明]]验证支持。<ref name="developments" /> 这些功能正在积极开发中，在部署前可能发生变更。
+
+=== 发行计划 ===
+
+Kaspa使用"色彩减半"发行计划，区块奖励随时间平滑递减，而非像[[比特币]]那样通过周期性阶跃函数减半。<ref name="tokenomics">{{cite web |url=https://kaspa.org/tokenomics-emission-and-mining/ |title=Tokenomics, Emission, and Mining |publisher=Kaspa.org |access-date=2026-03-09}}</ref> 上线后第''n''个月的区块奖励遵循以下公式：
+
+: <math>\text{reward}(n) = \text{reward}_0 \times \left(\frac{1}{2}\right)^{n/12}</math>
+
+其中reward₀为初始区块奖励，''n''为上线以来的月数。每月奖励乘以(1/2){{sup|1/12}} ≈ 0.9439，即[[十二平均律]]中相邻[[半音]]之间的频率比。经过12个月——一个[[八度]]——累积效果是区块奖励精确减半，类似于[[音乐理论]]中跨越一个八度的频率加倍。<ref name="tokenomics" />
+
+这产生了平滑的[[指数衰减]]曲线，而非比特币式的突然减半（后者会导致矿工收入的骤然变化）。最大供应量为287亿KAS。<ref name="tokenomics" />
+
+== 挖矿 ==
+
+Kaspa使用kHeavyHash算法进行工作量证明挖矿。网络已从CPU和GPU挖矿过渡到[[专用集成电路|ASIC]]挖矿，矿机由比特大陆、IceRiver和Goldshell等公司制造。<ref name="mining" />
+
+== 市场反响 ==
+
+Kaspa已在33家以上的加密货币交易所上线。<ref name="coingecko">{{cite web |url=https://www.coingecko.com/en/coins/kaspa |title=Kaspa Price, Chart, Market Cap |publisher=CoinGecko |access-date=2026-03-09}}</ref> [[币安]]于2024年11月推出KAS永续合约，<ref>{{cite web |url=https://www.binance.com/en/support/announcement/binance-futures-will-launch-usd-margined-kasusdt-perpetual-contract-with-up-to-75x-leverage |title=Binance Futures Will Launch KASUSDT Perpetual Contract |publisher=Binance |access-date=2026-03-09}}</ref>[[Coinbase]]于2025年2月推出KAS期货。<ref>{{cite web |url=https://www.coinbase.com/blog/coinbase-derivatives-to-launch-kaspa-futures |title=Coinbase Derivatives to Launch Kaspa Futures |publisher=Coinbase |access-date=2026-03-09}}</ref>
+
+KAS代币的市值峰值约为27亿美元，截至2026年初市值约为8亿美元。<ref name="coingecko" /><ref name="coinmarketcap">{{cite web |url=https://coinmarketcap.com/currencies/kaspa/ |title=Kaspa Price Today |publisher=CoinMarketCap |access-date=2026-03-09}}</ref> Kaspa在CoinMarketCap和CoinGecko上均跻身市值前50的加密货币。<ref name="coingecko" /><ref name="coinmarketcap" /> Messari将Kaspa列为采用公平启动分发模式的工作量证明项目。<ref name="messari" />
+
+== 网络统计 ==
+
+{{As of|2026|03}}，Kaspa网络算力约为311–411 PH/s。<ref name="kasfyi">{{cite web |url=https://kas.fyi |title=Kaspa Network Statistics |publisher=Kas.fyi |access-date=2026-03-09}}</ref> 网络已处理超过6.01亿笔交易，日均交易量约38.6万笔。<ref name="kasfyi" /> 自上线以来，活跃地址数量持续增长。<ref name="kasfyi" />
+
+== 参见 ==
+* [[有向无环图]]
+* [[工作量证明]]
+* [[比特币]]
+* [[加密货币]]
+* [[区块链]]
+* [[共识 (计算机科学)]]
+
+== 参考文献 ==
+{{Reflist}}
+
+== 外部链接 ==
+* {{Official website|kaspa.org}}
+* [https://github.com/kaspanet/rusty-kaspa Kaspa源代码] - [[GitHub]]
+* [https://eprint.iacr.org/2018/104 PHANTOM和GHOSTDAG论文] - IACR ePrint
+* [https://eprint.iacr.org/2022/1494 DAG-KNIGHT论文] - IACR ePrint
+* [https://explorer.kaspa.org/ Kaspa区块浏览器]
+
+{{Cryptocurrencies}}
+
+[[Category:加密货币]]
+[[Category:工作量证明加密货币]]
+[[Category:2021年面世的电脑相关产品]]
+[[Category:有向无环图]]
+
+[[en:Kaspa (cryptocurrency)]]

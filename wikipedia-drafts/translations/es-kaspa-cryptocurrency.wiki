@@ -1,0 +1,150 @@
+{{Short description|Criptomoneda de prueba de trabajo que utiliza consenso blockDAG}}
+{{Infobox cryptocurrency
+| name = Kaspa
+| symbol = KAS
+| logo =
+| logo_size =
+| release_date = {{Start date|2021|11|07}}
+| founder = [[Yonatan Sompolinsky]]
+| white_paper = [https://eprint.iacr.org/2018/104 PHANTOM and GHOSTDAG]
+| consensus_mechanism = [[Prueba de trabajo]] ([[#GHOSTDAG|GHOSTDAG]])
+| hash_algorithm = kHeavyHash
+| block_time = 100 milisegundos
+| supply_limit = 28 700 millones de KAS
+| website = {{URL|kaspa.org}}
+| source_code = {{URL|github.com/kaspanet/rusty-kaspa}}
+| programming_language = [[Rust (lenguaje de programación)|Rust]]
+}}
+
+'''Kaspa''' es una [[criptomoneda]] de [[prueba de trabajo]] que utiliza una estructura [[Grafo acíclico dirigido|blockDAG]] (grafo acíclico dirigido de bloques) en lugar de una [[cadena de bloques]] tradicional. A diferencia de las criptomonedas de cadena única como [[Bitcoin]], el blockDAG de Kaspa permite crear múltiples bloques en paralelo e incorporarlos simultáneamente al libro mayor, lo que posibilita un mayor rendimiento de transacciones manteniendo las propiedades de seguridad de la prueba de trabajo.<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref>
+
+Kaspa se lanzó el 7 de noviembre de 2021, con un '''lanzamiento justo''' (''fair launch'') — sin [[preminado]], sin [[oferta inicial de monedas]] (ICO) y sin asignación de tokens al equipo.<ref name="fairlaunch">{{cite web |url=https://kaspa.org/kaspas-fair-launch/ |title=Kaspa's Fair Launch |publisher=Kaspa.org |access-date=2026-03-09}}</ref> Todos los tokens KAS han sido distribuidos exclusivamente a través de la minería.
+
+== Historia ==
+
+=== Desarrollo ===
+
+La base teórica de Kaspa fue establecida por [[Yonatan Sompolinsky]], quien publicó el protocolo GHOST en 2013 (posteriormente referenciado en el diseño de la regla de selección de bifurcación de [[Ethereum]])<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref> y el protocolo SPECTRE en 2016.<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref> El protocolo PHANTOM, que constituye la base teórica del consenso de Kaspa, fue publicado en 2018 y presentado formalmente en la Conferencia ACM sobre Avances en Tecnologías Financieras en 2021.<ref name="phantom" />
+
+El desarrollo fue llevado a cabo inicialmente por DAGLabs, una empresa de investigación y desarrollo fundada por Sompolinsky.<ref name="messari">{{cite web |url=https://messari.io/project/kaspa/profile |title=Kaspa Project Profile |publisher=Messari |access-date=2026-03-09}}</ref> DAGLabs fue disuelta aproximadamente en el momento del lanzamiento de Kaspa, y el proyecto pasó a un desarrollo liderado por la comunidad.<ref name="fairlaunch" />
+
+La implementación de referencia fue reescrita de [[Go (lenguaje de programación)|Go]] a [[Rust (lenguaje de programación)|Rust]] (denominada "Rusty Kaspa") por Michael Sutton, quien también coautoró el artículo del protocolo DAG-KNIGHT con Sompolinsky.<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref>
+
+=== Lanzamiento e implementación en Go ===
+
+Kaspa se lanzó el 7 de noviembre de 2021 como una criptomoneda de lanzamiento justo con una implementación inicial escrita en [[Go (lenguaje de programación)|Go]]. El proyecto no tuvo preminado, ni oferta inicial de monedas, ni financiación de capital de riesgo para la distribución de tokens, ni asignación al equipo.<ref name="fairlaunch" /> La minería comenzó con accesibilidad exclusiva para CPU; sin embargo, los mineros de GPU llegaron a dominar la red en pocas semanas tras el lanzamiento.<ref name="fairlaunch" />
+
+=== Reescritura en Rust ===
+
+En 2022, comenzó el desarrollo de una reescritura completa del software de nodo de Kaspa en [[Rust (lenguaje de programación)|Rust]], denominada "Rusty Kaspa". La implementación en Rust se convirtió en el cliente de referencia principal, ofreciendo características de rendimiento mejoradas que posibilitaron posteriores mejoras de rendimiento.<ref name="dagknight" />
+
+=== Transición a ASIC ===
+
+La red experimentó una transición de la minería con GPU a la minería con [[circuito integrado de aplicación específica|ASIC]] a partir de mediados de 2023, cuando IceRiver lanzó los primeros mineros ASIC de kHeavyHash. Posteriormente, otros fabricantes de ASIC ingresaron al mercado, incluyendo Bitmain (Antminer KS3), Goldshell (KA Box) y WindMiner.<ref name="mining">{{cite web |url=https://www.cryptominerbros.com/blog/top-kaspa-miners/ |title=Top Kaspa Miners |publisher=CryptoMinerBros |access-date=2026-03-09}}</ref>
+
+=== Bifurcación dura Crescendo ===
+
+El 5 de mayo de 2025, la bifurcación dura Crescendo incrementó la tasa de producción de bloques de Kaspa de 1 bloque por segundo (BPS) a 10 BPS, reduciendo el tiempo de bloque a 100 milisegundos.<ref name="crescendo">{{cite web |url=https://kaspa.org/kaspa-updates-to-crescendo-and-10bps/ |title=Kaspa Updates to Crescendo and 10BPS |publisher=Kaspa.org |access-date=2026-03-09}}</ref> La red se había lanzado a 1 BPS, y este aumento de diez veces fue posible gracias a las mejoras de rendimiento en la implementación en Rust.
+
+== Tecnología ==
+
+=== Arquitectura blockDAG ===
+
+{{Main|BlockDAG}}
+
+En una cadena de bloques tradicional, cada bloque referencia un único bloque padre, creando una cadena lineal. Cuando dos mineros producen bloques simultáneamente, solo uno se incluye — el otro se convierte en un bloque huérfano. Esto limita el rendimiento porque aumentar la tasa de bloques también incrementa la tasa de huérfanos.<ref name="phantom" />
+
+En el blockDAG de Kaspa, cada bloque referencia '''múltiples bloques padres''' (todas las puntas conocidas del DAG en el momento de su creación). Los bloques paralelos se incorporan todos al libro mayor en lugar de descartarse. El algoritmo de consenso GHOSTDAG produce entonces un orden total sobre todos los bloques.<ref name="phantom" />
+
+Esta estructura elimina los bloques huérfanos y la presión de centralización asociada que limita el rendimiento en los sistemas de prueba de trabajo de cadena única.<ref name="phantom" />
+
+=== Consenso GHOSTDAG ===
+
+GHOSTDAG (Greedy Heaviest Observed Sub-Tree DAG) es el protocolo de consenso que opera en la red principal de Kaspa. Es una aproximación voraz de tiempo polinomial del problema de optimización NP-difícil del protocolo PHANTOM.<ref name="phantom" />
+
+El protocolo utiliza el concepto de ''k-clusters'' para distinguir entre bloques paralelos producidos honestamente y bloques potencialmente adversarios. Los mineros honestos referencian todos los bloques conocidos como padres, creando bloques con "anticonos" pequeños (conjuntos de bloques sin relación de orden). Los bloques adversarios, que normalmente se retienen y liberan posteriormente, tienen anticonos grandes.<ref name="phantom" />
+
+GHOSTDAG identifica vorazmente el mayor k-cluster como el "conjunto azul" (bloques honestos) y produce un orden total mediante la '''cadena de padres seleccionados''' (la ruta de bloques con las mayores puntuaciones azules acumuladas). Las transacciones conflictivas se resuelven mediante el orden de primera aparición dentro de este orden total.<ref name="phantom" />
+
+Shai Wyborski proporcionó la demostración formal de seguridad de que el ordenamiento de GHOSTDAG es irreversible con una probabilidad de reversión que disminuye exponencialmente a medida que aumenta la profundidad de confirmación.<ref name="phantom" />
+
+=== Protocolo DAG-KNIGHT ===
+
+DAG-KNIGHT, coautorado por Sompolinsky y Sutton en 2022, se describe como el primer protocolo de consenso de prueba de trabajo sin permisos sin un límite a priori en la latencia de la red.<ref name="dagknight" /> A diferencia de GHOSTDAG, que requiere un parámetro estático ''k'' establecido antes del despliegue, DAG-KNIGHT infiere las condiciones de la red directamente de la topología del DAG y adapta los tiempos de confirmación en consecuencia.<ref name="dagknight" />
+
+El protocolo fue publicado a través del Centro de Investigación en Computación y Sociedad (CRCS) de Harvard.<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+{{A fecha de|2026|03}}, DAG-KNIGHT no ha sido desplegado en la red principal de Kaspa.<ref name="developments">{{cite web |url=https://kaspa.org/developments/ |title=Kaspa Developments |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+=== Modelo UTXO ===
+
+Kaspa utiliza el modelo [[Salida de transacción no gastada|UTXO]] (Unspent Transaction Output), el mismo modelo de transacciones utilizado por Bitcoin. Cada bloque de Kaspa incluye un compromiso del conjunto UTXO mediante MuHash, una [[función hash homomórfica]] que permite actualizaciones incrementales.<ref name="kip9">{{cite web |url=https://github.com/kaspanet/kips/blob/master/kip-0009.md |title=KIP-9: An Incentive-Compatible Storage Mass Formula |publisher=Kaspa KIPs |access-date=2026-03-09}}</ref>
+
+KIP-9 introduce una fórmula de "masa de almacenamiento" que incrementa las comisiones de transacción para las transacciones que crean muchas salidas pequeñas (potencial inflación del conjunto [[Salida de transacción no gastada|UTXO]]), utilizando un cálculo basado en la media armónica.<ref name="kip9" />
+
+=== Gestión de datos ===
+
+Kaspa emplea una [[poda de datos|poda]] agresiva para mantener requisitos compactos de almacenamiento en los nodos. Los nodos completos retienen únicamente aproximadamente 52 horas de datos del cuerpo de bloques; los cuerpos de bloques más antiguos se descartan.<ref name="developments" /> La cadena de encabezados, sin embargo, se preserva utilizando un esquema de ''prueba de prueba de trabajo'' que mantiene los datos de encabezados compactos — con una proyección de permanecer por debajo de 100 MB incluso durante 10 000 años de operación.<ref name="developments" />
+
+Los nuevos nodos que se unen a la red no necesitan reproducir el historial completo de transacciones. En su lugar, pueden iniciar desde una instantánea reciente del estado [[Salida de transacción no gastada|UTXO]] verificada mediante compromisos UTXO de MuHash, una [[función hash homomórfica]] que permite la verificación incremental.<ref name="kip9" />
+
+El mecanismo de masa de almacenamiento de KIP-9 proporciona un desincentivo económico contra la inflación del conjunto UTXO al aumentar las comisiones de transacción para las salidas que expandirían el conjunto UTXO de manera desproporcionada.<ref name="kip9" />
+
+En comparación, los nodos completos de [[Bitcoin]] almacenan el historial completo de bloques desde el bloque génesis (superando los 600 GB a partir de 2025), los nodos archivo de [[Ethereum]] requieren aproximadamente 1,2 TB, y los validadores de [[Solana]] requieren 2 TB o más de almacenamiento [[Unidad de estado sólido#NVMe|NVMe]].<ref>{{cite web |url=https://bitcoin.org/en/full-node |title=Running a Full Node |publisher=Bitcoin.org |access-date=2026-03-09}}</ref><ref>{{cite web |url=https://ethereum.org/en/developers/docs/nodes-and-clients/ |title=Nodes and Clients |publisher=Ethereum.org |access-date=2026-03-09}}</ref> El diseño de poda de Kaspa está pensado para mantener los requisitos de almacenamiento de nodos aproximadamente constantes a lo largo del tiempo.<ref name="developments" />
+
+=== Desarrollo de contratos inteligentes ===
+
+La capa base de Kaspa utiliza el modelo UTXO y no soporta de forma nativa [[contrato inteligente|contratos inteligentes]] [[Turing completo|Turing-completos]]. La funcionalidad de contratos inteligentes se persigue a través de soluciones de [[capa 2]] construidas sobre la red de Kaspa. Igra Network, una plataforma L2, se lanzó en enero de 2026, y Kasplex anunció una L2 basada en [[Prueba de conocimiento cero|zkEVM]] en marzo de 2026.<ref name="developments" />
+
+Se planea una bifurcación dura para el 5 de mayo de 2026, que propone varias extensiones de la capa base: KIP-16 (emisión de activos nativos), KIP-17 ([[covenant (criptografía)|covenants]] que permiten programabilidad en cadena), y soporte para verificación de [[prueba de conocimiento cero]].<ref name="developments" /> Estas características están en desarrollo activo y sujetas a cambios antes de su despliegue.
+
+=== Calendario de emisión ===
+
+Kaspa utiliza un calendario de emisión de "reducción a la mitad cromática" en el que las recompensas de bloque disminuyen suavemente a lo largo del tiempo en lugar de hacerlo mediante reducciones escalonadas periódicas como en [[Bitcoin]].<ref name="tokenomics">{{cite web |url=https://kaspa.org/tokenomics-emission-and-mining/ |title=Tokenomics, Emission, and Mining |publisher=Kaspa.org |access-date=2026-03-09}}</ref> La recompensa de bloque en el mes ''n'' después del lanzamiento sigue la fórmula:
+
+: <math>\text{reward}(n) = \text{reward}_0 \times \left(\frac{1}{2}\right)^{n/12}</math>
+
+donde reward₀ es la recompensa inicial de bloque y ''n'' es el número de meses desde el lanzamiento. Cada mes, la recompensa se multiplica por (1/2){{sup|1/12}} ≈ 0,9439, la [[temperamento igual|relación de frecuencia entre semitonos consecutivos]] en el temperamento igual de doce tonos. Después de 12 meses — una [[octava]] — el efecto acumulado es una reducción exacta a la mitad de la recompensa de bloque, análoga a la duplicación de frecuencia a lo largo de una octava en [[teoría musical]].<ref name="tokenomics" />
+
+Esto produce una curva suave de [[decaimiento exponencial]] en lugar de las reducciones abruptas de Bitcoin, que causan cambios repentinos en los ingresos de los mineros. La oferta máxima es de 28 700 millones de KAS.<ref name="tokenomics" />
+
+== Minería ==
+
+Kaspa utiliza el algoritmo kHeavyHash para la minería de prueba de trabajo. La red realizó la transición de la minería con CPU y GPU a la minería con [[circuito integrado de aplicación específica|ASIC]], con mineros fabricados por empresas como Bitmain, IceRiver y Goldshell.<ref name="mining" />
+
+== Recepción ==
+
+Kaspa ha sido listada en más de 33 exchanges de criptomonedas.<ref name="coingecko">{{cite web |url=https://www.coingecko.com/en/coins/kaspa |title=Kaspa Price, Chart, Market Cap |publisher=CoinGecko |access-date=2026-03-09}}</ref> [[Binance]] lanzó contratos de futuros perpetuos de KAS en noviembre de 2024,<ref>{{cite web |url=https://www.binance.com/en/support/announcement/binance-futures-will-launch-usd-margined-kasusdt-perpetual-contract-with-up-to-75x-leverage |title=Binance Futures Will Launch KASUSDT Perpetual Contract |publisher=Binance |access-date=2026-03-09}}</ref> y [[Coinbase]] introdujo futuros de KAS en febrero de 2025.<ref>{{cite web |url=https://www.coinbase.com/blog/coinbase-derivatives-to-launch-kaspa-futures |title=Coinbase Derivatives to Launch Kaspa Futures |publisher=Coinbase |access-date=2026-03-09}}</ref>
+
+El token KAS alcanzó una capitalización de mercado máxima aproximada de 2700 millones de dólares y tenía una capitalización de mercado de aproximadamente 800 millones de dólares a principios de 2026.<ref name="coingecko" /><ref name="coinmarketcap">{{cite web |url=https://coinmarketcap.com/currencies/kaspa/ |title=Kaspa Price Today |publisher=CoinMarketCap |access-date=2026-03-09}}</ref> Kaspa se ha clasificado entre las 50 principales criptomonedas por capitalización de mercado tanto en CoinMarketCap como en CoinGecko.<ref name="coingecko" /><ref name="coinmarketcap" /> Messari lista a Kaspa como un proyecto de prueba de trabajo con un modelo de distribución de lanzamiento justo.<ref name="messari" />
+
+== Estadísticas de red ==
+
+{{A fecha de|2026|03}}, la tasa de hash de la red de Kaspa es de aproximadamente 311–411 PH/s.<ref name="kasfyi">{{cite web |url=https://kas.fyi |title=Kaspa Network Statistics |publisher=Kas.fyi |access-date=2026-03-09}}</ref> La red ha procesado más de 601 millones de transacciones totales, con aproximadamente 386 000 transacciones diarias.<ref name="kasfyi" /> El número de direcciones activas ha crecido de manera constante desde el lanzamiento.<ref name="kasfyi" />
+
+== Véase también ==
+* [[Grafo acíclico dirigido]]
+* [[Prueba de trabajo]]
+* [[Bitcoin]]
+* [[Criptomoneda]]
+* [[Cadena de bloques]]
+* [[Consenso (informática)]]
+
+== Referencias ==
+{{Reflist}}
+
+== Enlaces externos ==
+* {{Official website|kaspa.org}}
+* [https://github.com/kaspanet/rusty-kaspa Código fuente de Kaspa] en [[GitHub]]
+* [https://eprint.iacr.org/2018/104 Artículo de PHANTOM y GHOSTDAG] en IACR ePrint
+* [https://eprint.iacr.org/2022/1494 Artículo de DAG-KNIGHT] en IACR ePrint
+* [https://explorer.kaspa.org/ Explorador de bloques de Kaspa]
+
+{{Criptomonedas}}
+
+[[Categoría:Criptomonedas]]
+[[Categoría:Criptomonedas de prueba de trabajo]]
+[[Categoría:Introducciones relacionadas con la computación de 2021]]
+[[Categoría:Grafos acíclicos dirigidos]]
+
+[[en:Kaspa (cryptocurrency)]]

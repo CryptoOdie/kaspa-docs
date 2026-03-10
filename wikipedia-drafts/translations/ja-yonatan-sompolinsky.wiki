@@ -1,0 +1,83 @@
+{{Short description|イスラエルの計算機科学者}}
+{{Infobox scientist
+| name = ヨナタン・ソンポリンスキー
+| nationality = イスラエル
+| fields = [[暗号理論]]、[[分散コンピューティング]]、[[暗号通貨]]
+| workplaces = {{unbulleted list|[[ハーバード大学]]（CRCS）|[[ヘブライ大学]]}}
+| known_for = [[GHOSTプロトコル]]、PHANTOM、GHOSTDAG、DAG-KNIGHT、[[Kaspa (cryptocurrency)|Kaspa]]
+| website =
+}}
+
+'''ヨナタン・ソンポリンスキー'''（Yonatan Sompolinsky）は、[[ブロックチェーン]]のスケーラビリティおよび[[コンセンサスアルゴリズム|コンセンサスプロトコル]]の研究で知られるイスラエルの[[計算機科学|計算機科学者]]である。[[イーサリアム]]のフォーク選択ルールに影響を与えたGHOSTプロトコルの考案者であり、<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref>[[Kaspa (cryptocurrency)|Kaspa]]（カスパ）暗号通貨の創設者でもある。<ref name="kaspa">{{cite web |url=https://kaspa.org/contributors/ |title=Kaspa Contributors |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+== 経歴 ==
+
+=== 学歴 ===
+
+ソンポリンスキーは[[ヘブライ大学]]で[[計算機科学]]の博士号を取得し、指導教員は[[アヴィヴ・ゾハール]]（Aviv Zohar）であった。<ref name="ghost" /> その後、[[ハーバード大学]]の計算と社会に関する研究センター（Center for Research on Computation and Society、CRCS）でポスドク研究を行った。<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+=== 職歴 ===
+
+ソンポリンスキーは[[暗号通貨]]の研究開発会社DAGLabsを設立した。DAGLabsは2021年11月のKaspaローンチ頃に解散し、プロジェクトはコミュニティ主導の開発に移行した。<ref name="fairlaunch">{{cite web |url=https://kaspa.org/kaspas-fair-launch/ |title=Kaspa's Fair Launch |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+== 研究業績 ==
+
+=== GHOSTプロトコル（2013年/2015年） ===
+
+ソンポリンスキーは[[アヴィヴ・ゾハール]]とともに、[[ビットコイン]]型システムにおける安全な高速トランザクション処理のためのGHOST（Greedy Heaviest Observed Sub-Tree）プロトコルを提案した。このプロトコルはビットコインの最長チェーンルールを修正し、最長パスだけでなくブロックのサブツリー全体を考慮することで、高いブロック生成率の下でのセキュリティを向上させた。特筆すべきは、GHOSTが''包含的''コンセンサスの概念を導入したことである。孤立ブロックを破棄するのではなく、プロトコルはフォーク選択の計算においてそれらを考慮し、従来の最長チェーンルールでは無視される並列的な作業を組み込んだ。<ref name="ghost" /> GHOST論文は暗号通貨および分散システムの文献で広く引用されている。
+
+==== イーサリアムへの影響 ====
+
+[[ヴィタリック・ブテリン]]は[[イーサリアム]]のホワイトペーパー（2013年〜2014年）において、GHOSTプロトコルを高速ブロック時間に対するイーサリアムのアプローチへの重要な影響として挙げ、ブロック間隔が短くステイル率が高い場合に生じるセキュリティ上の課題にGHOSTが対処したことを指摘した。<ref name="ethwhitepaper">{{cite web |url=https://ethereum.org/en/whitepaper/ |title=Ethereum Whitepaper |last=Buterin |first=Vitalik |year=2013 |access-date=2026-03-09}}</ref> イーサリアムの現在の[[プルーフ・オブ・ステーク]]コンセンサスメカニズムは、Gasperファイナリティレイヤーの一部として、ソンポリンスキーのオリジナルのプルーフ・オブ・ワークプロトコルをプルーフ・オブ・ステークに適応させたLMD-GHOST（Latest Message Driven GHOST）を使用している。<ref name="ethgasper">{{cite web |url=https://ethereum.org/developers/docs/consensus-mechanisms/pos/gasper/ |title=Gasper |publisher=Ethereum.org |access-date=2026-03-09}}</ref> イーサリアムは時価総額で最大級の[[暗号通貨]]の一つであり、GHOSTプロトコルはコンセンサスプロトコル設計における最も重要な貢献の一つとなっている。
+
+=== SPECTRE（2016年） ===
+
+[[ヨアド・ルーウェンバーグ]]（Yoad Lewenberg）および[[アヴィヴ・ゾハール]]とともに、ソンポリンスキーはSPECTRE（Serialization of Proof-of-work Events: Confirming Transactions via Recursive Elections）を提案した。これは全ブロック順序ではなくペアワイズ順序により高速なトランザクション確認を提供する[[有向非巡回グラフ|ブロックDAG]]プロトコルである。<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref>
+
+=== PHANTOMおよびGHOSTDAG（2018年/2021年） ===
+
+[[シャイ・ヴィボルスキー]]（Shai Wyborski）および[[アヴィヴ・ゾハール]]とともに、ソンポリンスキーはPHANTOMおよびその実用的な貪欲近似であるGHOSTDAGを提案した。これらのプロトコルは[[ナカモト・コンセンサス]]をブロックチェーンからブロックDAGへ一般化し、単一チェーンシステムを制限する孤立ブロック率の問題なしに高いブロック生成率を可能にする。ヴィボルスキーはPHANTOMプロトコルの形式的なセキュリティ証明を提供した。この研究は査読を経て、2021年の[[Association for Computing Machinery|ACM]] Conference on Advances in Financial Technologies（AFT）の論文集に掲載され、ソンポリンスキーが発表を行った。<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref>
+
+GHOSTDAGは[[Kaspa (cryptocurrency)|Kaspa]]暗号通貨に実装されたコンセンサスプロトコルである。<ref name="kaspa" />
+
+=== DAG-KNIGHT（2022年） ===
+
+[[マイケル・サットン (開発者)|マイケル・サットン]]（Michael Sutton）とともに、ソンポリンスキーはDAG-KNIGHTを提案した。これはネットワーク遅延に対する事前のプロトコル内上限を持たない、最初の許可不要の[[プルーフ・オブ・ワーク]]プロトコルとして説明されている。事前に設定されたパラメータを必要とせず、DAGのトポロジーからネットワーク状況を推定する。<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref> この論文はハーバード大学の計算と社会に関する研究センターを通じて発表された。<ref name="harvard" />
+
+=== 研究テーマ ===
+
+ソンポリンスキーの研究全体を通じて、ブロックチェーンコンセンサスプロトコルをより並列的な作業に対して''包含的''にするという一貫したテーマが見られる。GHOSTプロトコルはアンクルブロックをフォーク選択の重み計算に組み込み、SPECTREとPHANTOMはこの原則を拡張してすべての並列ブロックを[[有向非巡回グラフ|ブロックDAG]]に含め、そこから一貫した順序付けを導出する。DAG-KNIGHTはさらにこのアプローチを事前設定のネットワークパラメータなしに一般化する。この進展は、各高さで一つのブロックのみが採用され競合するすべてのブロックが破棄される[[ナカモト・コンセンサス]]の単一チェーンパラダイムを超えるための持続的な取り組みを表している。
+
+=== 学術発表 ===
+
+ソンポリンスキーは著名な学術的会場で研究を発表しており、2021年のACM Conference on Advances in Financial Technologies（AFT）でPHANTOM/GHOSTDAG論文を発表したほか、<ref name="phantom" />2022年には[[カリフォルニア大学バークレー校]]のCrypto Economics Security Conference（CESC）でも発表を行った。<ref name="cesc">{{cite web |url=https://cesc.io |title=Crypto Economics Security Conference (CESC) |publisher=UC Berkeley |access-date=2026-03-09}}</ref>
+
+=== 共同研究者 ===
+
+ソンポリンスキーの主要な共同研究者は以下の通りである：博士課程の指導教員であり、GHOST、SPECTRE、PHANTOMの共著者である[[アヴィヴ・ゾハール]]、SPECTREの共著者である[[ヨアド・ルーウェンバーグ]]、PHANTOMの共著者であり形式的なセキュリティ証明を担当した[[シャイ・ヴィボルスキー]]、DAG-KNIGHTの共著者でありKaspa Rust実装の主任開発者である[[マイケル・サットン (開発者)|マイケル・サットン]]。<ref name="ghost" /><ref name="spectre" /><ref name="phantom" /><ref name="dagknight" />
+
+== 主要著作 ==
+
+* Sompolinsky, Y.; Zohar, A. (2015). "Secure High-Rate Transaction Processing in Bitcoin". ''Financial Cryptography and Data Security''. [https://doi.org/10.1007/978-3-662-47854-7_32 DOI].
+* Sompolinsky, Y.; Lewenberg, Y.; Zohar, A. (2016). "SPECTRE: A Fast and Scalable Cryptocurrency Protocol". IACR ePrint. [https://eprint.iacr.org/2016/1159 ePrint 2016/1159].
+* Sompolinsky, Y.; Wyborski, S.; Zohar, A. (2021). "PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus". ''ACM Conference on Advances in Financial Technologies (AFT 2021)'', pp. 57–70. [https://dl.acm.org/doi/10.1145/3479722.3480990 DOI].
+* Sompolinsky, Y.; Sutton, M. (2022). "The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus". IACR ePrint. [https://eprint.iacr.org/2022/1494 ePrint 2022/1494].
+
+== 関連項目 ==
+* [[Kaspa (cryptocurrency)|Kaspa]]
+* [[ブロックDAG]]
+* [[ブロックチェーン]]
+* [[プルーフ・オブ・ワーク]]
+* [[ナカモト・コンセンサス]]
+
+== 脚注 ==
+{{Reflist}}
+
+[[Category:イスラエルの計算機科学者]]
+[[Category:暗号研究者]]
+[[Category:ヘブライ大学出身の人物]]
+[[Category:ハーバード大学の人物]]
+[[Category:暗号通貨関連人物]]
+[[Category:存命人物]]
+
+[[en:Yonatan Sompolinsky]]

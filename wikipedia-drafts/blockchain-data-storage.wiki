@@ -1,0 +1,144 @@
+{{Short description|Data management approaches in distributed ledger systems}}
+
+'''Blockchain data management''' refers to the methods by which [[distributed ledger]] systems store, organize, and maintain their transaction history, account state, and [[Consensus (computer science)|consensus]] data. As blockchain networks grow, the storage, memory, and [[Bandwidth (computing)|bandwidth]] requirements for operating a [[full node]] increase, creating potential [[Centralization|centralization pressure]] as fewer participants can afford the necessary hardware.<ref name="ethereum-statelessness">{{Cite web |url=https://ethereum.org/en/roadmap/statelessness/ |title=Statelessness, state expiry and history expiry |website=ethereum.org |access-date=2026-03-09}}</ref> Different protocols address this challenge through varying approaches to state management, history pruning, and [[data availability]].
+
+== The storage growth problem ==
+
+Every transaction processed by a blockchain network adds data to its ledger: transaction records, state changes, and [[block header]]s. Over time, this cumulative data grows, requiring progressively more storage capacity, [[Random-access memory|RAM]], and network bandwidth for participants running full nodes.<ref name="bitcoin-full-node">{{Cite web |url=https://bitcoin.org/en/full-node |title=Running A Full Node |website=bitcoin.org |access-date=2026-03-09}}</ref>
+
+This growth creates centralization pressure: as hardware requirements increase, fewer individuals and organizations can afford to operate full nodes. The number of reachable full nodes on a network is widely regarded as a key metric of [[Decentralization|decentralization]], since full nodes independently validate all transactions and enforce consensus rules without relying on trusted third parties.<ref name="buterin-trilemma">{{Cite web |url=https://vitalik.eth.limo/general/2021/04/07/sharding.html |title=Why sharding is great |last=Buterin |first=Vitalik |date=2021-04-07 |access-date=2026-03-09}}</ref>
+
+The problem has several distinct dimensions:
+
+* '''Historical data''' — past blocks and the transactions they contain. This grows monotonically as new blocks are produced.
+* '''State data''' — the current set of balances, [[smart contract]] storage, and other information needed to validate new transactions. State data can grow or shrink depending on network activity.
+* '''Consensus data''' — block headers, [[Cryptographic proof|proofs]], and other metadata required to verify the integrity of the chain. Typically smaller than transaction data but also grows over time.
+
+Different blockchain architectures make different trade-offs among these dimensions, with significant implications for node operator costs and network decentralization.
+
+== Bitcoin ==
+
+[[Bitcoin]]'s blockchain has grown to approximately 600 [[Gigabyte|GB]] or more as of early 2026, having accumulated data continuously since the [[genesis block]] in January 2009.<ref name="bitcoin-full-node" /> Every default full node stores all blocks produced since the network's inception, with the chain growing by roughly 1–2 [[Megabyte|MB]] every ten minutes (the average [[Block time|block interval]]).<ref name="blockchain-size">{{Cite web |url=https://www.blockchain.com/explorer/charts/blocks-size |title=Blockchain Size |website=Blockchain.com |access-date=2026-03-09}}</ref>
+
+Bitcoin uses the [[Unspent transaction output|UTXO]] (Unspent Transaction Output) model for state management. The UTXO set — the collection of all transaction outputs that have not yet been spent — represents the current "state" of the network. As of early 2026, the UTXO set is approximately 7–8 GB in size.<ref name="utxo-stats">{{Cite web |url=https://statoshi.info/ |title=Statoshi – Bitcoin Node Statistics |access-date=2026-03-09}}</ref>
+
+'''Pruned nodes''' offer a partial solution to storage growth. A pruned Bitcoin node downloads and validates the entire blockchain but discards older block data after verification, retaining only the UTXO set and a configurable number of recent blocks. This reduces storage requirements substantially but means pruned nodes cannot serve historical block data to peers joining the network.<ref name="bitcoin-pruning">{{Cite web |url=https://bitcoin.org/en/full-node#reduce-storage |title=Running A Full Node – Reduce Storage |website=bitcoin.org |access-date=2026-03-09}}</ref>
+
+Hardware requirements for running a Bitcoin full node remain relatively modest: approximately 1 [[Terabyte|TB]] of storage (to accommodate future growth), 4 GB or more of RAM, and a broadband internet connection. The network maintains an estimated 15,000–20,000 reachable nodes globally.<ref name="bitnodes">{{Cite web |url=https://bitnodes.io/ |title=Bitnodes – Global Bitcoin Nodes Distribution |access-date=2026-03-09}}</ref> While manageable at present, Bitcoin's storage requirements grow indefinitely and without bound, limited only by the rate of block production.
+
+== Ethereum ==
+
+[[Ethereum]] presents a more complex data management challenge than Bitcoin due to its [[account model|account-based]] architecture and support for [[Turing completeness|Turing-complete]] smart contracts.<ref name="ethereum-docs">{{Cite web |url=https://ethereum.org/en/developers/docs/ |title=Ethereum Development Documentation |website=ethereum.org |access-date=2026-03-09}}</ref>
+
+A full '''archive node''' — which stores every historical state of the network — requires approximately 1.2 TB or more of storage. A standard full node with pruning enabled requires approximately 500–800 GB, as it retains only the current state and a limited window of recent states.<ref name="ethereum-node-requirements">{{Cite web |url=https://ethereum.org/en/run-a-node/ |title=Run a node |website=ethereum.org |access-date=2026-03-09}}</ref>
+
+Ethereum's account model means the network must maintain a "world state" — a data structure (specifically, a [[Merkle tree|Merkle Patricia trie]]) encompassing all accounts, their balances, and all contract storage. This state grows with every new account created and every new storage slot written by a smart contract. The phenomenon is commonly referred to as '''"state bloat"''' and is recognized as one of Ethereum's most significant long-term technical challenges.<ref name="ethereum-statelessness" />
+
+Several proposals and research efforts aim to address state growth:
+
+* '''[[EIP-4444]]''' — a proposal for ''history expiry'', whereby nodes would no longer be required to store and serve block data older than approximately one year.<ref name="eip-4444">{{Cite web |url=https://eips.ethereum.org/EIPS/eip-4444 |title=EIP-4444: Bound Historical Data in Execution Clients |website=eips.ethereum.org |access-date=2026-03-09}}</ref>
+* '''[[Verkle tree]]s''' — a replacement for Merkle Patricia tries that enables more compact state proofs, reducing the data a node must store and transmit.<ref name="verkle">{{Cite web |url=https://ethereum.org/en/roadmap/verkle-trees/ |title=Verkle trees |website=ethereum.org |access-date=2026-03-09}}</ref>
+* '''Statelessness research''' — long-term research into "stateless clients" that could verify blocks using cryptographic proofs (''witnesses'') without maintaining a local copy of the full state.<ref name="ethereum-statelessness" />
+
+Technologies such as ''snap sync'' help new nodes bootstrap faster by downloading state snapshots rather than replaying all historical transactions, but do not address the underlying long-term growth of state data.<ref name="ethereum-node-requirements" />
+
+Recommended hardware for running an Ethereum full node includes a 2 TB or larger [[Solid-state drive|SSD]], 16 GB or more of RAM, and a reliable broadband connection.<ref name="ethereum-node-requirements" />
+
+== Solana ==
+
+[[Solana (blockchain)|Solana]] is designed for high throughput, routinely processing 4,000 or more transactions per second (TPS).<ref name="solana-docs">{{Cite web |url=https://solana.com/docs |title=Solana Documentation |website=solana.com |access-date=2026-03-09}}</ref> This performance comes at a cost in hardware requirements: validators are expected to operate machines equipped with 2 TB or more of [[NVM Express|NVMe]] SSD storage, 256 GB or more of RAM, and high-bandwidth network connections of 1 [[Gigabit per second|Gbps]] or greater.<ref name="solana-validators">{{Cite web |url=https://docs.anza.xyz/operations/requirements |title=Validator Requirements |website=docs.anza.xyz |access-date=2026-03-09}}</ref>
+
+The estimated cost of operating a Solana validator ranges from approximately $5,000 to $10,000 or more per year, depending on hosting arrangements and hardware choices. These requirements are frequently cited as a centralizing factor, as they place validator operation beyond the reach of most individual participants.<ref name="solana-validators" />
+
+Solana's high throughput generates a correspondingly large volume of ledger data. Validators may discard older ledger data to manage local storage, and archival access to historical data is often provided through external services rather than by the validator network itself.<ref name="solana-docs" />
+
+Solana's consensus mechanism combines ''[[Proof of History]]'' — a cryptographic technique for establishing the passage of time between events — with ''Tower BFT'', a [[Byzantine fault tolerance|BFT]]-like consensus algorithm optimized for the Proof of History data structure.<ref name="solana-docs" />
+
+== Kaspa ==
+
+[[Kaspa (cryptocurrency)|Kaspa]] takes an aggressive approach to data pruning, designed to keep full node hardware requirements roughly constant over time regardless of network age.<ref name="kaspa-docs">{{Cite web |url=https://docs.kaspa.org/ |title=Kaspa Documentation |website=docs.kaspa.org |access-date=2026-03-09}}</ref>
+
+Full nodes retain only approximately 52 hours of block body data (transactions). Older block bodies are discarded, substantially limiting the storage footprint compared to protocols that retain a complete transaction history.<ref name="kaspa-docs" />
+
+The chain of block headers — the minimal data structure needed to verify the chain's [[proof of work]] history — is designed to remain compact over very long time horizons. Using what has been described as a "proof-of-proof-of-work" approach, the header chain is projected to remain under 100 MB even over 10,000 or more years of continuous operation.<ref name="kaspa-docs" />
+
+Kaspa employs '''MuHash UTXO commitments''': each block includes a cryptographic commitment to the current state of the [[Unspent transaction output|UTXO set]] using [[MuHash]], a [[Homomorphic encryption|homomorphic]] hash function. This allows new nodes joining the network to bootstrap by downloading a recent UTXO snapshot and verifying it against the commitment embedded in a trusted block header, without needing to replay the full transaction history from genesis.<ref name="kaspa-muhash">{{Cite web |url=https://docs.kaspa.org/ |title=Kaspa Documentation – UTXO Commitments |website=docs.kaspa.org |access-date=2026-03-09}}</ref>
+
+'''Storage mass''' (specified in KIP-9) is an economic mechanism that increases transaction fees for transactions which expand the UTXO set — that is, transactions with more outputs than inputs. This creates a financial disincentive against UTXO set bloat, aiming to keep the state data compact over time.<ref name="kip-9">{{Cite web |url=https://github.com/kaspanet/kips/blob/main/kip-0009.md |title=KIP-9: Storage Mass |website=GitHub |access-date=2026-03-09}}</ref>
+
+As a result of these design choices, Kaspa's full node storage requirements are estimated at approximately 10–20 GB, and the protocol's designers intend for the hardware requirements to remain accessible on standard consumer hardware indefinitely.<ref name="kaspa-docs" />
+
+== Comparison ==
+
+The following table summarizes the data storage characteristics of several prominent blockchain protocols. Figures are approximate and subject to change as each network evolves.
+
+{| class="wikitable"
+|+ Blockchain data storage comparison
+! Protocol !! Full node storage !! Growth model !! Pruning !! Approximate min. hardware cost !! State management
+|-
+| [[Bitcoin]] || ~600 GB+ || Linear (indefinite) || Optional (limited) || Low (~$200–500) || UTXO set (~7–8 GB)
+|-
+| [[Ethereum]] || ~500–800 GB (pruned) / 1.2 TB+ (archive) || Linear + state growth || Partial || Moderate (~$500–1,000) || Account state trie
+|-
+| [[Solana (blockchain)|Solana]] || 2 TB+ || Rapid growth || Validators can prune || High (~$5,000–10,000/yr) || Account-based
+|-
+| [[Kaspa (cryptocurrency)|Kaspa]] || ~10–20 GB || Roughly constant || Aggressive (52 hr retention) || Low (~$100–300) || UTXO set with MuHash commitments
+|}
+
+== Approaches to managing data growth ==
+
+Blockchain protocols and researchers have developed a range of strategies to address the challenge of data growth. These approaches are not mutually exclusive, and many protocols employ several in combination.
+
+=== Pruning ===
+
+Pruning involves discarding old block data — typically transaction bodies — while retaining block headers and current state information. Bitcoin offers an optional pruned mode that validates the full chain but discards older blocks after verification.<ref name="bitcoin-pruning" /> Kaspa implements aggressive pruning by default, retaining only approximately 52 hours of block body data.<ref name="kaspa-docs" /> Pruning reduces storage requirements but may limit a node's ability to serve historical data to peers.
+
+=== State expiry ===
+
+State expiry proposals suggest removing inactive state data from the set that nodes must maintain. Ethereum's EIP-4444, for example, proposes that execution clients no longer be required to store and serve block bodies and receipts older than roughly one year.<ref name="eip-4444" /> State that has "expired" could potentially be restored by providing a proof of its prior existence.
+
+=== Stateless clients ===
+
+A stateless client is a node that can verify new blocks without maintaining a local copy of the full state. Instead, block proposers would include cryptographic ''witnesses'' — proofs that the state accessed during block execution is consistent with the state root. This remains an active area of research, particularly within the Ethereum community.<ref name="ethereum-statelessness" />
+
+=== Sharding ===
+
+[[Shard (database architecture)|Sharding]] distributes the network's data and processing load across multiple subsets (''shards'') of nodes, so that no single node must store or process the entirety of the network's data. Ethereum's long-term roadmap includes a form of sharding focused on data availability for [[Rollup (blockchain)|rollups]].<ref name="buterin-trilemma" />
+
+=== Data availability sampling ===
+
+[[Data availability sampling]] (DAS) allows nodes to verify that a block's data has been made available to the network without downloading all of it. Nodes sample random portions of the data and use [[erasure coding]] to gain statistical confidence that the full data is recoverable. This technique is used in rollup-centric blockchain designs and in protocols such as [[Celestia (blockchain)|Celestia]].<ref name="buterin-trilemma" />
+
+=== Compression and efficient proof structures ===
+
+More efficient data representations can reduce the storage and bandwidth costs of maintaining state. [[Verkle tree]]s, proposed for Ethereum, offer smaller proof sizes compared to Merkle Patricia tries.<ref name="verkle" /> [[Zero-knowledge proof]]s (such as [[SNARK]]s and [[STARK]]s) can compress large amounts of computation into small, verifiable proofs, a property leveraged by [[Zero-knowledge rollup|zero-knowledge rollups]].<ref name="ethereum-docs" />
+
+== Implications for decentralization ==
+
+The relationship between node hardware requirements and network decentralization is a concrete, measurable dimension of the [[blockchain trilemma|blockchain scalability trilemma]]. Protocols that require expensive or specialized hardware to operate a full node tend to have fewer node operators, concentrating validation power among well-resourced entities such as data centers and institutional participants.<ref name="buterin-trilemma" />
+
+Networks with lower hardware requirements tend to support a more geographically distributed set of node operators, as participants in a wider range of economic circumstances can afford to run nodes. This geographic and economic diversity is generally considered beneficial for censorship resistance and fault tolerance.<ref name="bitcoin-full-node" />
+
+However, direct comparisons between networks are complicated by the fact that the definition of a "full node" varies by protocol. Some networks distinguish between validators (which participate in consensus) and full nodes (which verify but do not propose blocks), and the hardware requirements for each role may differ substantially. Additionally, some protocols rely on external archival services for historical data, which may introduce different trust assumptions compared to protocols where full nodes store complete histories.<ref name="ethereum-node-requirements" />
+
+== See also ==
+
+* [[Blockchain scalability]]
+* [[Blockchain]]
+* [[Distributed ledger]]
+* [[Proof of work]]
+* [[Proof of stake]]
+* [[Merkle tree]]
+* [[Full node]]
+* [[Data availability problem]]
+
+== References ==
+
+{{Reflist}}
+
+{{Blockchain}}
+
+[[Category:Blockchain]]
+[[Category:Distributed computing]]
+[[Category:Data management]]
+[[Category:Computer data storage]]

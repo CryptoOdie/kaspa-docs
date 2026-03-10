@@ -1,0 +1,150 @@
+{{Short description|ブロックDAGコンセンサスを用いたプルーフ・オブ・ワーク暗号通貨}}
+{{Infobox cryptocurrency
+| name = Kaspa
+| symbol = KAS
+| logo =
+| logo_size =
+| release_date = {{Start date|2021|11|07}}
+| founder = [[ヨナタン・ソンポリンスキー]]
+| white_paper = [https://eprint.iacr.org/2018/104 PHANTOM and GHOSTDAG]
+| consensus_mechanism = [[プルーフ・オブ・ワーク]] ([[#GHOSTDAG|GHOSTDAG]])
+| hash_algorithm = kHeavyHash
+| block_time = 100ミリ秒
+| supply_limit = 287億KAS
+| website = {{URL|kaspa.org}}
+| source_code = {{URL|github.com/kaspanet/rusty-kaspa}}
+| programming_language = [[Rust (プログラミング言語)|Rust]]
+}}
+
+'''Kaspa'''（カスパ）は、従来の[[ブロックチェーン]]の代わりに[[有向非巡回グラフ|ブロックDAG]]（block Directed Acyclic Graph）構造を用いる[[プルーフ・オブ・ワーク]][[暗号通貨]]である。[[ビットコイン]]のような単一チェーン型暗号通貨とは異なり、KaspaのブロックDAGでは複数のブロックを並列に生成し台帳に同時に組み込むことが可能であり、プルーフ・オブ・ワークのセキュリティ特性を維持しつつ高いトランザクションスループットを実現する。<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref>
+
+Kaspaは2021年11月7日に[[フェアローンチ]]で開始された。[[プレマイン]]、[[ICO|イニシャル・コイン・オファリング]]（ICO）、チームへのトークン割り当ては一切なく、<ref name="fairlaunch">{{cite web |url=https://kaspa.org/kaspas-fair-launch/ |title=Kaspa's Fair Launch |publisher=Kaspa.org |access-date=2026-03-09}}</ref>すべてのKASトークンはマイニングのみを通じて配布されている。
+
+== 歴史 ==
+
+=== 開発 ===
+
+Kaspaの理論的基盤は、[[ヨナタン・ソンポリンスキー]]（Yonatan Sompolinsky）によって築かれた。ソンポリンスキーは2013年にGHOSTプロトコルを発表し（後に[[イーサリアム]]のフォーク選択ルールの設計に参照された）、<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref>2016年にはSPECTREプロトコルを発表した。<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref> Kaspaのコンセンサスの理論的基盤であるPHANTOMプロトコルは2018年に発表され、2021年にACM Conference on Advances in Financial Technologiesで正式に発表された。<ref name="phantom" />
+
+開発は当初、ソンポリンスキーが設立した研究開発会社DAGLabsによって行われた。<ref name="messari">{{cite web |url=https://messari.io/project/kaspa/profile |title=Kaspa Project Profile |publisher=Messari |access-date=2026-03-09}}</ref> DAGLabsはKaspaのローンチ頃に解散し、プロジェクトはコミュニティ主導の開発に移行した。<ref name="fairlaunch" />
+
+リファレンス実装は、マイケル・サットン（Michael Sutton）によって[[Go (プログラミング言語)|Go]]から[[Rust (プログラミング言語)|Rust]]に書き換えられた（「Rusty Kaspa」と称される）。サットンはソンポリンスキーとともにDAG-KNIGHTプロトコルの論文も共著している。<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref>
+
+=== ローンチとGo実装 ===
+
+Kaspaは2021年11月7日に[[Go (プログラミング言語)|Go]]で書かれた初期実装とともに、[[フェアローンチ]]暗号通貨として開始された。プレマイン、イニシャル・コイン・オファリング、トークン配布のためのベンチャーキャピタル資金調達、チーム割り当ては一切なかった。<ref name="fairlaunch" /> マイニングは当初CPUのみでアクセス可能であったが、ローンチから数週間以内にGPUマイナーがネットワークを支配するようになった。<ref name="fairlaunch" />
+
+=== Rustへの書き換え ===
+
+2022年、Kaspaノードソフトウェアの[[Rust (プログラミング言語)|Rust]]による全面書き換え（「Rusty Kaspa」と呼ばれる）の開発が開始された。Rust実装は主要なリファレンスクライアントとなり、後のスループットアップグレードを可能にする改善された性能特性を提供した。<ref name="dagknight" />
+
+=== ASICへの移行 ===
+
+2023年半ばにIceRiverが最初のkHeavyHash ASIC（[[特定用途向け集積回路]]）マイナーをリリースして以降、ネットワークはGPUからASICマイニングへの移行が進んだ。その後、Bitmain（Antminer KS3）、Goldshell（KA Box）、WindMinerなどのASICメーカーが市場に参入した。<ref name="mining">{{cite web |url=https://www.cryptominerbros.com/blog/top-kaspa-miners/ |title=Top Kaspa Miners |publisher=CryptoMinerBros |access-date=2026-03-09}}</ref>
+
+=== Crescendoハードフォーク ===
+
+2025年5月5日、Crescendoハードフォークにより、Kaspaのブロック生成率は毎秒1ブロック（BPS）から毎秒10ブロックへと引き上げられ、ブロック時間は100ミリ秒に短縮された。<ref name="crescendo">{{cite web |url=https://kaspa.org/kaspa-updates-to-crescendo-and-10bps/ |title=Kaspa Updates to Crescendo and 10BPS |publisher=Kaspa.org |access-date=2026-03-09}}</ref> ネットワークは毎秒1ブロックでローンチされており、この10倍の増加はRust実装の性能改善によって可能となった。
+
+== 技術 ==
+
+=== ブロックDAGアーキテクチャ ===
+
+{{Main|ブロックDAG}}
+
+従来のブロックチェーンでは、各ブロックは単一の親ブロックを参照し線形チェーンを形成する。2人のマイナーが同時にブロックを生成した場合、一方のみが採用され、もう一方は孤立ブロックとなる。これにより、ブロック生成率を上げると孤立ブロック率も上昇するため、スループットが制限される。<ref name="phantom" />
+
+KaspaのブロックDAGでは、各ブロックは'''複数の親ブロック'''（生成時に既知のDAGのすべてのティップ）を参照する。並列ブロックはすべて破棄されることなく台帳に組み込まれる。GHOSTDAGコンセンサスアルゴリズムがすべてのブロックに対する全順序を生成する。<ref name="phantom" />
+
+この構造により、孤立ブロックおよびそれに伴う中央集権化圧力が排除され、単一チェーン型プルーフ・オブ・ワークシステムにおけるスループットの制限が解消される。<ref name="phantom" />
+
+=== GHOSTDAGコンセンサス ===
+
+GHOSTDAG（Greedy Heaviest Observed Sub-Tree DAG）は、Kaspaのメインネットで稼働するコンセンサスプロトコルである。PHANTOMプロトコルのNP困難な最適化問題に対する貪欲法による多項式時間近似である。<ref name="phantom" />
+
+このプロトコルは、''k-クラスター''の概念を用いて、正直に生成された並列ブロックと潜在的に敵対的なブロックを区別する。正直なマイナーは既知のすべてのブロックを親として参照するため、小さな「アンチコーン」（順序関係を持たないブロックの集合）を持つブロックを生成する。敵対的ブロックは通常秘匿されてから公開されるため、大きなアンチコーンを持つ。<ref name="phantom" />
+
+GHOSTDAGは最大のk-クラスターを「ブルーセット」（正直なブロック）として貪欲的に特定し、'''選択親チェーン'''（最も高い累積ブルースコアを持つブロックのパス）を通じて全順序を生成する。競合するトランザクションは、この全順序内での先着順序により解決される。<ref name="phantom" />
+
+シャイ・ヴィボルスキー（Shai Wyborski）は、GHOSTDAGの順序付けが確認深度の増加に伴い指数的に減少する取り消し確率を持つ不可逆的なものであることの形式的なセキュリティ証明を提供した。<ref name="phantom" />
+
+=== DAG-KNIGHTプロトコル ===
+
+DAG-KNIGHTは、ソンポリンスキーとサットンにより2022年に共著され、ネットワーク遅延に対する事前の上限を持たない、最初の許可不要のプルーフ・オブ・ワークコンセンサスプロトコルとして説明されている。<ref name="dagknight" /> 展開前に設定する静的パラメータ''k''を必要とするGHOSTDAGとは異なり、DAG-KNIGHTはDAGのトポロジーからネットワーク状況を直接推定し、それに応じて確認時間を適応させる。<ref name="dagknight" />
+
+このプロトコルはハーバード大学の計算と社会に関する研究センター（CRCS）を通じて発表された。<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+{{As of|2026|03}}現在、DAG-KNIGHTはKaspaのメインネットに展開されていない。<ref name="developments">{{cite web |url=https://kaspa.org/developments/ |title=Kaspa Developments |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+=== UTXOモデル ===
+
+Kaspaはビットコインと同じトランザクションモデルである[[未使用トランザクション出力|UTXO]]（Unspent Transaction Output）モデルを使用する。各Kaspaブロックには、インクリメンタルな更新を可能にする[[準同型ハッシュ関数]]であるMuHashを用いたUTXOセットコミットメントが含まれる。<ref name="kip9">{{cite web |url=https://github.com/kaspanet/kips/blob/master/kip-0009.md |title=KIP-9: An Incentive-Compatible Storage Mass Formula |publisher=Kaspa KIPs |access-date=2026-03-09}}</ref>
+
+KIP-9は、多数の小さな出力を生成するトランザクション（潜在的な[[UTXO]]セットの膨張）に対してトランザクション手数料を増加させる「ストレージマス」フォーミュラを導入しており、調和平均ベースの計算を用いている。<ref name="kip9" />
+
+=== データ管理 ===
+
+Kaspaはコンパクトなノードストレージ要件を維持するために積極的な[[データプルーニング|プルーニング]]を採用している。フルノードはブロックボディデータを約52時間分のみ保持し、それ以前のブロックボディは破棄される。<ref name="developments" /> ただし、ヘッダーチェーンは''proof-of-proof-of-work''スキームを用いて保存され、ヘッダーデータは10,000年以上の運用でも100MB未満に収まると予測されている。<ref name="developments" />
+
+ネットワークに新たに参加するノードは、完全なトランザクション履歴を再生する必要がない。代わりに、インクリメンタルな検証を可能にする[[準同型ハッシュ関数]]であるMuHash UTXOコミットメントにより検証された最新の[[UTXO]]状態スナップショットからブートストラップできる。<ref name="kip9" />
+
+KIP-9のストレージマスメカニズムは、UTXOセットを不均衡に拡大する出力に対してトランザクション手数料を増加させることで、[[UTXO]]セットの膨張に対する経済的なディスインセンティブを提供する。<ref name="kip9" />
+
+これに対し、[[ビットコイン]]のフルノードはジェネシスブロック以降の完全なブロック履歴を保存し（2025年時点で600GBを超える）、[[イーサリアム]]のアーカイブノードは約1.2TBを必要とし、[[Solana]]のバリデータは2TB以上の[[NVMe]]ストレージを必要とする。<ref>{{cite web |url=https://bitcoin.org/en/full-node |title=Running a Full Node |publisher=Bitcoin.org |access-date=2026-03-09}}</ref><ref>{{cite web |url=https://ethereum.org/en/developers/docs/nodes-and-clients/ |title=Nodes and Clients |publisher=Ethereum.org |access-date=2026-03-09}}</ref> Kaspaのプルーニング設計は、ノードのストレージ要件を時間の経過に関わらずほぼ一定に保つことを目的としている。<ref name="developments" />
+
+=== スマートコントラクト開発 ===
+
+Kaspaのベースレイヤーはアンスペント・トランザクション・アウトプット（UTXO）モデルを使用しており、[[チューリング完全]]な[[スマートコントラクト]]をネイティブにはサポートしていない。スマートコントラクト機能は、Kaspaネットワーク上に構築される[[レイヤー2]]ソリューションを通じて追求されている。Igra Networkは2026年1月にL2プラットフォームをローンチし、Kasplexは2026年3月に[[ゼロ知識証明|zkEVM]]ベースのL2を発表した。<ref name="developments" />
+
+2026年5月5日にハードフォークが計画されており、いくつかのベースレイヤー拡張が提案されている：KIP-16（ネイティブアセット発行）、KIP-17（[[コベナント (暗号学)|コベナント]]によるオンチェーンプログラマビリティ）、および[[ゼロ知識証明]]の検証サポート。<ref name="developments" /> これらの機能は活発に開発中であり、展開前に変更される可能性がある。
+
+=== 発行スケジュール ===
+
+Kaspaは「クロマチック半減期」発行スケジュールを採用しており、[[ビットコイン]]のような定期的なステップ関数型の半減期ではなく、ブロック報酬が時間の経過とともに滑らかに減少する。<ref name="tokenomics">{{cite web |url=https://kaspa.org/tokenomics-emission-and-mining/ |title=Tokenomics, Emission, and Mining |publisher=Kaspa.org |access-date=2026-03-09}}</ref> ローンチ後''n''ヶ月目のブロック報酬は以下の式に従う：
+
+: <math>\text{reward}(n) = \text{reward}_0 \times \left(\frac{1}{2}\right)^{n/12}</math>
+
+ここでreward₀は初期ブロック報酬、''n''はローンチからの月数である。毎月、報酬は(1/2){{sup|1/12}} ≈ 0.9439（[[十二平均律]]における隣接する[[半音]]間の周波数比）で乗じられる。12ヶ月後、すなわち1[[オクターブ]]で、累積効果はブロック報酬の正確な半減となり、[[音楽理論]]における1オクターブにわたる周波数の倍加に類似している。<ref name="tokenomics" />
+
+これにより、ビットコインの急激な半減期によるマイナー収入の突然の変化ではなく、滑らかな[[指数関数的減衰]]曲線が生成される。最大供給量は287億KASである。<ref name="tokenomics" />
+
+== マイニング ==
+
+KaspaはプルーフォブワークマイニングにkHeavyHashアルゴリズムを使用する。ネットワークはCPUおよびGPUマイニングから[[特定用途向け集積回路|ASIC]]マイニングへ移行し、Bitmain、IceRiver、Goldshellなどの企業がマイナーを製造している。<ref name="mining" />
+
+== 評価 ==
+
+Kaspaは33以上の暗号通貨取引所に上場している。<ref name="coingecko">{{cite web |url=https://www.coingecko.com/en/coins/kaspa |title=Kaspa Price, Chart, Market Cap |publisher=CoinGecko |access-date=2026-03-09}}</ref> [[バイナンス]]は2024年11月にKAS永久先物契約を開始し、<ref>{{cite web |url=https://www.binance.com/en/support/announcement/binance-futures-will-launch-usd-margined-kasusdt-perpetual-contract-with-up-to-75x-leverage |title=Binance Futures Will Launch KASUSDT Perpetual Contract |publisher=Binance |access-date=2026-03-09}}</ref>[[コインベース]]は2025年2月にKAS先物を導入した。<ref>{{cite web |url=https://www.coinbase.com/blog/coinbase-derivatives-to-launch-kaspa-futures |title=Coinbase Derivatives to Launch Kaspa Futures |publisher=Coinbase |access-date=2026-03-09}}</ref>
+
+KASトークンは約27億ドルのピーク時価総額に達し、2026年初頭時点で約8億ドルの時価総額であった。<ref name="coingecko" /><ref name="coinmarketcap">{{cite web |url=https://coinmarketcap.com/currencies/kaspa/ |title=Kaspa Price Today |publisher=CoinMarketCap |access-date=2026-03-09}}</ref> KaspaはCoinMarketCapおよびCoinGeckoの両方で時価総額上位50位の暗号通貨にランクインした。<ref name="coingecko" /><ref name="coinmarketcap" /> MessariはKaspaをフェアローンチ分配モデルのプルーフ・オブ・ワークプロジェクトとしてリストしている。<ref name="messari" />
+
+== ネットワーク統計 ==
+
+{{As of|2026|03}}現在、Kaspaネットワークのハッシュレートは約311〜411 PH/sである。<ref name="kasfyi">{{cite web |url=https://kas.fyi |title=Kaspa Network Statistics |publisher=Kas.fyi |access-date=2026-03-09}}</ref> ネットワークは6億100万件以上の総トランザクションを処理しており、1日あたり約38万6,000件のトランザクションが行われている。<ref name="kasfyi" /> アクティブアドレス数はローンチ以降着実に増加している。<ref name="kasfyi" />
+
+== 関連項目 ==
+* [[有向非巡回グラフ]]
+* [[プルーフ・オブ・ワーク]]
+* [[ビットコイン]]
+* [[暗号通貨]]
+* [[ブロックチェーン]]
+* [[コンセンサス (計算機科学)]]
+
+== 脚注 ==
+{{Reflist}}
+
+== 外部リンク ==
+* {{Official website|kaspa.org}}
+* [https://github.com/kaspanet/rusty-kaspa Kaspaソースコード]（[[GitHub]]）
+* [https://eprint.iacr.org/2018/104 PHANTOM and GHOSTDAG論文]（IACR ePrint）
+* [https://eprint.iacr.org/2022/1494 DAG-KNIGHT論文]（IACR ePrint）
+* [https://explorer.kaspa.org/ Kaspaブロックエクスプローラー]
+
+{{Cryptocurrencies}}
+
+[[Category:暗号通貨]]
+[[Category:プルーフ・オブ・ワーク暗号通貨]]
+[[Category:2021年開始のコンピュータ関連]]
+[[Category:有向非巡回グラフ]]
+
+[[en:Kaspa (cryptocurrency)]]

@@ -1,0 +1,110 @@
+{{Short description|BlockDAG consensus protocol}}
+
+'''PHANTOM''' is a [[consensus protocol]] for [[Directed acyclic graph|blockDAG]] (block directed acyclic graph) systems proposed by [[Yonatan Sompolinsky]], Shai Wyborski, and [[Aviv Zohar]]. Published at the [[ACM]] Conference on Advances in Financial Technologies (AFT) in 2021, PHANTOM provides a method for establishing a [[total order]] over all blocks in a [[Directed acyclic graph|DAG]], generalizing [[Nakamoto consensus]] from a linear [[blockchain]] to a DAG structure.{{sfn|Sompolinsky|Wyborski|Zohar|2021}} The optimization problem at the core of PHANTOM is [[NP-hard]]; '''GHOSTDAG''' is its practical [[Time complexity#Polynomial time|polynomial-time]] greedy approximation, deployed in the [[Kaspa (cryptocurrency)|Kaspa]] cryptocurrency.
+
+== Background ==
+
+In [[Nakamoto consensus]] ([[Bitcoin]]), blocks form a linear chain. The [[longest chain rule]] determines the canonical transaction history: miners extend the longest available chain, and competing forks are resolved by discarding shorter branches.{{sfn|Sompolinsky|Zohar|2015}}
+
+At high block production rates, network [[Propagation delay|propagation delay]] causes many blocks to be mined in parallel. In a linear blockchain, these parallel blocks become [[orphan block]]s, wasting [[Proof of work|computational work]] and reducing the system's security guarantees. This creates a fundamental tension between throughput and security.
+
+A blockDAG structure addresses this by including ''all'' validly produced blocks rather than discarding those not on the longest chain. However, a DAG alone does not resolve conflicting transactions or establish a canonical history. A consensus protocol is required to impose an ordering over the blocks in the DAG. PHANTOM solves this ordering problem.
+
+== ''k''-cluster theory ==
+
+The core theoretical concept in PHANTOM is the ''k''-cluster.{{sfn|Sompolinsky|Wyborski|Zohar|2021}}
+
+=== Definition ===
+
+A subset ''S'' of blocks in a DAG is a '''{{mvar|k}}-cluster''' if, for every block ''B'' in ''S'', the number of blocks in ''B''{{'}}s [[anticone]] that are also in ''S'' is at most ''k''. The anticone of a block ''B'' consists of all blocks with no ordering relationship to ''B'' — that is, blocks that are neither in ''B''{{'}}s past (ancestors) nor in ''B''{{'}}s future (descendants).
+
+=== Relationship to network conditions ===
+
+The parameter ''k'' relates to network conditions by the approximation:
+
+: <math>k \approx 2D\lambda</math>
+
+where ''D'' is the network [[propagation delay]] and ''&lambda;'' is the block production rate. This relationship captures the expected degree of parallelism among honestly produced blocks.
+
+=== Honest and adversarial blocks ===
+
+Honest miners follow the protocol by referencing all known [[Directed acyclic graph#Terminology|tips]] (unreferenced blocks) in the DAG. When multiple honest miners produce blocks in parallel, these blocks have small anticones bounded by ''k'', and they collectively form a ''k''-cluster. This set is called the '''blue set'''.
+
+Adversarial blocks, by contrast, are typically withheld and released later, creating large anticones that exceed the ''k'' threshold. These blocks fall outside the ''k''-cluster and are assigned to the '''red set'''.
+
+PHANTOM's goal is to find the '''maximum {{mvar|k}}-cluster''' in the DAG — the largest set of blocks consistent with honest mining behaviour — and use it to derive a total ordering of all blocks.
+
+== NP-hardness ==
+
+Sompolinsky, Wyborski, and Zohar proved that finding the maximum ''k''-cluster in a DAG is [[NP-hard]].{{sfn|Sompolinsky|Wyborski|Zohar|2021}} This result means that PHANTOM as originally defined cannot be computed efficiently in the general case; no [[polynomial-time algorithm]] is known for the problem, and the existence of one would imply [[P versus NP problem|P = NP]].
+
+This computational intractability motivated the development of GHOSTDAG as a practical greedy approximation that trades optimality for efficiency.
+
+== GHOSTDAG ==
+
+'''GHOSTDAG''' is a [[Greedy algorithm|greedy]], polynomial-time approximation of PHANTOM.{{sfn|Sompolinsky|Wyborski|Zohar|2021}} It is the algorithm deployed in practice.
+
+=== Algorithm ===
+
+GHOSTDAG operates as follows:
+
+# Each new block selects a '''selected parent''' — the parent block with the highest ''blue score'' (the size of the blue set in that block's past).
+# The algorithm greedily extends the blue set by following the selected parent chain, adding blocks that satisfy the ''k''-cluster condition relative to the current blue set.
+# This process produces a '''selected parent chain''' analogous to the longest chain in Nakamoto consensus.
+
+=== Total ordering ===
+
+GHOSTDAG produces a total ordering over all blocks in the DAG:
+
+* Blocks on the selected parent chain are ordered according to their position on that chain.
+* Off-chain blocks (blocks not on the selected parent chain) are interleaved at their respective [[Directed acyclic graph#Terminology|merge points]] — the earliest selected-chain block that has the off-chain block in its past.
+* Transaction conflicts are resolved by ordering: the first transaction in the GHOSTDAG order takes precedence.
+
+=== Deployment ===
+
+GHOSTDAG is deployed in [[Kaspa (cryptocurrency)|Kaspa]], which operates at 10 [[blocks per second]].
+
+== Security proof ==
+
+A formal security proof for GHOSTDAG was developed by Shai Wyborski.{{sfn|Sompolinsky|Wyborski|Zohar|2021}} During the proof process, Wyborski identified and corrected a flaw in the original security argument presented in the earlier ePrint preprint of the protocol.{{sfn|Sompolinsky|Zohar|2018}}
+
+The corrected proof demonstrates that the probability of an ordering reversal (a confirmed transaction being displaced) decreases [[Exponential decay|exponentially]] as the confirmation depth increases, paralleling the security guarantees of Nakamoto consensus. The result was [[peer review]]ed and published in the ACM AFT 2021 proceedings.
+
+== Relationship to other protocols ==
+
+PHANTOM and GHOSTDAG occupy a specific position in the lineage of DAG-based consensus protocols:
+
+* '''[[GHOST protocol|GHOST]]''' (2015): A predecessor by Sompolinsky and Zohar that modifies the [[fork choice rule]] in a blockchain (not a DAG) by weighting subtrees rather than chain length.{{sfn|Sompolinsky|Zohar|2015}}
+* '''SPECTRE''' (2016): A blockDAG protocol by the same research group that provides a ''partial'' ordering over blocks, sufficient for payment transactions but not for general [[smart contract]]s or applications requiring total ordering.{{sfn|Sompolinsky|Lewenberg|Zohar|2016}}
+* '''DAG-KNIGHT''' (2022): A successor protocol that eliminates the need for a predetermined ''k'' parameter by inferring network conditions directly from the structure of the DAG.{{sfn|Sompolinsky|2022}}
+
+PHANTOM and GHOSTDAG bridge the gap between SPECTRE's partial ordering and the requirements of a general-purpose [[distributed ledger]]. They provide the first blockDAG protocol with a total ordering, enabling support for arbitrary transaction types beyond simple payments.
+
+== See also ==
+
+* [[Directed acyclic graph|BlockDAG]]
+* [[GHOST protocol]]
+* [[Kaspa (cryptocurrency)]]
+* [[Nakamoto consensus]]
+* [[NP-hardness]]
+* [[Directed acyclic graph]]
+
+== References ==
+
+{{reflist}}
+
+=== Sources ===
+
+* {{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990 |ref={{sfnref|Sompolinsky|Wyborski|Zohar|2021}}}}
+* {{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32 |ref={{sfnref|Sompolinsky|Zohar|2015}}}}
+* {{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint |ref={{sfnref|Sompolinsky|Lewenberg|Zohar|2016}}}}
+* {{cite web |url=https://eprint.iacr.org/2022/1494 |title=DAG-KNIGHT: An Parameterless Generalization of Nakamoto Consensus |last=Sompolinsky |first=Yonatan |year=2022 |publisher=IACR ePrint |ref={{sfnref|Sompolinsky|2022}}}}
+* {{cite web |url=https://eprint.iacr.org/2018/104 |title=PHANTOM: A Scalable BlockDAG Protocol |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |year=2018 |publisher=IACR ePrint |ref={{sfnref|Sompolinsky|Zohar|2018}}}}
+
+{{Cryptocurrency}}
+
+[[Category:Consensus algorithms]]
+[[Category:Distributed computing]]
+[[Category:Directed acyclic graphs]]
+[[Category:Cryptocurrency]]
+[[Category:Computational complexity theory]]

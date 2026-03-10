@@ -1,0 +1,83 @@
+{{Short description|Científico de la computación israelí}}
+{{Infobox scientist
+| name = Yonatan Sompolinsky
+| nationality = Israelí
+| fields = [[Criptografía]], [[Computación distribuida]], [[Criptomoneda]]
+| workplaces = {{unbulleted list|[[Universidad de Harvard]] (CRCS)|[[Universidad Hebrea de Jerusalén]]}}
+| known_for = [[Protocolo GHOST]], PHANTOM, GHOSTDAG, DAG-KNIGHT, [[Kaspa (cryptocurrency)|Kaspa]]
+| website =
+}}
+
+'''Yonatan Sompolinsky''' es un [[científico de la computación]] israelí conocido por su investigación sobre la escalabilidad de las [[cadena de bloques|cadenas de bloques]] y los [[mecanismo de consenso|protocolos de consenso]]. Es el creador del protocolo GHOST, que influyó en la regla de selección de bifurcación de [[Ethereum]],<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref> y el fundador de la criptomoneda [[Kaspa (cryptocurrency)|Kaspa]].<ref name="kaspa">{{cite web |url=https://kaspa.org/contributors/ |title=Kaspa Contributors |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+== Carrera ==
+
+=== Educación ===
+
+Sompolinsky obtuvo su doctorado en [[ciencias de la computación]] en la [[Universidad Hebrea de Jerusalén]], donde fue supervisado por [[Aviv Zohar]].<ref name="ghost" /> Posteriormente realizó investigación posdoctoral en el Centro de Investigación en Computación y Sociedad (CRCS) de la [[Universidad de Harvard]].<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+=== Carrera profesional ===
+
+Fundó DAGLabs, una empresa de investigación y desarrollo de [[criptomoneda|criptomonedas]], que fue disuelta aproximadamente en el momento del lanzamiento de Kaspa en noviembre de 2021, y el proyecto pasó a un desarrollo liderado por la comunidad.<ref name="fairlaunch">{{cite web |url=https://kaspa.org/kaspas-fair-launch/ |title=Kaspa's Fair Launch |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+== Contribuciones de investigación ==
+
+=== Protocolo GHOST (2013/2015) ===
+
+Sompolinsky, junto con [[Aviv Zohar]], propuso el protocolo GHOST (Greedy Heaviest Observed Sub-Tree) para el procesamiento seguro de transacciones a alta velocidad en sistemas similares a [[Bitcoin]]. El protocolo modifica la regla de la cadena más larga de Bitcoin al ponderar todo el subárbol de bloques en lugar de solo la ruta más larga, mejorando la seguridad a altas tasas de producción de bloques. Notablemente, GHOST introdujo la idea del consenso ''inclusivo'': en lugar de descartar los bloques huérfanos, el protocolo los tiene en cuenta en su cálculo de selección de bifurcación, incorporando trabajo paralelo que las reglas tradicionales de cadena más larga ignorarían.<ref name="ghost" /> El artículo de GHOST ha sido ampliamente citado en la literatura sobre criptomonedas y sistemas distribuidos.
+
+==== Influencia en Ethereum ====
+
+[[Vitalik Buterin]] reconoció al protocolo GHOST en el libro blanco de [[Ethereum]] (2013–2014) como una influencia clave en el enfoque de Ethereum hacia tiempos de bloque rápidos, señalando que GHOST abordaba los desafíos de seguridad que surgen cuando los intervalos entre bloques son cortos y las tasas de bloques obsoletos son altas.<ref name="ethwhitepaper">{{cite web |url=https://ethereum.org/en/whitepaper/ |title=Ethereum Whitepaper |last=Buterin |first=Vitalik |year=2013 |access-date=2026-03-09}}</ref> El mecanismo de consenso actual de [[prueba de participación]] de Ethereum utiliza LMD-GHOST (Latest Message Driven GHOST), una adaptación de prueba de participación del protocolo original de prueba de trabajo de Sompolinsky, como parte de su capa de finalidad Gasper.<ref name="ethgasper">{{cite web |url=https://ethereum.org/developers/docs/consensus-mechanisms/pos/gasper/ |title=Gasper |publisher=Ethereum.org |access-date=2026-03-09}}</ref> Ethereum es una de las mayores [[criptomoneda|criptomonedas]] por capitalización de mercado, lo que convierte al protocolo GHOST en una de las contribuciones más trascendentales al diseño de protocolos de consenso.
+
+=== SPECTRE (2016) ===
+
+Con [[Yoad Lewenberg]] y [[Aviv Zohar]], Sompolinsky propuso SPECTRE (Serialization of Proof-of-work Events: Confirming Transactions via Recursive Elections), un protocolo [[Grafo acíclico dirigido|blockDAG]] que proporciona confirmación rápida de transacciones mediante ordenación por pares en lugar de un orden total de bloques.<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref>
+
+=== PHANTOM y GHOSTDAG (2018/2021) ===
+
+Con [[Shai Wyborski]] y [[Aviv Zohar]], Sompolinsky propuso PHANTOM y su aproximación voraz práctica GHOSTDAG. Los protocolos generalizan el [[consenso de Nakamoto]] de una cadena de bloques a un blockDAG, permitiendo altas tasas de bloques sin el problema de la tasa de huérfanos que limita los sistemas de cadena única. Wyborski proporcionó una demostración formal de seguridad para el protocolo PHANTOM. El trabajo fue revisado por pares y publicado en las actas de la Conferencia de la [[Association for Computing Machinery|ACM]] sobre Avances en Tecnologías Financieras (AFT) en 2021, donde Sompolinsky presentó el artículo.<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref>
+
+GHOSTDAG es el protocolo de consenso desplegado en la criptomoneda [[Kaspa (cryptocurrency)|Kaspa]].<ref name="kaspa" />
+
+=== DAG-KNIGHT (2022) ===
+
+Con [[Michael Sutton (developer)|Michael Sutton]], Sompolinsky propuso DAG-KNIGHT, descrito como el primer protocolo de [[prueba de trabajo]] sin permisos sin un límite a priori dentro del protocolo en la latencia de la red. El protocolo infiere las condiciones de la red a partir de la topología del DAG en lugar de requerir parámetros preconfigurados.<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref> El artículo fue publicado a través del Centro de Investigación en Computación y Sociedad de Harvard.<ref name="harvard" />
+
+=== Temas de investigación ===
+
+El corpus de investigación de Sompolinsky sigue un tema consistente de hacer que los protocolos de consenso de cadenas de bloques sean más ''inclusivos'' del trabajo paralelo. El protocolo GHOST incorpora los bloques tío en los cálculos de peso de selección de bifurcación; SPECTRE y PHANTOM extienden este principio al incluir todos los bloques paralelos en un [[Grafo acíclico dirigido|blockDAG]] y derivar de ellos una ordenación coherente; y DAG-KNIGHT generaliza aún más este enfoque sin requerir parámetros de red preestablecidos. Esta progresión representa un esfuerzo sostenido por ir más allá del paradigma de cadena única del [[consenso de Nakamoto]], en el que solo un bloque puede ser aceptado en cada altura y todos los bloques competidores son descartados.
+
+=== Presentaciones académicas ===
+
+Sompolinsky ha presentado su investigación en destacados foros académicos, incluyendo la Conferencia ACM sobre Avances en Tecnologías Financieras (AFT) en 2021, donde presentó el artículo de PHANTOM/GHOSTDAG,<ref name="phantom" /> y la Conferencia de Seguridad en Criptoeconomía (CESC) en la [[Universidad de California en Berkeley|UC Berkeley]] en 2022.<ref name="cesc">{{cite web |url=https://cesc.io |title=Crypto Economics Security Conference (CESC) |publisher=UC Berkeley |access-date=2026-03-09}}</ref>
+
+=== Colaboradores ===
+
+Los principales colaboradores de Sompolinsky incluyen a [[Aviv Zohar]], su director de tesis doctoral y coautor en GHOST, SPECTRE y PHANTOM; [[Yoad Lewenberg]], coautor en SPECTRE; [[Shai Wyborski]], coautor en PHANTOM quien contribuyó la demostración formal de seguridad; y [[Michael Sutton (developer)|Michael Sutton]], coautor en DAG-KNIGHT y desarrollador principal de la implementación en Rust de Kaspa.<ref name="ghost" /><ref name="spectre" /><ref name="phantom" /><ref name="dagknight" />
+
+== Publicaciones seleccionadas ==
+
+* Sompolinsky, Y.; Zohar, A. (2015). "Secure High-Rate Transaction Processing in Bitcoin". ''Financial Cryptography and Data Security''. [https://doi.org/10.1007/978-3-662-47854-7_32 DOI].
+* Sompolinsky, Y.; Lewenberg, Y.; Zohar, A. (2016). "SPECTRE: A Fast and Scalable Cryptocurrency Protocol". IACR ePrint. [https://eprint.iacr.org/2016/1159 ePrint 2016/1159].
+* Sompolinsky, Y.; Wyborski, S.; Zohar, A. (2021). "PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus". ''ACM Conference on Advances in Financial Technologies (AFT 2021)'', pp. 57–70. [https://dl.acm.org/doi/10.1145/3479722.3480990 DOI].
+* Sompolinsky, Y.; Sutton, M. (2022). "The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus". IACR ePrint. [https://eprint.iacr.org/2022/1494 ePrint 2022/1494].
+
+== Véase también ==
+* [[Kaspa (cryptocurrency)|Kaspa (criptomoneda)]]
+* [[BlockDAG]]
+* [[Cadena de bloques]]
+* [[Prueba de trabajo]]
+* [[Consenso de Nakamoto]]
+
+== Referencias ==
+{{Reflist}}
+
+[[Categoría:Científicos de la computación de Israel]]
+[[Categoría:Criptógrafos]]
+[[Categoría:Alumnado de la Universidad Hebrea de Jerusalén]]
+[[Categoría:Personas relacionadas con la Universidad de Harvard]]
+[[Categoría:Personas de criptomonedas]]
+[[Categoría:Personas vivas]]
+
+[[en:Yonatan Sompolinsky]]

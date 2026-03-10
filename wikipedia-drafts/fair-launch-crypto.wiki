@@ -1,0 +1,129 @@
+{{Short description|Cryptocurrency distribution method without pre-allocation}}
+{{Use dmy dates|date=March 2026}}
+
+A '''fair launch''' in [[cryptocurrency]] refers to a distribution model in which a cryptocurrency is made available to the public from its inception without any pre-allocation of [[Cryptocurrency#Token|tokens]] to founders, developers, investors, or other insiders. In a fair launch, all tokens are distributed exclusively through the network's [[Consensus mechanism|consensus mechanism]] (typically [[Cryptocurrency mining|mining]] in [[proof-of-work]] systems), and no tokens exist before the public launch of the network.<ref name="investopedia-fair-launch">{{Cite web |title=What Is a Fair Launch in Crypto? |url=https://www.investopedia.com/what-is-a-fair-launch-in-crypto-7098903 |website=Investopedia |access-date=2026-03-09}}</ref>
+
+The concept is contrasted with [[initial coin offering]]s (ICOs), [[premine]]s, [[venture capital]]-funded token distributions, and other mechanisms that allocate tokens to specific parties before or alongside public availability.<ref name="gemini-fair-launch">{{Cite web |title=Fair Launch |url=https://www.gemini.com/cryptopedia/fair-launch-cryptocurrency |website=Gemini Cryptopedia |access-date=2026-03-09}}</ref> The term has gained relevance in discussions of [[securities regulation]] as regulators evaluate whether particular tokens constitute [[Security (finance)|securities]].<ref name="sec-framework">{{Cite web |title=Framework for "Investment Contract" Analysis of Digital Assets |url=https://www.sec.gov/corpfin/framework-investment-contract-analysis-digital-assets |publisher=U.S. Securities and Exchange Commission |date=2019-04-03 |access-date=2026-03-09}}</ref>
+
+== Definition and characteristics ==
+
+A fair launch cryptocurrency is generally identified by several defining characteristics:<ref name="investopedia-fair-launch" /><ref name="gemini-fair-launch" />
+
+* '''No premine''' — no tokens are created or allocated before the network is made publicly available. The [[genesis block]] and all subsequent blocks are produced through the same public process.
+* '''No ICO, IEO, or IDO''' — no [[initial coin offering]], [[initial exchange offering]], or initial DEX offering is conducted. Tokens are not sold to investors prior to or at launch.
+* '''No team or founder allocation''' — no portion of the token supply is reserved for the developers, founding team, or any affiliated organisation.
+* '''No venture capital token distribution''' — no tokens are distributed to [[venture capital]] firms or other institutional investors in exchange for funding.
+* '''Equal opportunity''' — any participant can begin earning tokens through the consensus mechanism from the first block onward, without requiring prior approval or access.
+* '''On-chain transparency''' — all token creation is recorded on the public [[blockchain]] or [[Directed acyclic graph|DAG]] from the genesis block, and the distribution schedule is defined by the open-source protocol.
+
+== History ==
+
+=== Bitcoin and early cryptocurrencies ===
+
+[[Bitcoin]], launched in January 2009 by the pseudonymous [[Satoshi Nakamoto]], is widely regarded as the original fair launch cryptocurrency. Nakamoto published the [[Bitcoin whitepaper]] in October 2008, released the open-source software, and mining commenced publicly on 3 January 2009 with the creation of the genesis block.<ref name="nakamoto-whitepaper">{{Cite journal |last=Nakamoto |first=Satoshi |title=Bitcoin: A Peer-to-Peer Electronic Cash System |date=2008-10-31 |url=https://bitcoin.org/bitcoin.pdf}}</ref> While analysis has suggested that Nakamoto mined a significant number of early blocks (estimated at approximately one million BTC), there was no formal premine mechanism — the software was publicly available and anyone with a computer could participate in mining from the outset.<ref name="sergio-satoshi">{{Cite web |last=Lerner |first=Sergio Demian |title=The Well Deserved Fortune of Satoshi Nakamoto |url=https://bitslog.com/2013/04/17/the-well-deserved-fortune-of-satoshi-nakamoto/ |date=2013-04-17 |website=Bitslog |access-date=2026-03-09}}</ref>
+
+Several early [[altcoin]]s followed the fair launch model. [[Litecoin]], launched in October 2011 by Charlie Lee, used a proof-of-work mechanism based on the [[Scrypt]] hashing algorithm and did not include a premine or token sale.<ref name="litecoin-launch">{{Cite web |title=Litecoin – Open source P2P digital currency |url=https://litecoin.org/ |website=Litecoin |access-date=2026-03-09}}</ref> [[Dogecoin]], introduced in December 2013 by Billy Markus and Jackson Palmer as a lighthearted alternative to Bitcoin, similarly launched without pre-allocated tokens.<ref name="dogecoin-history">{{Cite news |title=Dogecoin: The Joke Cryptocurrency That Became Real |url=https://www.bbc.com/news/business-56371922 |publisher=BBC News |date=2021-03-12 |access-date=2026-03-09}}</ref>
+
+=== ICO era ===
+
+The period from 2017 to 2018 saw a significant shift away from the fair launch model with the rise of [[initial coin offering]]s. During this period, the majority of new cryptocurrency projects created tokens in advance and sold them to investors to fund development. [[Ethereum]], which conducted an ICO in 2014, had established a precedent for this approach, raising approximately 31,000 BTC (around US$18 million at the time) through the sale of pre-created [[Ether (cryptocurrency)|Ether]] tokens.<ref name="ethereum-ico">{{Cite web |title=Launching the Ether Sale |last=Buterin |first=Vitalik |url=https://blog.ethereum.org/2014/07/22/launching-the-ether-sale |website=Ethereum Blog |date=2014-07-22 |access-date=2026-03-09}}</ref>
+
+The ICO model raised significant regulatory concerns. The U.S. [[Securities and Exchange Commission]] (SEC) took enforcement action against numerous ICO projects, arguing that many tokens constituted unregistered [[Security (finance)|securities]].<ref name="sec-ico-enforcement">{{Cite web |title=SEC Enforcement Actions: Cyber-Related |url=https://www.sec.gov/spotlight/cybersecurity-enforcement-actions |publisher=U.S. Securities and Exchange Commission |access-date=2026-03-09}}</ref>
+
+=== Return to fair launches ===
+
+Some subsequent cryptocurrency projects returned to the fair launch model. [[Kaspa (cryptocurrency)|Kaspa]], launched in November 2021, adopted a fair launch approach with no premine, no ICO, and no team allocation. The project originated from research led by [[Yonatan Sompolinsky]] and the company DAGLabs, which dissolved prior to the network launch. Ongoing development has been funded through community donations and an ecosystem fund rather than pre-allocated tokens.<ref name="kaspa-launch">{{Cite web |title=Kaspa: A Fair Launch PoW Cryptocurrency |url=https://kaspa.org/ |website=Kaspa |access-date=2026-03-09}}</ref>
+
+== Comparison with other distribution models ==
+
+{| class="wikitable"
+|-
+! Distribution model !! Pre-allocated tokens !! Insider advantage !! Regulatory risk !! Examples
+|-
+| '''Fair launch''' || None || Minimal || Lower || [[Bitcoin]], [[Litecoin]], [[Kaspa (cryptocurrency)|Kaspa]]
+|-
+| '''[[Premine]]''' || Yes (founders/team) || Significant || Moderate || Various altcoins
+|-
+| '''[[Initial coin offering|ICO]]/Token sale''' || Yes (sold to investors) || Significant || High (securities law) || [[Ethereum]] (2014 ICO), many 2017-era tokens
+|-
+| '''VC-funded''' || Yes (investors) || Significant || High || [[Solana (blockchain platform)|Solana]], [[Avalanche (blockchain platform)|Avalanche]]
+|-
+| '''[[Airdrop (cryptocurrency)|Airdrop]]''' || Yes (distributed free) || Moderate || Moderate || Various [[Decentralized finance|DeFi]] tokens
+|}
+
+== Regulatory significance ==
+
+The distinction between fair launch and pre-allocated token distributions has become relevant to the regulatory classification of cryptocurrencies, particularly in the United States.
+
+=== Application of the Howey test ===
+
+The U.S. [[Securities and Exchange Commission]] applies the [[SEC v. W. J. Howey Co.|Howey test]] to determine whether a digital asset constitutes an [[investment contract]] and therefore a [[Security (finance)|security]]. Under this test, a transaction is an investment contract if it involves (1) an investment of money, (2) in a common enterprise, (3) with the expectation of profits, (4) derived from the efforts of others.<ref name="sec-framework" />
+
+Fair-launched, proof-of-work tokens with no central issuer may be less likely to satisfy all elements of the Howey test, as there is no initial sale of tokens (addressing the "investment of money" prong) and the decentralised nature of mining may weaken the "efforts of others" prong.<ref name="coincenter-securities">{{Cite web |title=What does it mean for a cryptocurrency to be a security? |url=https://www.coincenter.org/education/crypto-regulation-faq/ |website=Coin Center |access-date=2026-03-09}}</ref>
+
+=== Bitcoin's classification ===
+
+The SEC has stated that Bitcoin is not a security. Former SEC Director of Corporate Finance William Hinman stated in 2018 that Bitcoin's decentralised structure meant it did not meet the criteria for an investment contract.<ref name="hinman-speech">{{Cite web |last=Hinman |first=William |title=Digital Asset Transactions: When Howey Met Gary (Plastic) |url=https://www.sec.gov/news/speech/speech-hinman-061418 |publisher=U.S. Securities and Exchange Commission |date=2018-06-14 |access-date=2026-03-09}}</ref> The [[Commodity Futures Trading Commission]] (CFTC) has classified Bitcoin as a [[commodity]].<ref name="cftc-bitcoin">{{Cite web |title=CFTC Backgrounder on Oversight of and Approach to Virtual Currency Futures Markets |url=https://www.cftc.gov/sites/default/files/idc/groups/public/documents/file/backgrounder_virtualcurrency01.pdf |publisher=Commodity Futures Trading Commission |access-date=2026-03-09}}</ref> These classifications have been attributed in part to Bitcoin's fair launch and decentralised nature.
+
+=== Jurisdictional variation ===
+
+Regulatory classification of cryptocurrencies varies significantly by jurisdiction and remains an evolving area of law. Different countries apply different legal frameworks, and the classification of a particular token may differ depending on the jurisdiction.<ref name="loc-crypto-regulation">{{Cite web |title=Regulation of Cryptocurrency Around the World |url=https://tile.loc.gov/storage-services/service/ll/llglrd/2021687419/2021687419.pdf |publisher=Library of Congress |date=2021-11 |access-date=2026-03-09}}</ref>
+
+== Criticism and limitations ==
+
+The fair launch model has been subject to several criticisms:
+
+=== Early miner advantage ===
+
+Even in a fair launch, participants who mine from the earliest blocks benefit from lower mining difficulty and reduced competition, potentially accumulating a disproportionate share of tokens. This dynamic means that those with prior knowledge of the launch date and access to mining hardware have an inherent advantage over later participants.<ref name="early-miner">{{Cite journal |title=An Empirical Analysis of Cryptocurrency Mining |journal=Journal of Financial Economics |date=2023 |doi=10.1016/j.jfineco.2023.01.001}}</ref>
+
+=== Information asymmetry ===
+
+Founders and developers necessarily have advance knowledge of a project's launch, including its technical characteristics, launch date, and mining parameters. This information asymmetry means that a launch cannot be fully equal in practice, even if the mechanism itself does not formally pre-allocate tokens.<ref name="info-asymmetry">{{Cite web |title=The Myth of the Fair Launch |url=https://www.coindesk.com/layer2/2022/02/04/the-myth-of-the-fair-launch/ |website=CoinDesk |access-date=2026-03-09}}</ref> The case of Bitcoin is sometimes cited: while there was no formal premine, Satoshi Nakamoto's advance knowledge and early mining activity resulted in the accumulation of a significant number of coins.
+
+=== Development funding ===
+
+Projects that launch without pre-allocated tokens must find alternative mechanisms to fund ongoing development, such as community donations, grants from ecosystem funds, or developer contributions from mining proceeds. Critics argue that this can result in underfunded development or create alternative centralisation pressures.<ref name="funding-challenge">{{Cite web |title=How Do Fair Launch Crypto Projects Fund Development? |url=https://decrypt.co/resources/fair-launch-crypto |website=Decrypt |access-date=2026-03-09}}</ref>
+
+=== Definition disputes ===
+
+There is no universally agreed-upon definition of what constitutes a fair launch. Debates arise over edge cases, such as whether a project with a brief public announcement period before mining begins qualifies, or whether the existence of a known founder undermines the fairness of the distribution. The classification of individual projects as fair launches is sometimes contested.<ref name="gemini-fair-launch" />
+
+== Notable fair launch cryptocurrencies ==
+
+{| class="wikitable sortable"
+|-
+! Cryptocurrency !! Launch year !! Consensus mechanism !! Notes
+|-
+| [[Bitcoin]] || 2009 || [[Proof of work]] ([[SHA-256]]) || First cryptocurrency; widely considered the original fair launch
+|-
+| [[Litecoin]] || 2011 || [[Proof of work]] ([[Scrypt]]) || Bitcoin fork; no premine or token sale
+|-
+| [[Dogecoin]] || 2013 || [[Proof of work]] ([[Scrypt]]) || Originated as a parody; no premine
+|-
+| [[Monero]] || 2014 || [[Proof of work]] ([[RandomX]]) || Privacy-focused; launched as BitMonero; some dispute exists regarding the circumstances of early mining<ref name="monero-launch">{{Cite web |title=Monero History |url=https://www.getmonero.org/resources/about/ |website=Monero |access-date=2026-03-09}}</ref>
+|-
+| [[Kaspa (cryptocurrency)|Kaspa]] || 2021 || [[Proof of work]] ([[kHeavyHash]]) || [[Directed acyclic graph|BlockDAG]] architecture; [[GHOSTDAG]] consensus
+|}
+
+== See also ==
+
+* [[Initial coin offering]]
+* [[Cryptocurrency]]
+* [[Bitcoin]]
+* [[Proof of work]]
+* [[Securities regulation in the United States]]
+* [[SEC v. W. J. Howey Co.|Howey test]]
+* [[Premine]]
+* [[Cryptocurrency mining]]
+
+== References ==
+
+{{Reflist}}
+
+{{Cryptocurrency}}
+
+[[Category:Cryptocurrency]]
+[[Category:Initial coin offerings]]
+[[Category:Securities regulation]]
+[[Category:Cryptocurrency launch methods]]

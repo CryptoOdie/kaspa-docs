@@ -1,0 +1,116 @@
+{{Short description|基于图的分布式账本数据结构}}
+
+'''区块DAG'''（'''block Directed Acyclic Graph'''，即'''区块有向无环图'''）是一种用于[[分布式账本]]技术的[[数据结构]]，其中区块可以引用多个前驱区块，形成[[有向无环图]]而非线性[[区块链]]。<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref> 这种结构允许多个区块并行创建并同时纳入账本，与单链架构相比可能提高交易吞吐量。
+
+== 概述 ==
+
+在传统[[区块链]]中，区块形成线性链，每个区块恰好引用一个父区块。当多个区块同时产生时（由于网络[[传播延迟]]，在高出块率下这是常见现象），只有一个区块被接受进入规范链；其余区块成为'''孤块'''——在[[工作量证明]]系统中，这意味着计算工作被浪费。<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref>
+
+在区块DAG中，每个区块引用'''所有已知的未被引用区块'''（DAG的末端）作为父区块，从而形成有向无环图。并行区块全部被纳入数据结构中。然后由'''共识协议'''确定所有区块的全序关系，以解决交易冲突。<ref name="phantom" />
+
+区块链中的孤块率近似为：
+
+:<math>\text{orphan\_rate} \approx 1 - e^{-\lambda \cdot D}</math>
+
+其中 <math>\lambda</math> 为区块产生速率，<math>D</math> 为网络传播延迟。在区块DAG中，由于并行区块被纳入而非丢弃，该公式不再适用。<ref name="phantom" />
+
+== 特性 ==
+
+区块DAG展现出若干区别于线性区块链架构的形式化特性：
+
+* '''零孤块率''' — 在区块链中，并行产生的区块相互竞争以被纳入，仅保留一个。在区块DAG中，所有引用已知末端的区块都被纳入结构中，从而完全消除孤块。<ref name="phantom" />
+* '''并行区块纳入''' — 所有诚实挖出的区块都被纳入DAG，不论是否并发产生。这确保了计算工作（在工作量证明系统中）不会因区块后来被丢弃而浪费。<ref name="phantom" />
+* '''通过共识协议实现全序''' — 尽管具有并行结构，区块DAG共识协议（如PHANTOM和GHOSTDAG）对所有区块施加确定性全序，从而在不牺牲并行性的情况下解决冲突交易。<ref name="phantom" />
+* '''可扩展性''' — 由于孤块率不随出块速率增加而上升，吞吐量主要受限于节点处理能力和网络[[带宽]]，而非保持低孤块率的需要。<ref name="phantom" /><ref name="ghost" />
+
+== 历史 ==
+
+使用DAG感知结构实现加密货币共识的概念，经由Yonatan Sompolinsky及其合作者通过若干协议进行了探索：
+
+* '''GHOST'''（2013/2015）— 由Sompolinsky和Zohar提出。贪婪最重观测子树（Greedy Heaviest-Observed Sub-Tree）协议通过权衡整个子树的区块而非仅最长路径，修改了[[比特币]]的最长链规则，提高了高出块率下的安全性。虽然GHOST仍是区块链（非DAG），但它为基于DAG的共识奠定了理论基础。它影响了[[以太坊]]的分叉选择规则（LMD-GHOST）。<ref name="ghost" />
+
+* '''SPECTRE'''（2016）— 由Sompolinsky、Lewenberg和Zohar提出。第一个完整的区块DAG协议，提供快速确认，但仅实现偏序（交易的成对排序，而非所有区块的全序）。<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref>
+
+* '''PHANTOM'''（2018）— 由Sompolinsky、Wyborski和Zohar提出。通过在DAG中找到最大''k''-团簇来提供所有区块的全序，但该优化问题是[[NP困难|NP困难]]的。<ref name="phantom" />
+
+* '''GHOSTDAG'''（2018/2021）— PHANTOM的贪婪多项式时间近似算法。已部署于[[Kaspa]]加密货币中。<ref name="phantom" />
+
+* '''DAG-KNIGHT'''（2022）— 由Sompolinsky和Sutton提出。一种无参数泛化协议，从DAG拓扑结构推断网络状况。<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref>
+
+其他基于DAG的分布式账本系统包括[[IOTA]]的Tangle，它使用不同的DAG结构，不含离散区块。<ref>{{cite web |url=https://www.iota.org/ |title=IOTA |publisher=IOTA Foundation |access-date=2026-03-09}}</ref>
+
+== 共识协议 ==
+
+=== PHANTOM ===
+
+PHANTOM引入了''k-团簇''的概念，用于在DAG中区分诚实区块和对抗性区块。DAG的子集''S''是''k''-团簇，当且仅当对于''S''中的每个区块''B''，''B''的反锥体（与''B''无序关系的区块集合）中属于''S''的区块数量至多为''k''。<ref name="phantom" />
+
+参数''k''表示一个网络传播延迟期间预期的并行区块数：''k'' ≈ 2''Dλ''，其中''D''为传播延迟，''λ''为出块速率。诚实矿工引用所有已知区块作为父区块，因此诚实并行区块的反锥体较小（≤ ''k''）。对抗性区块通常被扣留后释放，因此具有较大的反锥体。<ref name="phantom" />
+
+找到最大''k''-团簇是[[NP困难]]问题，使得PHANTOM在直接实现上不切实际。<ref name="phantom" />
+
+=== GHOSTDAG ===
+
+GHOSTDAG（贪婪最重观测子树DAG）是PHANTOM的多项式时间贪婪近似算法。其算法流程为：<ref name="phantom" />
+
+# 每个区块选择具有最高'''蓝色分数'''（其过去累计的"蓝色"区块数量）的父区块
+# 算法沿'''选定父链'''贪婪地构建"蓝色集合"
+# 所有区块被排序：链上区块按选定父链排列，非链区块在合并点处交错插入
+# 交易冲突按顺序解决（排序在先者优先）
+
+GHOSTDAG已部署于[[Kaspa]]加密货币中，以每秒10个区块的速率运行。<ref name="crescendo">{{cite web |url=https://kaspa.org/kaspa-updates-to-crescendo-and-10bps/ |title=Kaspa Updates to Crescendo and 10BPS |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+=== DAG-KNIGHT ===
+
+DAG-KNIGHT通过分析DAG结构来推断当前网络状况，从而消除了静态''k''参数。它被描述为第一个无需网络延迟先验上界的无许可工作量证明协议。<ref name="dagknight" /> 该协议通过哈佛大学计算与社会研究中心发布。<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+=== 安全性分析 ===
+
+Shai Wyborski为PHANTOM/GHOSTDAG协议族提供了形式化安全性证明。在此过程中，Wyborski发现并修正了原始安全论证中的一个缺陷。修正后的证明表明，交易逆转的概率随确认数（确认深度）呈指数衰减，这类似于中本聪对[[比特币]]的原始分析结论，但推广到了DAG环境。该成果经同行评审，发表于ACM金融技术进展会议（AFT 2021）。<ref name="phantom" /><ref name="wyborski-dblp">{{cite web |url=https://dblp.org/pid/280/1635.html |title=Shai Wyborski — DBLP bibliography |publisher=[[DBLP]] |access-date=2026-03-09}}</ref>
+
+== 与区块链的比较 ==
+
+{| class="wikitable"
+! 特性 !! 区块链 !! 区块DAG
+|-
+| 区块引用 || 单一父区块 || 多个父区块（所有末端）
+|-
+| 并行区块 || 成为孤块（丢弃） || 被纳入（排序）
+|-
+| 孤块率 || 随出块速率增加 || 零（设计即如此）
+|-
+| 吞吐量扩展 || 受限于孤块率 || 受限于节点/网络容量
+|-
+| 排序 || 固有（线性链） || 需要共识协议
+|}
+
+== 实现 ==
+
+* [[Kaspa]] — 使用GHOSTDAG共识的[[工作量证明]]区块DAG；每秒10个区块<ref name="crescendo" />
+* [[IOTA]] — 使用不同的DAG模型（Tangle），不含离散区块；目前正从协调器模型向[[权益证明]]过渡
+* Conflux — [[工作量证明]]树图结构，结合DAG和树；同时支持[[权益证明]]最终性<ref name="conflux">{{cite conference |last1=Li |first1=Chenxing |last2=Li |first2=Peilun |last3=Zhou |first3=Dong |last4=Xu |first4=Wei |last5=Long |first5=Fan |last6=Yao |first6=Andrew Chi-Chih |title=A Decentralized Blockchain with High Throughput and Fast Confirmation |conference=USENIX Annual Technical Conference (ATC 2020) |year=2020 |url=https://www.usenix.org/conference/atc20/presentation/li-chenxing}}</ref>
+* Nano — 使用区块格（block-lattice）DAG，每个账户拥有自己的链；通过[[委托权益证明]]（开放代表投票）保障安全
+
+== 加密货币之外的应用 ==
+
+虽然区块DAG起源于加密货币和分布式账本技术领域，但其底层数据结构和共识方法在更广泛的[[分布式系统]]中具有潜在应用价值。任何需要并行、去中心化数据纳入而无单一序列化点的系统都可能受益于基于DAG的架构。例如，需要在地理分散节点间协调并发写入的分布式数据库、多个参与者独立记录事件的[[供应链]]追踪系统，以及众多设备同时生成数据且没有单一协调器能实时处理所有输入的[[物联网]]网络。
+
+作为一般性的[[计算机科学]]概念，区块DAG将数据纳入与数据排序解耦——所有参与者可以并行贡献数据，而由单独的共识层解决冲突并建立规范序列。这种分离使得区块DAG成为同时需要高写入吞吐量和去中心化的系统的候选架构。
+
+== 参见 ==
+* [[区块链]]
+* [[有向无环图]]
+* [[共识 (计算机科学)]]
+* [[工作量证明]]
+* [[中本聪共识]]
+
+== 参考文献 ==
+{{Reflist}}
+
+[[Category:分布式计算]]
+[[Category:有向无环图]]
+[[Category:加密货币]]
+[[Category:数据结构]]
+[[Category:区块链]]
+
+[[en:BlockDAG]]

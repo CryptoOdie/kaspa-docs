@@ -1,0 +1,83 @@
+{{Short description|以色列计算机科学家}}
+{{Infobox scientist
+| name = Yonatan Sompolinsky
+| nationality = 以色列
+| fields = [[密码学]]、[[分布式计算]]、[[加密货币]]
+| workplaces = {{unbulleted list|[[哈佛大学]]（CRCS）|[[耶路撒冷希伯来大学]]}}
+| known_for = [[GHOST协议]]、PHANTOM、GHOSTDAG、DAG-KNIGHT、[[Kaspa]]
+| website =
+}}
+
+'''Yonatan Sompolinsky'''是一位以色列[[计算机科学家]]，以其在[[区块链]]可扩展性和[[共识机制|共识协议]]方面的研究而闻名。他是GHOST协议的创始人（该协议影响了[[以太坊]]的分叉选择规则），<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref>也是[[Kaspa]]加密货币的创始人。<ref name="kaspa">{{cite web |url=https://kaspa.org/contributors/ |title=Kaspa Contributors |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+== 职业生涯 ==
+
+=== 教育背景 ===
+
+Sompolinsky在[[耶路撒冷希伯来大学]]获得[[计算机科学]]博士学位，导师为[[Aviv Zohar]]。<ref name="ghost" /> 此后在[[哈佛大学]]计算与社会研究中心（CRCS）从事博士后研究。<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+=== 职业经历 ===
+
+他创立了DAGLabs，一家[[加密货币]]研究与开发公司，该公司在2021年11月Kaspa上线前后解散，项目转为社区主导开发。<ref name="fairlaunch">{{cite web |url=https://kaspa.org/kaspas-fair-launch/ |title=Kaspa's Fair Launch |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+== 研究贡献 ==
+
+=== GHOST协议（2013/2015） ===
+
+Sompolinsky与[[Aviv Zohar]]共同提出了GHOST（贪婪最重观测子树，Greedy Heaviest Observed Sub-Tree）协议，用于在类[[比特币]]系统中实现安全的高速交易处理。该协议通过权衡整个子树的区块而非仅最长路径来修改比特币的最长链规则，提高了高出块率下的安全性。值得注意的是，GHOST引入了''包容性''共识的理念：该协议不丢弃孤块，而是在其分叉选择计算中将其纳入考量，包含了传统最长链规则会忽略的并行工作。<ref name="ghost" /> GHOST论文在加密货币和分布式系统文献中被广泛引用。
+
+==== 对以太坊的影响 ====
+
+[[维塔利克·布特林]]在[[以太坊]]白皮书（2013-2014）中引用了GHOST协议，将其视为以太坊实现快速出块的关键影响，指出GHOST解决了短出块间隔和高过期率下出现的安全挑战。<ref name="ethwhitepaper">{{cite web |url=https://ethereum.org/en/whitepaper/ |title=Ethereum Whitepaper |last=Buterin |first=Vitalik |year=2013 |access-date=2026-03-09}}</ref> 以太坊当前的[[权益证明]]共识机制使用LMD-GHOST（最新消息驱动GHOST），这是Sompolinsky原始工作量证明协议的权益证明改编版本，作为其Gasper最终性层的组成部分。<ref name="ethgasper">{{cite web |url=https://ethereum.org/developers/docs/consensus-mechanisms/pos/gasper/ |title=Gasper |publisher=Ethereum.org |access-date=2026-03-09}}</ref> 以太坊是市值最大的[[加密货币]]之一，这使得GHOST协议成为共识协议设计领域最具影响力的贡献之一。
+
+=== SPECTRE（2016） ===
+
+Sompolinsky与[[Yoad Lewenberg]]和[[Aviv Zohar]]共同提出了SPECTRE（Serialization of Proof-of-work Events: Confirming Transactions via Recursive Elections，工作量证明事件的序列化：通过递归选举确认交易），一种[[有向无环图|区块DAG]]协议，通过成对排序而非全局区块排序提供快速交易确认。<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref>
+
+=== PHANTOM和GHOSTDAG（2018/2021） ===
+
+Sompolinsky与[[Shai Wyborski]]和[[Aviv Zohar]]共同提出了PHANTOM及其实用的贪婪近似算法GHOSTDAG。这些协议将[[中本聪共识]]从区块链推广到区块DAG，实现了高出块率而不受限于单链系统的孤块率问题。Wyborski为PHANTOM协议提供了形式化安全性证明。该工作经同行评审，发表于2021年[[计算机协会|ACM]]金融技术进展会议（AFT）论文集，Sompolinsky在会上进行了报告。<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref>
+
+GHOSTDAG是部署在[[Kaspa]]加密货币中的共识协议。<ref name="kaspa" />
+
+=== DAG-KNIGHT（2022） ===
+
+Sompolinsky与[[Michael Sutton (开发者)|Michael Sutton]]共同提出了DAG-KNIGHT，被描述为第一个无需网络延迟先验协议内上界的无许可[[工作量证明]]协议。该协议从DAG拓扑推断网络状况，而非依赖预配置参数。<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref> 该论文通过哈佛大学计算与社会研究中心发布。<ref name="harvard" />
+
+=== 研究主题 ===
+
+Sompolinsky的研究始终遵循一个一贯主题：使区块链共识协议更具''包容性''地对待并行工作。GHOST协议将叔块纳入分叉选择权重计算；SPECTRE和PHANTOM将这一原则扩展为在[[有向无环图|区块DAG]]中包含所有并行区块并从中推导出连贯的排序；DAG-KNIGHT进一步泛化了这种方法，无需预设网络参数。这一发展历程代表了超越[[中本聪共识]]单链范式的持续努力——在该范式中，每个高度只能接受一个区块，所有竞争区块均被丢弃。
+
+=== 学术报告 ===
+
+Sompolinsky在多个知名学术场合进行了研究报告，包括2021年ACM金融技术进展会议（AFT），他在会上报告了PHANTOM/GHOSTDAG论文，<ref name="phantom" />以及2022年[[加利福尼亚大学伯克利分校|加州大学伯克利分校]]的加密经济学安全会议（CESC）。<ref name="cesc">{{cite web |url=https://cesc.io |title=Crypto Economics Security Conference (CESC) |publisher=UC Berkeley |access-date=2026-03-09}}</ref>
+
+=== 合作者 ===
+
+Sompolinsky的主要合作者包括：[[Aviv Zohar]]，其博士导师，GHOST、SPECTRE和PHANTOM的共同作者；[[Yoad Lewenberg]]，SPECTRE的共同作者；[[Shai Wyborski]]，PHANTOM的共同作者，贡献了形式化安全性证明；以及[[Michael Sutton (开发者)|Michael Sutton]]，DAG-KNIGHT的共同作者和Kaspa Rust实现的首席开发者。<ref name="ghost" /><ref name="spectre" /><ref name="phantom" /><ref name="dagknight" />
+
+== 主要著作 ==
+
+* Sompolinsky, Y.; Zohar, A. (2015). "Secure High-Rate Transaction Processing in Bitcoin". ''Financial Cryptography and Data Security''. [https://doi.org/10.1007/978-3-662-47854-7_32 DOI].
+* Sompolinsky, Y.; Lewenberg, Y.; Zohar, A. (2016). "SPECTRE: A Fast and Scalable Cryptocurrency Protocol". IACR ePrint. [https://eprint.iacr.org/2016/1159 ePrint 2016/1159].
+* Sompolinsky, Y.; Wyborski, S.; Zohar, A. (2021). "PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus". ''ACM Conference on Advances in Financial Technologies (AFT 2021)'', pp. 57–70. [https://dl.acm.org/doi/10.1145/3479722.3480990 DOI].
+* Sompolinsky, Y.; Sutton, M. (2022). "The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus". IACR ePrint. [https://eprint.iacr.org/2022/1494 ePrint 2022/1494].
+
+== 参见 ==
+* [[Kaspa]]
+* [[区块DAG]]
+* [[区块链]]
+* [[工作量证明]]
+* [[中本聪共识]]
+
+== 参考文献 ==
+{{Reflist}}
+
+[[Category:以色列计算机科学家]]
+[[Category:密码学家]]
+[[Category:耶路撒冷希伯来大学校友]]
+[[Category:哈佛大学人物]]
+[[Category:加密货币人物]]
+[[Category:在世人物]]
+
+[[en:Yonatan Sompolinsky]]

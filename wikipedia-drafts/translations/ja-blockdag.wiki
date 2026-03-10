@@ -1,0 +1,116 @@
+{{Short description|グラフベースの分散台帳データ構造}}
+
+'''ブロックDAG'''（'''block Directed Acyclic Graph'''、ブロック[[有向非巡回グラフ]]）は、[[分散台帳技術]]において用いられる[[データ構造]]であり、各ブロックが複数の先行ブロックを参照することで、線形の[[ブロックチェーン]]ではなく[[有向非巡回グラフ]]を形成する。<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref> この構造により、複数のブロックを並列に生成し台帳に同時に組み込むことが可能となり、単一チェーン型アーキテクチャと比較してトランザクションスループットを向上させる可能性がある。
+
+== 概要 ==
+
+従来の[[ブロックチェーン]]では、各ブロックは正確に一つの親ブロックを参照し、線形のチェーンを形成する。複数のブロックが同時に生成された場合（ネットワークの[[伝播遅延]]により高いブロック生成率では頻繁に発生する）、正規チェーンに採用されるのは一つのブロックのみであり、それ以外は'''孤立ブロック'''（オーファンブロック）となる。これは[[プルーフ・オブ・ワーク]]システムにおいて計算資源の浪費を意味する。<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref>
+
+ブロックDAGでは、各ブロックは'''既知の未参照ブロック'''（DAGのティップ）すべてを親として参照し、有向非巡回グラフを形成する。並列に生成されたブロックはすべてデータ構造に組み込まれる。'''コンセンサスプロトコル'''がすべてのブロックに対する全順序を決定し、トランザクションの競合を解決する。<ref name="phantom" />
+
+ブロックチェーンにおける孤立ブロック率は近似的に以下で与えられる：
+
+:<math>\text{orphan\_rate} \approx 1 - e^{-\lambda \cdot D}</math>
+
+ここで <math>\lambda</math> はブロック生成率、<math>D</math> はネットワーク伝播遅延である。ブロックDAGでは、並列ブロックは破棄されるのではなく組み込まれるため、この式は適用されない。<ref name="phantom" />
+
+== 性質 ==
+
+ブロックDAGは線形ブロックチェーンアーキテクチャと区別される以下の形式的性質を持つ：
+
+* '''孤立ブロック率ゼロ''' — ブロックチェーンでは並列に生成されたブロックは採用を争い、一つのみが保持される。ブロックDAGでは既知のティップを参照するすべてのブロックが構造に組み込まれ、孤立ブロックは完全に排除される。<ref name="phantom" />
+* '''並列ブロックの包含''' — 正直にマイニングされたすべてのブロックは、並行して生成されたかどうかにかかわらずDAGに組み込まれる。これにより、後に破棄されるブロックに対して計算資源（プルーフ・オブ・ワークシステムにおいて）が浪費されることがない。<ref name="phantom" />
+* '''コンセンサスプロトコルによる全順序''' — 並列構造にもかかわらず、ブロックDAGコンセンサスプロトコル（PHANTOMやGHOSTDAGなど）はすべてのブロックに対して決定論的な全順序を課し、並列性を犠牲にすることなく競合するトランザクションの解決を可能にする。<ref name="phantom" />
+* '''スケーラビリティ''' — 孤立ブロック率がブロック生成率とともに増加しないため、スループットは主にノードの処理能力とネットワーク[[帯域幅]]によって制限され、孤立ブロック率を低く保つ必要性による制約を受けない。<ref name="phantom" /><ref name="ghost" />
+
+== 歴史 ==
+
+暗号通貨のコンセンサスにDAG対応構造を用いる概念は、ヨナタン・ソンポリンスキー（Yonatan Sompolinsky）と共同研究者らによる一連のプロトコルを通じて探求された：
+
+* '''GHOST'''（2013年/2015年） — ソンポリンスキーとゾハール（Zohar）により提案された。Greedy Heaviest-Observed Sub-Treeプロトコルは、[[ビットコイン]]の最長チェーンルールを修正し、最長パスだけでなくブロックのサブツリー全体を考慮することで、高いブロック生成率の下でのセキュリティを向上させた。GHOSTはブロックチェーン（DAGではない）であるが、DAGベースのコンセンサスの理論的基礎を築いた。GHOSTは[[イーサリアム]]のフォーク選択ルール（LMD-GHOST）に影響を与えた。<ref name="ghost" />
+
+* '''SPECTRE'''（2016年） — ソンポリンスキー、ルーウェンバーグ（Lewenberg）、ゾハールにより提案された。最初の完全なブロックDAGプロトコルであり、高速な確認を提供するが、全順序ではなく部分順序（すべてのブロックに対する全順序ではなく、トランザクションのペアワイズ順序）のみを与える。<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref>
+
+* '''PHANTOM'''（2018年） — ソンポリンスキー、ヴィボルスキー（Wyborski）、ゾハールにより提案された。DAG内の最大''k''-クラスターを見つけることですべてのブロックに対する全順序を提供するが、その最適化問題は[[NP困難]]である。<ref name="phantom" />
+
+* '''GHOSTDAG'''（2018年/2021年） — PHANTOMの貪欲法による多項式時間近似。[[Kaspa (cryptocurrency)|Kaspa]]（カスパ）暗号通貨に実装されている。<ref name="phantom" />
+
+* '''DAG-KNIGHT'''（2022年） — ソンポリンスキーとサットン（Sutton）により提案された。DAGのトポロジーからネットワーク状況を推定するパラメータフリーの汎化。<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref>
+
+その他のDAGベースの分散台帳システムには、ディスクリートなブロックを持たない異なるDAG構造を使用する[[IOTA (cryptocurrency)|IOTA]]のTangleがある。<ref>{{cite web |url=https://www.iota.org/ |title=IOTA |publisher=IOTA Foundation |access-date=2026-03-09}}</ref>
+
+== コンセンサスプロトコル ==
+
+=== PHANTOM ===
+
+PHANTOMは、DAG内の正直なブロックと敵対的なブロックを分離するために''k-クラスター''の概念を導入する。DAGの部分集合''S''が''k''-クラスターであるとは、''S''内のすべてのブロック''B''について、''B''のアンチコーン（''B''と順序関係を持たないブロックの集合）に含まれる''S''内のブロック数が高々''k''であることをいう。<ref name="phantom" />
+
+パラメータ''k''は、1回のネットワーク伝播遅延中に生成される並列ブロックの期待数を表す：''k'' ≈ 2''Dλ''（ここで''D''は伝播遅延、''λ''はブロック生成率）。正直なマイナーは既知のすべてのブロックを親として参照するため、正直な並列ブロックのアンチコーンは小さい（≤ ''k''）。敵対的ブロックは通常、秘匿されてから公開されるため、大きなアンチコーンを持つ。<ref name="phantom" />
+
+最大''k''-クラスターの発見は[[NP困難]]であり、PHANTOMの直接的な実装は非現実的である。<ref name="phantom" />
+
+=== GHOSTDAG ===
+
+GHOSTDAG（Greedy Heaviest Observed Sub-Tree DAG）は、PHANTOMの多項式時間貪欲近似アルゴリズムである。アルゴリズムは以下のように動作する：<ref name="phantom" />
+
+# 各ブロックは最も高い'''ブルースコア'''（その過去における「ブルー」ブロックの累積数）を持つ親を選択する
+# アルゴリズムは'''選択親チェーン'''に沿って「ブルーセット」を貪欲的に構築する
+# すべてのブロックが順序付けられる：チェーンブロックは選択親チェーンに従い、非チェーンブロックはマージポイントで挿入される
+# トランザクションの競合は順序に基づいて解決される（順序が先のものが優先）
+
+GHOSTDAGは[[Kaspa (cryptocurrency)|Kaspa]]暗号通貨に実装されており、毎秒10ブロックで稼働している。<ref name="crescendo">{{cite web |url=https://kaspa.org/kaspa-updates-to-crescendo-and-10bps/ |title=Kaspa Updates to Crescendo and 10BPS |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+=== DAG-KNIGHT ===
+
+DAG-KNIGHTは静的な''k''パラメータを排除し、DAG構造を分析して現在のネットワーク状況を推定する。ネットワーク遅延に対する事前の上限を必要としない、最初の許可不要のプルーフ・オブ・ワークプロトコルとして説明されている。<ref name="dagknight" /> このプロトコルはハーバード大学の計算と社会に関する研究センター（CRCS）を通じて発表された。<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+=== セキュリティ分析 ===
+
+シャイ・ヴィボルスキー（Shai Wyborski）はPHANTOM/GHOSTDAGプロトコルファミリーの形式的なセキュリティ証明を提供した。この研究の過程で、ヴィボルスキーは元のセキュリティ論証の欠陥を特定し修正した。修正された証明は、トランザクションの取り消し確率が確認数（確認深度）とともに指数的に減少することを示しており、これはナカモトの元の[[ビットコイン]]分析における結果と類似しているが、DAG設定に一般化されたものである。この成果は査読を経て、ACM Conference on Advances in Financial Technologies（AFT 2021）で出版された。<ref name="phantom" /><ref name="wyborski-dblp">{{cite web |url=https://dblp.org/pid/280/1635.html |title=Shai Wyborski — DBLP bibliography |publisher=[[DBLP]] |access-date=2026-03-09}}</ref>
+
+== ブロックチェーンとの比較 ==
+
+{| class="wikitable"
+! 性質 !! ブロックチェーン !! ブロックDAG
+|-
+| ブロック参照 || 単一の親 || 複数の親（すべてのティップ）
+|-
+| 並列ブロック || 孤立化（破棄） || 組み込み（順序付け）
+|-
+| 孤立ブロック率 || ブロック生成率とともに増加 || ゼロ（設計上）
+|-
+| スループットの拡張性 || 孤立ブロック率により制限 || ノード/ネットワーク容量により制限
+|-
+| 順序付け || 固有（線形チェーン） || コンセンサスプロトコルが必要
+|}
+
+== 実装 ==
+
+* [[Kaspa (cryptocurrency)|Kaspa]] — GHOSTDAGコンセンサスを用いた[[プルーフ・オブ・ワーク]]ブロックDAG。毎秒10ブロック<ref name="crescendo" />
+* [[IOTA (cryptocurrency)|IOTA]] — ディスクリートなブロックを持たない異なるDAGモデル（Tangle）を使用。現在、コーディネーターベースのモデルから[[プルーフ・オブ・ステーク]]への移行中
+* Conflux — DAGとツリーを組み合わせたツリーグラフ構造の[[プルーフ・オブ・ワーク]]。[[プルーフ・オブ・ステーク]]のファイナリティもサポート<ref name="conflux">{{cite conference |last1=Li |first1=Chenxing |last2=Li |first2=Peilun |last3=Zhou |first3=Dong |last4=Xu |first4=Wei |last5=Long |first5=Fan |last6=Yao |first6=Andrew Chi-Chih |title=A Decentralized Blockchain with High Throughput and Fast Confirmation |conference=USENIX Annual Technical Conference (ATC 2020) |year=2020 |url=https://www.usenix.org/conference/atc20/presentation/li-chenxing}}</ref>
+* Nano — 各アカウントが独自のチェーンを持つブロックラティスDAGを使用。[[委任型プルーフ・オブ・ステーク]]（Open Representative Voting）により保護
+
+== 暗号通貨以外の応用 ==
+
+ブロックDAGは暗号通貨および分散台帳技術の文脈で誕生したが、その基盤となるデータ構造とコンセンサスアプローチはより広範な[[分散システム]]への応用可能性を持つ。単一のシリアライゼーションポイントなしに並列的・分散的なデータ包含を必要とするあらゆるシステムが、DAGベースのアーキテクチャの恩恵を受ける可能性がある。具体例として、地理的に分散されたノード間で並行書き込みを調整する必要がある分散データベース、複数の参加者が独立にイベントを記録する[[サプライチェーン]]追跡システム、多数のデバイスが同時にデータを生成し単一のコーディネーターがすべての入力をリアルタイムで処理できない[[モノのインターネット|IoT]]ネットワークなどが挙げられる。
+
+一般的な[[計算機科学]]の概念として、ブロックDAGはデータの包含とデータの順序付けを分離する。すべての参加者が並列にデータを提供でき、別個のコンセンサス層が競合を解決し正規の順序を確立する。この分離により、ブロックDAGは高い書き込みスループットと分散化の両方を必要とするシステムの候補アーキテクチャとなる。
+
+== 関連項目 ==
+* [[ブロックチェーン]]
+* [[有向非巡回グラフ]]
+* [[コンセンサス (計算機科学)]]
+* [[プルーフ・オブ・ワーク]]
+* [[ナカモト・コンセンサス]]
+
+== 脚注 ==
+{{Reflist}}
+
+[[Category:分散コンピューティング]]
+[[Category:有向非巡回グラフ]]
+[[Category:暗号通貨]]
+[[Category:データ構造]]
+[[Category:ブロックチェーン]]
+
+[[en:BlockDAG]]

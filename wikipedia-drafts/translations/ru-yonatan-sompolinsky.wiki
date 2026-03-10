@@ -1,0 +1,83 @@
+{{Short description|Израильский учёный в области информатики}}
+{{Infobox scientist
+| name = Йонатан Сомполинский
+| nationality = Израильтянин
+| fields = [[Криптография]], [[Распределённые вычисления]], [[Криптовалюта]]
+| workplaces = {{unbulleted list|[[Гарвардский университет]] (CRCS)|[[Еврейский университет в Иерусалиме]]}}
+| known_for = [[Протокол GHOST]], PHANTOM, GHOSTDAG, DAG-KNIGHT, [[Kaspa (cryptocurrency)|Kaspa]]
+| website =
+}}
+
+'''Йонатан Сомполинский''' ({{lang-en|Yonatan Sompolinsky}}) — израильский [[информатика|учёный в области информатики]], известный своими исследованиями в сфере масштабируемости [[блокчейн]]ов и [[Протокол консенсуса|протоколов консенсуса]]. Он является создателем протокола GHOST, повлиявшего на правило выбора форка [[Ethereum]],<ref name="ghost">{{cite journal |last1=Sompolinsky |first1=Yonatan |last2=Zohar |first2=Aviv |title=Secure High-Rate Transaction Processing in Bitcoin |journal=Financial Cryptography and Data Security |year=2015 |doi=10.1007/978-3-662-47854-7_32}}</ref> и основателем криптовалюты [[Kaspa (cryptocurrency)|Kaspa]].<ref name="kaspa">{{cite web |url=https://kaspa.org/contributors/ |title=Kaspa Contributors |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+== Карьера ==
+
+=== Образование ===
+
+Сомполинский получил степень доктора наук (PhD) в области [[информатика|информатики]] в [[Еврейский университет в Иерусалиме|Еврейском университете в Иерусалиме]], где его научным руководителем был [[Авив Зохар]].<ref name="ghost" /> Впоследствии он проводил постдокторские исследования в Центре исследований в области вычислений и общества (CRCS) [[Гарвардский университет|Гарвардского университета]].<ref name="harvard">{{cite web |url=https://projects.iq.harvard.edu/applied-cryptography-society/publications/he-dag-knight-protocol-parameterless-generalization |title=The DAG KNIGHT Protocol |publisher=Harvard CRCS |access-date=2026-03-09}}</ref>
+
+=== Профессиональная деятельность ===
+
+Он основал DAGLabs — исследовательскую компанию в области [[криптовалюта|криптовалют]], которая была распущена примерно в период запуска Kaspa в ноябре 2021 года, после чего проект перешёл к разработке, управляемой сообществом.<ref name="fairlaunch">{{cite web |url=https://kaspa.org/kaspas-fair-launch/ |title=Kaspa's Fair Launch |publisher=Kaspa.org |access-date=2026-03-09}}</ref>
+
+== Научный вклад ==
+
+=== Протокол GHOST (2013/2015) ===
+
+Сомполинский совместно с [[Авив Зохар|Авивом Зохаром]] предложил протокол GHOST (Greedy Heaviest Observed Sub-Tree) для безопасной высокоскоростной обработки транзакций в системах, подобных [[Биткоин|Биткоину]]. Протокол модифицирует правило самой длинной цепочки Биткоина, взвешивая всё поддерево блоков, а не только самый длинный путь, что улучшает безопасность при высокой скорости создания блоков. Примечательно, что GHOST ввёл идею ''инклюзивного'' консенсуса: вместо отбрасывания блоков-сирот протокол учитывает их при выборе форка, включая параллельную работу, которую традиционные правила самой длинной цепочки игнорируют.<ref name="ghost" /> Статья о GHOST широко цитируется в литературе по криптовалютам и распределённым системам.
+
+==== Влияние на Ethereum ====
+
+[[Виталик Бутерин]] упомянул протокол GHOST в [[Ethereum|белой книге Ethereum]] (2013–2014) как ключевое влияние на подход Ethereum к коротким интервалам между блоками, отметив, что GHOST решает проблемы безопасности, возникающие при коротких интервалах блоков и высокой доле устаревших блоков.<ref name="ethwhitepaper">{{cite web |url=https://ethereum.org/en/whitepaper/ |title=Ethereum Whitepaper |last=Buterin |first=Vitalik |year=2013 |access-date=2026-03-09}}</ref> Текущий механизм консенсуса Ethereum на основе [[доказательство доли владения|доказательства доли владения]] использует LMD-GHOST (Latest Message Driven GHOST) — адаптацию оригинального протокола Сомполинского с доказательством работы для доказательства доли владения — как часть уровня финальности Gasper.<ref name="ethgasper">{{cite web |url=https://ethereum.org/developers/docs/consensus-mechanisms/pos/gasper/ |title=Gasper |publisher=Ethereum.org |access-date=2026-03-09}}</ref> Ethereum является одной из крупнейших [[криптовалюта|криптовалют]] по рыночной капитализации, что делает протокол GHOST одним из наиболее значимых вкладов в проектирование протоколов консенсуса.
+
+=== SPECTRE (2016) ===
+
+Совместно с [[Йоад Левенберг|Йоадом Левенбергом]] и [[Авив Зохар|Авивом Зохаром]] Сомполинский предложил SPECTRE (Serialization of Proof-of-work Events: Confirming Transactions via Recursive Elections) — протокол [[Ориентированный ациклический граф|блокDAG]], обеспечивающий быстрое подтверждение транзакций через попарное упорядочение, а не полное упорядочение блоков.<ref name="spectre">{{cite web |url=https://eprint.iacr.org/2016/1159 |title=SPECTRE: A Fast and Scalable Cryptocurrency Protocol |last1=Sompolinsky |first1=Yonatan |last2=Lewenberg |first2=Yoad |last3=Zohar |first3=Aviv |year=2016 |publisher=IACR ePrint}}</ref>
+
+=== PHANTOM и GHOSTDAG (2018/2021) ===
+
+Совместно с [[Шай Выборски|Шаем Выборски]] и [[Авив Зохар|Авивом Зохаром]] Сомполинский предложил PHANTOM и его практическую жадную аппроксимацию GHOSTDAG. Протоколы обобщают [[консенсус Накамото]] от блокчейна к блокDAG, обеспечивая высокую скорость создания блоков без проблемы доли блоков-сирот, ограничивающей одноцепочечные системы. Выборски предоставил формальное доказательство безопасности протокола PHANTOM. Работа прошла рецензирование и была опубликована в трудах конференции [[Ассоциация вычислительной техники|ACM]] Conference on Advances in Financial Technologies (AFT) в 2021 году, где Сомполинский представил доклад.<ref name="phantom">{{cite conference |last1=Sompolinsky |first1=Yonatan |last2=Wyborski |first2=Shai |last3=Zohar |first3=Aviv |title=PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus |conference=ACM Conference on Advances in Financial Technologies (AFT 2021) |pages=57–70 |year=2021 |doi=10.1145/3479722.3480990 |url=https://dl.acm.org/doi/10.1145/3479722.3480990}}</ref>
+
+GHOSTDAG является протоколом консенсуса, развёрнутым в криптовалюте [[Kaspa (cryptocurrency)|Kaspa]].<ref name="kaspa" />
+
+=== DAG-KNIGHT (2022) ===
+
+Совместно с [[Майкл Саттон (разработчик)|Майклом Саттоном]] Сомполинский предложил DAG-KNIGHT, описываемый как первый бесразрешительный протокол с [[доказательство работы|доказательством работы]], не имеющий априорной верхней границы задержки сети. Протокол определяет сетевые условия из топологии графа, а не требует предварительно настроенных параметров.<ref name="dagknight">{{cite web |url=https://eprint.iacr.org/2022/1494 |title=The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus |last1=Sompolinsky |first1=Yonatan |last2=Sutton |first2=Michael |year=2022 |publisher=IACR ePrint}}</ref> Статья была опубликована через Центр исследований в области вычислений и общества Гарвардского университета.<ref name="harvard" />
+
+=== Исследовательские темы ===
+
+Научная деятельность Сомполинского следует последовательной теме — сделать протоколы консенсуса блокчейна более ''инклюзивными'' по отношению к параллельной работе. Протокол GHOST учитывает дядя-блоки в расчётах веса при выборе форка; SPECTRE и PHANTOM расширяют этот принцип, включая все параллельные блоки в [[Ориентированный ациклический граф|блокDAG]] и выводя из них согласованное упорядочение; а DAG-KNIGHT дополнительно обобщает этот подход без необходимости предварительной настройки сетевых параметров. Эта прогрессия представляет собой последовательное стремление выйти за рамки одноцепочечной парадигмы [[консенсус Накамото|консенсуса Накамото]], в которой на каждой высоте может быть принят только один блок, а все конкурирующие блоки отбрасываются.
+
+=== Академические выступления ===
+
+Сомполинский представлял свои исследования на значимых академических площадках, включая конференцию ACM Conference on Advances in Financial Technologies (AFT) в 2021 году, где он представил доклад о PHANTOM/GHOSTDAG,<ref name="phantom" /> и конференцию Crypto Economics Security Conference (CESC) в [[Калифорнийский университет в Беркли|Калифорнийском университете в Беркли]] в 2022 году.<ref name="cesc">{{cite web |url=https://cesc.io |title=Crypto Economics Security Conference (CESC) |publisher=UC Berkeley |access-date=2026-03-09}}</ref>
+
+=== Соавторы ===
+
+Основные соавторы Сомполинского: [[Авив Зохар]], его научный руководитель и соавтор работ по GHOST, SPECTRE и PHANTOM; [[Йоад Левенберг]], соавтор работы по SPECTRE; [[Шай Выборски]], соавтор работы по PHANTOM, предоставивший формальное доказательство безопасности; и [[Майкл Саттон (разработчик)|Майкл Саттон]], соавтор работы по DAG-KNIGHT и ведущий разработчик реализации Kaspa на Rust.<ref name="ghost" /><ref name="spectre" /><ref name="phantom" /><ref name="dagknight" />
+
+== Избранные публикации ==
+
+* Sompolinsky, Y.; Zohar, A. (2015). "Secure High-Rate Transaction Processing in Bitcoin". ''Financial Cryptography and Data Security''. [https://doi.org/10.1007/978-3-662-47854-7_32 DOI].
+* Sompolinsky, Y.; Lewenberg, Y.; Zohar, A. (2016). "SPECTRE: A Fast and Scalable Cryptocurrency Protocol". IACR ePrint. [https://eprint.iacr.org/2016/1159 ePrint 2016/1159].
+* Sompolinsky, Y.; Wyborski, S.; Zohar, A. (2021). "PHANTOM and GHOSTDAG: A Scalable Generalization of Nakamoto Consensus". ''ACM Conference on Advances in Financial Technologies (AFT 2021)'', pp. 57–70. [https://dl.acm.org/doi/10.1145/3479722.3480990 DOI].
+* Sompolinsky, Y.; Sutton, M. (2022). "The DAG KNIGHT Protocol: A Parameterless Generalization of Nakamoto Consensus". IACR ePrint. [https://eprint.iacr.org/2022/1494 ePrint 2022/1494].
+
+== См. также ==
+* [[Kaspa (cryptocurrency)|Kaspa (криптовалюта)]]
+* [[BlockDAG|БлокDAG]]
+* [[Блокчейн]]
+* [[Доказательство работы]]
+* [[Консенсус Накамото]]
+
+== Примечания ==
+{{Reflist}}
+
+[[Категория:Израильские учёные в области информатики]]
+[[Категория:Криптографы]]
+[[Категория:Выпускники Еврейского университета в Иерусалиме]]
+[[Категория:Преподаватели и сотрудники Гарвардского университета]]
+[[Категория:Персоналии:Криптовалюты]]
+[[Категория:Ныне живущие]]
+
+[[en:Yonatan Sompolinsky]]
